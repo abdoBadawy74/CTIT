@@ -1,5 +1,6 @@
 import About from "../Components/About/About";
 import ContactComponent from "../Components/Contact/Contact";
+import FooterComponent from "../Components/Footer/Footer";
 import Header from "../Components/Header";
 import Hero from "../Components/Hero/Hero";
 import Pricing from "../Components/Pricing/Pricing";
@@ -16,6 +17,7 @@ export default function Landing() {
       <WorkComponent />
       <ServicesComponent />
       <ContactComponent />
+      <FooterComponent/>
     </div>
   );
 }

@@ -1,7 +1,7 @@
+@import "primeicons/primeicons.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "primeicons/primeicons.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @layer tailwind-base, primeng, tailwind-utilities;
 
@@ -146,23 +146,23 @@ button .p-icon {
   padding: 0;
 }
 
-.p-toast .p-toast-message.p-toast-message-error{
-    background-color: #fde7e8;
+.p-toast .p-toast-message.p-toast-message-error {
+  background-color: #fde7e8;
 }
 .p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 /* Adjust the size of the message content */
 .p-toast-message-content {
   font-size: 1rem;
 }
 .p-toast .p-toast-message .p-toast-message-content {
-    padding: 0.5rem;
-    border-color: #f25a67;
+  padding: 0.5rem;
+  border-color: #f25a67;
 }
 .p-toast .p-toast-message .p-toast-icon-close {
-    width: 1rem;
-    height: 1rem;
+  width: 1rem;
+  height: 1rem;
 }
 /* Adjust the size of the message summary and detail */
 .p-toast-summary,
