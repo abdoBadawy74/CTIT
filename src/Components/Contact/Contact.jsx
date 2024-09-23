@@ -33,7 +33,7 @@ const ContactComponent = () => {
           <div className="mt-5">
             <input
               type="text"
-              className="w-full"
+              className="w-full p-inputtext p-component p-element"
               placeholder="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -42,7 +42,7 @@ const ContactComponent = () => {
           <div className="mt-5">
             <input
               type="email"
-              className="w-full"
+              className="w-full p-inputtext p-component p-element"
               placeholder="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -51,7 +51,7 @@ const ContactComponent = () => {
           <div className="mt-5">
             <textarea
               placeholder="message"
-              className="w-full h-[200px] resize-none"
+              className="p-inputtext p-component p-element h-[200px] resize-none"
               rows="5"
               value={message}
               onChange={(e) => setMessage(e.target.value)}

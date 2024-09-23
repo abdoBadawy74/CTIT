@@ -43,7 +43,7 @@ const Hero = () => {
 
       {/* Second Section */}
       <div className="container-box bg-white mb-10 rounded-lg shadow-lg flex flex-wrap">
-        <div className="w-full lg:w-2/3 sm:w-1/2 flex flex-wrap">
+        <div className=" lg:w-full sm:w-1/2  flex flex-wrap">
           <div className="first lg:w-1/3 w-full mt-6 pl-6">
             <button className="rounded-full text-gray-700">ERP System</button>
             <h1 className="text-2xl font-bold text-gray-800">Special Offer</h1>
