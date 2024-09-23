@@ -1,4 +1,5 @@
 
+import About from '../Components/About/About'
 import Header from '../Components/Header'
 import Hero from '../Components/Hero/Hero'
 
@@ -7,6 +8,7 @@ export default function Landing() {
     <div>
         <Header/>
         <Hero/>
+        <About/>
     </div>
   )
 }
