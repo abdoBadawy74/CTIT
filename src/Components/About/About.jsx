@@ -40,7 +40,10 @@ const About = () => {
                 Lorem ipsum dolor sit amet, consectetur
               </p>
               <div>
-                <Link className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out" to="/erp">
+                <Link
+                  className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                  to="/erp/packages"
+                >
                   Subscribe now
                 </Link>
               </div>

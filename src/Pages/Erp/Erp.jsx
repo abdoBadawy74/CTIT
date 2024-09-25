@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
   checkPackageRoute,
   checkAccountRoute,
@@ -19,64 +19,56 @@ const ErpComponent = () => {
   const navigate = useNavigate(); // React Router's navigation hook
 
   useEffect(() => {
-    const newItems = [
+    setItems([
       {
-        label: "Packages",
-        routerLink: "/erp-packages",
-        condition: () => checkPackageRoute(),
+        label: "Package",
+        condition: checkPackageRoute,
       },
       {
-        label: "Adds",
-        routerLink: "/erp-adds",
-        condition: () => true,
+        label: "Account",
+        condition: checkAccountRoute,
       },
       {
-        label: "Create Account",
-        routerLink: "/erp-account",
-        condition: () => checkAccountRoute(),
+        label: "Email",
+        condition: checkEmailRoute,
       },
       {
-        label: "Confirm email",
-        routerLink: "/erp-confirm-email",
-        condition: () => checkEmailRoute(),
+        label: "confirm Email",
+        condition: checkEmailRoute,
       },
       {
         label: "Payment",
-        routerLink: "/erp-payment",
-        condition: () => checkPaymentRoute(),
+        condition: checkPaymentRoute,
       },
-    ];
-    setItems(newItems);
+    ]);
   }, []);
 
-  const onActiveIndexChange = (index) => {
-    if (!activeSteps.includes(activeIndex)) {
-      setActiveSteps([...activeSteps, activeIndex]);
-    }
-    setActiveIndex(index);
-    if (!activeSteps.includes(index)) {
-      setActiveSteps([...activeSteps, index]);
-    }
+  useEffect(() => {
+    setActiveSteps(items.map((item) => item.condition()));
+  }, [items]);
+
+  const onActiveIndexChange = (e) => {
+    setActiveIndex(e.index);
   };
 
+  console.log(activeIndex);
+
   const goToTheNext = () => {
-    if (activeIndex < items.length - 1) {
-      const currentRoute = items[activeIndex];
-      const nextRoute = items[activeIndex + 1];
-      if (currentRoute.condition()) {
-        setActiveIndex((prevIndex) => prevIndex + 1);
-        navigate(nextRoute.routerLink); // React router navigation
-      } else {
-        console.log(`Condition not met for ${currentRoute.label}`);
-      }
+    if (activeIndex === items.length - 1) {
+      navigate("/erp/packages");
+    } else {
+      setActiveIndex(activeIndex + 1);
     }
+    console.log(activeIndex);
   };
 
   const goToThePrevious = () => {
-    if (activeIndex > 0) {
-      setActiveIndex((prevIndex) => prevIndex - 1);
-      navigate(items[activeIndex - 1].routerLink); // Navigate to previous route
+    if (activeIndex === 0) {
+      navigate("/erp");
+    } else {
+      setActiveIndex(activeIndex - 1);
     }
+    console.log(activeIndex);
   };
 
   return (
@@ -108,12 +100,12 @@ const ErpComponent = () => {
               ? "bg-[#0081FE] text-white"
               : "bg-gray-300 opacity-50"
           }`}
-          disabled={!items[activeIndex]?.condition()}
           onClick={goToTheNext}
         >
           Next
         </button>
       </div>
+      <Outlet />
     </>
   );
 };

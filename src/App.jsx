@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './Pages/Landing';  
 import Login from './Pages/Auth/Login';
 import Erp from './Pages/Erp/Erp';
+import ErpPackages from './Pages/Erp/Erp-packeges/ErpPackages';
 // import AuthGuard from './auth/AuthGuard'; // AuthGuard can be a custom hook for route protection
 
 // import DataTransferModule from './modules/data-transfer/DataTransferModule';
@@ -32,7 +33,9 @@ const App = () => {
         {/* <Route path="/change-password" element={<ChangePassword />} /> */}
 
         {/* Lazy loaded modules */}
-        <Route path="/erp" element={<Erp />} />
+        <Route path="/erp" element={<Erp />} >
+          <Route path="packages" element={<ErpPackages />} />
+        </Route>
         {/* <Route path="/data-transfer" element={<DataTransferModule />} /> */}
         {/* <Route path="/email-hosting" element={<EmailHostingModule />} /> */}
 
