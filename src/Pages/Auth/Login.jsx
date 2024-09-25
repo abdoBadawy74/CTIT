@@ -1,7 +1,7 @@
 import React, { useState, startTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/image-2.png";
 
@@ -33,12 +33,13 @@ const Login = () => {
           },
         })
         .then((response) => {
-          if (response.data.login) {
+          console.log(response);
+          if (response.data.result.login) {
             toast.success("Login successful");
             localStorage.setItem("LoginEmail", JSON.stringify(formData.email));
             navigate("/profile");
           } else {
-            toast.error(response.data.msg);
+            toast.error(response.data.result.msg);
           }
         })
         .catch((error) => {
@@ -46,6 +47,9 @@ const Login = () => {
           toast.error("Login failed");
         });
     });
+    if (formData.email === " " || formData.password === " ") {
+      toast.error("Please fill in all fields");
+    }
   };
 
   const handleForgetPassword = () => {
@@ -75,6 +79,8 @@ const Login = () => {
 
   return (
     <section className="bg-gray-50">
+      {/* Add ToastContainer here */}
+      <ToastContainer />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
@@ -101,7 +107,7 @@ const Login = () => {
                   id="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="bg-gray-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                  className="bg-gray-white border outline-0 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="name@company.com"
                   required
                 />
@@ -119,7 +125,7 @@ const Login = () => {
                   id="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="bg-gray-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                  className="bg-gray-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg outline-0 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="••••••••"
                   required
                 />
@@ -132,7 +138,7 @@ const Login = () => {
                   Forgot password?
                 </a>
               </div>
-              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
                 Login
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -141,7 +147,8 @@ const Login = () => {
                   href="/landing"
                   className="font-medium text-blue-600 hover:underline dark:text-primary-500 cursor-pointer"
                 >
-                  {" "}Sign up
+                  {" "}
+                  Sign up
                 </a>
               </p>
             </form>

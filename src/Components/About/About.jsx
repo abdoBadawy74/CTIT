@@ -2,6 +2,7 @@ import cloudConnection from "../../assets/cloud-connection.svg";
 import cloudChange from "../../assets/cloud-change.svg";
 import about from "../../assets/about1.svg";
 import about2 from "../../assets/about2.svg";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -39,9 +40,9 @@ const About = () => {
                 Lorem ipsum dolor sit amet, consectetur
               </p>
               <div>
-                <button className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                <Link className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out" to="/erp">
                   Subscribe now
-                </button>
+                </Link>
               </div>
             </div>
 

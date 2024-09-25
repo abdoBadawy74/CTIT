@@ -1,0 +1,26 @@
+.p-steps.completed-1
+  .p-steps-item:nth-child(-n + 1)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.completed-2
+  .p-steps-item:nth-child(-n + 2)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.completed-3
+  .p-steps-item:nth-child(-n + 3)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.completed-4
+  .p-steps-item:nth-child(-n + 4)
+  .p-menuitem-link
+  .p-steps-number {
+  background: green;
+  color: white;
+  border: 1px solid crimson;
+}
+.card {
+  padding: 30px 0 !important;
+}
+.card:hover {
+  background-color: #f2f9ff;
+}
