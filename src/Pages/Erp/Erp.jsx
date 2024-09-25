@@ -7,16 +7,17 @@ import {
   checkPaymentRoute,
 } from "./packageSelectionService";
 import "./Erp.css";
-import "primereact/resources/themes/saga-blue/theme.css"; //theme
-import "primereact/resources/primereact.min.css"; //core css
-import "primeicons/primeicons.css"; //icons
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import { Steps } from "primereact/steps";
 
 const ErpComponent = () => {
   const [items, setItems] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeSteps, setActiveSteps] = useState([]);
-  const navigate = useNavigate(); // React Router's navigation hook
+  const [isPackageSelected, setIsPackageSelected] = useState(false); // new state to track package selection
+  const navigate = useNavigate();
 
   useEffect(() => {
     setItems([
@@ -25,15 +26,15 @@ const ErpComponent = () => {
         condition: checkPackageRoute,
       },
       {
-        label: "Account",
+        label: "Adds",
         condition: checkAccountRoute,
       },
       {
-        label: "Email",
+        label: "Create Account",
         condition: checkEmailRoute,
       },
       {
-        label: "confirm Email",
+        label: "Email",
         condition: checkEmailRoute,
       },
       {
@@ -51,15 +52,12 @@ const ErpComponent = () => {
     setActiveIndex(e.index);
   };
 
-  console.log(activeIndex);
-
   const goToTheNext = () => {
     if (activeIndex === items.length - 1) {
       navigate("/erp/packages");
     } else {
       setActiveIndex(activeIndex + 1);
     }
-    console.log(activeIndex);
   };
 
   const goToThePrevious = () => {
@@ -68,7 +66,6 @@ const ErpComponent = () => {
     } else {
       setActiveIndex(activeIndex - 1);
     }
-    console.log(activeIndex);
   };
 
   return (
@@ -96,16 +93,17 @@ const ErpComponent = () => {
         )}
         <button
           className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
-            items[activeIndex]?.condition()
+            isPackageSelected
               ? "bg-[#0081FE] text-white"
               : "bg-gray-300 opacity-50"
           }`}
           onClick={goToTheNext}
+          disabled={!isPackageSelected} // Disable the button if no package is selected
         >
           Next
         </button>
       </div>
-      <Outlet />
+      <Outlet context={{ setIsPackageSelected }} />
     </>
   );
 };

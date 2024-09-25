@@ -1,43 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom"; // Import useOutletContext
 
 function ErpPackages() {
-  //   const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState([]);
   //   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   //   const [subscriptionPlans, setSubscriptionPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  //   useEffect(() => {
-  //     getAllCountries();
-  //     getAllSubscriptionPlans();
-  //   }, []);
-
-  //   const retrieveMainPackages = () => {
-  //     if (selectedCountry && selectedPlan) {
-  //       axios
-  //         .get(`/api/packages/${selectedPlan.id}/${selectedCountry.id}`)
-  //         .then((response) => {
-  //           const data = response.data;
-  //           setCards(data.main);
-  //           const mainPackage = localStorage.getItem('package_id');
-  //           if (mainPackage) {
-  //             setCards((prevCards) =>
-  //               prevCards.map((card) => ({
-  //                 ...card,
-  //                 selected: card.id === JSON.parse(mainPackage),
-  //               }))
-  //             );
-  //           }
-  //           localStorage.setItem('adds', JSON.stringify(data.additional));
-  //         })
-  //         .catch((error) => {
-  //           console.error('Error fetching packages:', error);
-  //         });
-  //     }
-  //   };
+  const { setIsPackageSelected } = useOutletContext(); // Destructure it from the object
 
   const onSelectedCountry = (country) => {
     setSelectedCountry(country);
@@ -47,17 +20,12 @@ function ErpPackages() {
 
   const toggleSelectionCard = (index) => {
     setCards((prevCards) =>
-      prevCards.map((card, i) => ({
-        ...card,
-        selected: i === index ? !card.selected : false,
-      }))
+      prevCards.map((card, i) =>
+        i === index ? { ...card, selected: !card.selected } : card
+      )
     );
-    const selectedCard = cards[index];
-    if (selectedCard.selected) {
-      localStorage.setItem("package_id", JSON.stringify(selectedCard.id));
-    } else {
-      localStorage.removeItem("package_id");
-    }
+    setSelectedPlanIndex(index); // Select the card
+    setIsPackageSelected(true); // Let the parent know a package is selected
   };
 
   const onSelectedPlan = (plan, index) => {
@@ -66,40 +34,6 @@ function ErpPackages() {
     // retrieveMainPackages();
     localStorage.setItem("selected_plan_id", plan.id);
   };
-
-  //   const getAllCountries = () => {
-  //     setLoading(true);
-  //     axios
-  //       .get('https://aldaifii.ctit.com.sa/saas/countries')
-  //       .then((response) => {
-  //         const countries = response.data;
-  //         setCountries(countries);
-  //         const defaultCountry = countries.find((country) => country.is_default) || countries[0];
-  //         setSelectedCountry(defaultCountry);
-  //         retrieveMainPackages();
-  //         localStorage.setItem('selected_country_id', defaultCountry.id);
-  //         setLoading(false);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         setLoading(false);
-  //       });
-  //   };
-
-  //   const getAllSubscriptionPlans = () => {
-  //     axios
-  //       .get('https://aldaifii.ctit.com.sa/saas/subscriptionPlans')
-  //       .then((response) => {
-  //         const plans = response.data;
-  //         setSubscriptionPlans(plans);
-  //         const defaultPlan = plans.find((plan) => plan.is_default) || plans[0];
-  //         setSelectedPlan(defaultPlan);
-  //         setSelectedPlanIndex(plans.indexOf(defaultPlan));
-  //         retrieveMainPackages();
-  //         localStorage.setItem('selected_plan_id', defaultPlan.id);
-  //       })
-  //       .catch((error) => console.error(error));
-  //   };
 
   const countries = [
     { id: 1, code: "SA" },
@@ -112,29 +46,32 @@ function ErpPackages() {
     { id: 2, name: "Standard", discount: 20 },
     { id: 3, name: "Premium", discount: 30 },
   ];
-  const cards = [
-    {
-      id: 1,
-      name: "Basic Package",
-      price: "100 SAR",
-      description: "Basic package for small businesses",
-      selected: false,
-    },
-    {
-      id: 2,
-      name: "Standard Package",
-      price: "200 SAR",
-      description: "Standard package for medium businesses",
-      selected: false,
-    },
-    {
-      id: 3,
-      name: "Premium Package",
-      price: "300 SAR",
-      description: "Premium package for large businesses",
-      selected: false,
-    },
-  ];
+
+  useEffect(() => {
+    setCards([
+      {
+        id: 1,
+        name: "Basic",
+        price: 100,
+        description: "Basic package for small businesses",
+        selected: false,
+      },
+      {
+        id: 2,
+        name: "Standard",
+        price: 200,
+        description: "Standard package for medium businesses",
+        selected: false,
+      },
+      {
+        id: 3,
+        name: "Premium",
+        price: 300,
+        description: "Premium package for large businesses",
+        selected: false,
+      },
+    ]);
+  }, []);
 
   return (
     <div className="flex items-center flex-col mb-8 px-44 space-y-5">
