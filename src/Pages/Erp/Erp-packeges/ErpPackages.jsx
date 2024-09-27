@@ -10,7 +10,7 @@ function ErpPackages() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setIsPackageSelected } = useOutletContext(); // Destructure it from the object
+ 
 
   const onSelectedCountry = (country) => {
     setSelectedCountry(country);
@@ -25,7 +25,6 @@ function ErpPackages() {
       )
     );
     setSelectedPlanIndex(index); // Select the card
-    setIsPackageSelected(true); // Let the parent know a package is selected
   };
 
   const onSelectedPlan = (plan, index) => {

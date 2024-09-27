@@ -95,3 +95,10 @@
     display: none;
   }
 }
+
+/* Erp packages  */
+.selected-card {
+  opacity: 1;
+  background-color: #f2f8ff;
+  border: 1px solid #0081fe;
+}
