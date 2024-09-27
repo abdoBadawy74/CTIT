@@ -102,3 +102,36 @@
   background-color: #f2f8ff;
   border: 1px solid #0081fe;
 }
+@media screen and (max-width: 768px) {
+  .packages {
+    padding: 0 10px;
+  }
+  .plans {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+/* Create Account  */
+@media screen and (max-width: 768px) {
+  .account {
+    margin: 0 10px;
+  }
+
+  .account form {
+    width: 140%;
+    
+  }
+}
+.input-container{
+    position: relative;
+}
+.input-container .p-icon-field{
+    width: 100% !important; 
+}
+.p-input-icon{
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}
