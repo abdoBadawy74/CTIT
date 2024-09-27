@@ -62,7 +62,7 @@ const ErpComponent = () => {
 
   const goToThePrevious = () => {
     if (activeIndex === 0) {
-      navigate("/erp");
+      navigate("/erp/packages");
     } else {
       setActiveIndex(activeIndex - 1);
     }
