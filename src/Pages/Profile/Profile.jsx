@@ -82,11 +82,14 @@ const Profile = () => {
           <div>Loading...</div> {/* Replace with spinner component */}
         </div>
       ) : (
-        <div className="bg-[#F8F9F9]">
+        <div className="bg-[#F8F9F9] overflow-hidden">
           <div className="max-w-6xl mx-auto rounded-lg pt-4">
             {partnerDetails.map((partner, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center mb-5 mr-4 info">
+              <div
+                key={index}
+                className="flex items-center justify-between flex-wrap px-3"
+              >
+                <div className="flex items-center mb-5 mr-4 info flex-wrap">
                   <img
                     src={profileImg}
                     alt="Profile"
@@ -97,7 +100,7 @@ const Profile = () => {
                     <h2 className="text-xl font-semibold pl-4">
                       {partner.partner_name}
                     </h2>
-                    <div className="flex flex-row">
+                    <div className="flex flex-row flex-wrap">
                       <p className="p-4">
                         <i className="pi pi-phone"></i> {partner.partner_phone}
                       </p>
@@ -122,7 +125,7 @@ const Profile = () => {
               </div>
             ))}
 
-            <div className="top-table flex justify-between pt-8 m-2">
+            <div className="top-table flex md:justify-between gap-3 items-center flex-wrap pt-8 m-2">
               <h3 className="text-lg font-medium">Subscription Details</h3>
               <button
                 className="mb-3 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
@@ -132,37 +135,38 @@ const Profile = () => {
               </button>
             </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="grid grid-cols-6 gap-4 mb-4 font-bold bg-gray-200">
-                <div>Subscription Name</div>
-                <div>Package Name</div>
-                <div>Amount</div>
-                <div>Status</div>
-                <div>Renewal Date</div>
-                <div>DB Link</div>
+            <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
+              <div className="min-w-[600px] grid grid-cols-6 gap-4 mb-4 font-bold bg-gray-200">
+                <div className="text-xs md:text-base">Subscription Name</div>
+                <div className="text-xs md:text-base">Package Name</div>
+                <div className="text-xs md:text-base">Amount</div>
+                <div className="text-xs md:text-base">Status</div>
+                <div className="text-xs md:text-base">Renewal Date</div>
+                <div className="text-xs md:text-base">DB Link</div>
               </div>
 
               {subscriptionDetails.map((subs, index) => (
-                <div key={index} className="mb-4">
-                  <div className="grid grid-cols-6 gap-4 items-center border-b pb-2">
-                    <div className="flex items-center">
-                      <button className="mr-2" onClick={toggleDetails}>
-                        {showDetails ? "▼" : "▶"}
-                      </button>
-                      <span>{subs.subs_name}</span>
-                    </div>
-                    <div>{subs.main_packages_info?.name || "N/A"}</div>
-                    <div>{subs.subs_amount}</div>
-                    <div>{subs.subs_state}</div>
-                    <div>{subs.subs_renew_date}</div>
-                    <div>
-                      <a
-                        style={{ color: "rgb(11, 153, 241)" }}
-                        href={subs.db_link}
-                      >
-                        {subs.db_link}
-                      </a>
-                    </div>
+                <div
+                  key={index}
+                  className="min-w-[600px] mb-4 grid grid-cols-6 gap-4 items-center border-b pb-2"
+                >
+                  <div className="flex items-center">
+                    <button className="mr-2" onClick={toggleDetails}>
+                      {showDetails ? "▼" : "▶"}
+                    </button>
+                    <span>{subs.subs_name}</span>
+                  </div>
+                  <div>{subs.main_packages_info?.name || "N/A"}</div>
+                  <div>{subs.subs_amount}</div>
+                  <div>{subs.subs_state}</div>
+                  <div>{subs.subs_renew_date}</div>
+                  <div>
+                    <a
+                      style={{ color: "rgb(11, 153, 241)" }}
+                      href={subs.db_link}
+                    >
+                      {subs.db_link}
+                    </a>
                   </div>
 
                   {showDetails && (
@@ -172,6 +176,7 @@ const Profile = () => {
                   )}
                 </div>
               ))}
+
               <button className="text-sm text-[#8D8D8D]" onClick={goToAdd}>
                 New Add +
               </button>
@@ -179,7 +184,7 @@ const Profile = () => {
 
             {/* Billing History */}
             <div className="max-w-6xl mx-auto mb-5 pb-5">
-              <div className="bg-white rounded-lg pt-5 m-5 shadow-lg">
+              <div className="bg-white rounded-lg pt-5 m-3 md:m-5 shadow-lg">
                 <div className="flex justify-between top">
                   <h1>Billing History</h1>
                   <button className="ml-auto btn-export flex flex-row mb-2">
@@ -187,37 +192,44 @@ const Profile = () => {
                     <img src={exportImg} alt="Export" />
                   </button>
                 </div>
-
-                <table className="min-w-full leading-normal">
-                  <thead>
-                    <tr>
-                      <th>Status</th>
-                      <th>Invoice</th>
-                      <th>Date</th>
-                      <th>Amount</th>
-                      <th>Pay</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {billingHistory.map((bill, index) => (
-                      <tr key={index} className="text-center">
-                        <td className="py-3 ">
-                          <p className="bg-[#27AE601A] p-2 rounded text-[#27AE60] w-fit m-auto">
-                            {bill.bill_state}
-                          </p>
-                        </td>
-                        <td className="py-3">{bill.bill_name}</td>
-                        <td className="py-3">{bill.bill_creation_date}</td>
-                        <td className="py-3">{bill.bill_amount}</td>
-                        <td>
-                          <button onClick={goToPayment} className="p-2 rounded">
-                            Upload a Receipt
-                          </button>
-                        </td>
+                <div className="overflow-x-auto">
+                  {" "}
+                  {/* Add overflow-x-auto here */}
+                  <table className="min-w-full leading-normal overflow-x-auto">
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Invoice</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Pay</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {billingHistory.map((bill, index) => (
+                        <tr key={index} className="text-center">
+                          <td className="py-3 ">
+                            <p className="bg-[#27AE601A] p-2 rounded text-[#27AE60] w-fit m-auto">
+                              {bill.bill_state}
+                            </p>
+                          </td>
+                          <td className="py-3">{bill.bill_name}</td>
+                          <td className="py-3">{bill.bill_creation_date}</td>
+                          <td className="py-3">{bill.bill_amount}</td>
+                          <td>
+                            <button
+                              onClick={goToPayment}
+                              className="p-2 rounded"
+                            >
+                              Upload a Receipt
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>{" "}
+                {/* Close the overflow container here */}
               </div>
             </div>
           </div>

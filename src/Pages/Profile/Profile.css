@@ -1,88 +1,85 @@
-.btn-edit{
-    border: 1px solid #27AE60;
-    color: #27AE60;
-    background: none;
-    padding: 8px;
-    border-radius: 8px;
+.btn-edit {
+  border: 1px solid #27ae60;
+  color: #27ae60;
+  background: none;
+  padding: 8px;
+  border-radius: 8px;
 }
-.info{
-  color:#002b54 ; 
-   background-color: #f8f9f9;
+.info {
+  color: #002b54;
+  background-color: #f8f9f9;
+}
+th {
+  color: #8d8d8d;
+  font-weight: 400;
+}
+tr {
+  padding: 0 10px !important;
+}
+td {
+  color: #8d8d8d;
+}
+.box {
+  border-radius: 8px;
+}
+.RenewBtn {
+  background-color: #27ae60;
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+}
+td span {
+  color: #40607f;
+}
+.ammount {
+  color: #4f6d89;
+}
+.btn-export {
+  color: #0081fe;
+  border: 1px solid #0081fe;
 
+  background: none;
+  padding: 6px;
+  border-radius: 8px;
 }
-th{
-    color: #8d8d8d;
-    font-weight: 400;
+.top {
+  padding: 10px;
 }
-tr{
-    padding: 0 10px !important;
+.top h1 {
+  font-size: 1.2rem;
+  font-weight: 800;
 }
-td{
-    color: #8d8d8d; 
+.leading-normal td button {
+  background-color: none;
+  border: 1px solid #8d8d8d;
+  color: #8d8d8d;
 }
-.box{
-    border-radius: 8px;
-}
-.RenewBtn{
-    background-color:#27AE60 ;
-    color: white;
-    padding: 4px;
-    border-radius: 4px;
-}
-td span{
-    color: #40607f;
-}
-.ammount{
-    color: #4f6d89;
-}
-.btn-export{
-    color: #0081FE;
-    border: 1px solid #0081FE;
-
-    background: none;
-    padding: 6px;
-    border-radius: 8px;
-}
-.top{
-    padding: 10px;
-}
-.top h1{
-    font-size: 1.2rem;
-    font-weight: 800;
-}
-.leading-normal td button{
-background-color: none;
-border: 1px solid #8d8d8d;
-color: #8d8d8d;
-}
-.pignation a{
-
-padding: 10px;
-border-radius: 40%;
-padding: 10px;
-margin: 5px;
+.pignation a {
+  padding: 10px;
+  border-radius: 40%;
+  padding: 10px;
+  margin: 5px;
 }
 .toggle-checkbox:checked {
-    background-color: #0081FE;
-    right: 0;
-  }
-  .BtnUpgrade{
-    background-color:#0081FE ;
-    color: white;
-    padding: 4px;
-    border-radius: 4px;
-  }
-  .edit{
-    position: absolute;
-    top:130px;
-    right: 200px;
-    border: 1px solid #27AE60;
-    color: #27AE60;
-    background: none;
-    padding: 8px;
-    border-radius: 8px;
-
-  }
+  background-color: #0081fe;
+  right: 0;
+}
+.BtnUpgrade {
+  background-color: #0081fe;
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+}
+.edit {
+  position: absolute;
+  top: 130px;
+  right: 200px;
+  border: 1px solid #27ae60;
+  color: #27ae60;
+  background: none;
+  padding: 8px;
+  border-radius: 8px;
+}
 /*
 #F8F9F9
 */
