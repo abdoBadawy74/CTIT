@@ -120,18 +120,31 @@
 
   .account form {
     width: 140%;
-    
   }
 }
-.input-container{
-    position: relative;
+.input-container {
+  position: relative;
 }
-.input-container .p-icon-field{
-    width: 100% !important; 
+.input-container .p-icon-field {
+  width: 100% !important;
 }
-.p-input-icon{
-    position: absolute !important;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 10px;
+.p-input-icon {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
 }
+
+/* Verify Email */
+@media screen and (max-width: 768px) {
+  .verify {
+    margin: 0 10px;
+    text-align: center;
+  }
+  .verify input {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Payment  */

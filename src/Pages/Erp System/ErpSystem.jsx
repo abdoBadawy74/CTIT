@@ -402,7 +402,7 @@ export default function ErpSystem() {
         {/* Start Adds  */}
         {activeIndex === 1 && (
           <div>
-            <div className="flex items-center flex-col mb-8">
+            <div className="flex items-center flex-col mb-8 text-center">
               <h1 className="text-2xl mb-5 font-medium">
                 What You Need To Add{" "}
                 <span className="text-[#0081FE]">(not required)</span>
@@ -651,7 +651,7 @@ export default function ErpSystem() {
 
         {/* Verify Email */}
         {activeIndex === 3 && (
-          <div className="lg:ml-60 sm:mb-4 mx-auto mt-28 flex flex-col lg:flex-row justify-between items-center">
+          <div className="lg:ml-60 sm:mb-4 mx-auto mt-28 flex flex-col lg:flex-row justify-between items-center verify">
             <div>
               <div className="flex flex-col gap-3">
                 <h1 className="text-xl">Verify email</h1>
@@ -707,14 +707,15 @@ export default function ErpSystem() {
             </div>
           </div>
         )}
+
         {/* Payment */}
         {activeIndex === 4 && (
           <div className="bg-[#F8F9F9] pt-15 pb-15 payment">
-            <div className="flex items-center justify-between mb-8 px-20 pt-5">
+            <div className="flex items-center justify-center lg:justify-between mb-8 px-20 pt-5  gap-5 flex-wrap-reverse">
               <form className="flex self-start gap-5 flex-col">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 md:gap-3 justify-center sm:justify-start ">
                   {/* Radio Buttons for Category Selection */}
-                  <div className="flex items-center">
+                  <div className="flex items-center ">
                     <input type="radio" id="upload" value="upload" />
                     <label htmlFor="upload" className="ml-2">
                       Upload a Receipt
@@ -729,7 +730,7 @@ export default function ErpSystem() {
                   <Link
                     to="/login"
                     type="button"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm md:text-base"
                   >
                     Back To Login
                   </Link>
@@ -738,7 +739,7 @@ export default function ErpSystem() {
                 {/* Upload Receipt Section */}
                 <label
                   htmlFor="dropzone-file"
-                  className="relative flex flex-col items-center justify-center w-[450px] h-[300px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                  className="relative flex flex-col items-center justify-center w-[350px] md:w-[450px] h-[300px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg
