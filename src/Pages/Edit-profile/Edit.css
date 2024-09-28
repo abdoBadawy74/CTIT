@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+  .editForm {
+    gap: 10px !important;
+  }
+  .editForm input,
+  .editForm button {
+    width: 300px !important;
+  }
+}

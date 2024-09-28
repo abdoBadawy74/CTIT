@@ -13,13 +13,17 @@
   @tailwind components;
   @tailwind utilities;
 }
-
+/* Font */
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
 :root {
   --mainColor: #0081fe;
 }
 
 html {
   scroll-behavior: smooth;
+}
+body {
+  font-family: "Cairo", sans-serif !important;
 }
 
 .bg-main {
