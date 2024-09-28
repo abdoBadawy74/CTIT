@@ -1,5 +1,5 @@
 import React, { useState, startTransition } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css";
@@ -138,9 +138,12 @@ const Login = () => {
                   Forgot password?
                 </a>
               </div>
-              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
+              <Link
+                to={"/profile"}
+                className="block text-center w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+              >
                 Login
-              </button>
+              </Link>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <a

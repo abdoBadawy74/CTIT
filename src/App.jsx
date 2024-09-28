@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import Login from "./Pages/Auth/Login";
 import ErpSystem from "./Pages/Erp System/ErpSystem";
+import Profile from "./Pages/Profile/Profile";
 // import AuthGuard from './auth/AuthGuard'; // AuthGuard can be a custom hook for route protection
 
 // import DataTransferModule from './modules/data-transfer/DataTransferModule';
@@ -24,7 +25,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
 
       {/* Guarded route example */}
-      {/* <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} /> */}
+      <Route path="/profile" element={<Profile/>} />
       {/* <Route path="/edit-profile" element={<EditProfile />} /> */}
       {/* <Route path="/new-subs" element={<NewSubscription />} /> */}
       {/* <Route path="/new-add" element={<NewAdd />} /> */}
