@@ -42,18 +42,18 @@ const Hero = () => {
       </div>
 
       {/* Second Section */}
-      <div className="container-box bg-white mb-10 rounded-lg shadow-lg flex flex-wrap">
-        <div className=" lg:w-full sm:w-1/2  flex flex-wrap">
-          <div className="first lg:w-1/3 w-full mt-6 pl-6">
+      <div className="container-box bg-white mb-10 rounded-lg shadow-lg flex justify-bet flex- wrap">
+        <div className=" lg:w-full flex items-center">
+          <div className="first lg:w-1/3 w-full mt-6 pl-6 pb-3">
             <button className="rounded-full text-gray-700">ERP System</button>
             <h1 className="text-2xl font-bold text-gray-800">Special Offer</h1>
           </div>
 
-          <div className="discount lg:w-1/3 sm:w-1/2 w-full mt-6 text-center">
-            <p>40% OFF</p>
+          <div className="discount w-fit sm:w-1/4 mt-6 text-center">
+            40% Off
           </div>
 
-          <div className="w-full lg:w-1/3 img-btn">
+          <div className="w-full lg:w-1/3 img-btn justify-self-end">
             <div className="img">
               <img
                 className="inset-0 h-full w-full object-cover object-center"
