@@ -9,6 +9,7 @@ import Landing from "./Pages/Landing";
 import Login from "./Pages/Auth/Login";
 import ErpSystem from "./Pages/Erp System/ErpSystem";
 import Profile from "./Pages/Profile/Profile";
+import Adds from "./Pages/Adds/Adds";
 // import AuthGuard from './auth/AuthGuard'; // AuthGuard can be a custom hook for route protection
 
 // import DataTransferModule from './modules/data-transfer/DataTransferModule';
@@ -20,21 +21,13 @@ const App = () => {
       {/* Redirect to 'landing' if no specific path is provided */}
       <Route path="/" element={<Navigate to="/landing" replace />} />
 
-      {/* Lazy loading equivalent in React can be handled via dynamic import */}
       <Route path="/landing" element={<Landing />} />
       <Route path="/login" element={<Login />} />
 
-      {/* Guarded route example */}
-      <Route path="/profile" element={<Profile/>} />
-      {/* <Route path="/edit-profile" element={<EditProfile />} /> */}
-      {/* <Route path="/new-subs" element={<NewSubscription />} /> */}
-      {/* <Route path="/new-add" element={<NewAdd />} /> */}
-      {/* <Route path="/change-password" element={<ChangePassword />} /> */}
+      <Route path="/profile" element={<Profile />} />
 
-      {/* Lazy loaded modules */}
       <Route path="/erp" element={<ErpSystem />}></Route>
-      {/* <Route path="/data-transfer" element={<DataTransferModule />} /> */}
-      {/* <Route path="/email-hosting" element={<EmailHostingModule />} /> */}
+      <Route path="adds" element={<Adds/>}></Route>
 
       {/* Catch-all route (404 redirect) */}
       <Route path="*" element={<Navigate to="/landing" replace />} />
