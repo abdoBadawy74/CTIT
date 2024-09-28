@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer/Footer";
 import "./Profile.css";
 import profileImg from "../../assets/profile_img.png";
 import exportImg from "../../assets/export.png";
 import { useNavigate } from "react-router-dom";
+import editIcon from "../../assets/edit-icon.svg";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -69,6 +70,10 @@ const Profile = () => {
     navigate("/adds");
   };
 
+  const goToEdit = () => {
+    navigate("/edit-profile");
+  };
+
   return (
     <>
       <Header />
@@ -80,29 +85,39 @@ const Profile = () => {
         <div className="bg-[#F8F9F9]">
           <div className="max-w-6xl mx-auto rounded-lg pt-4">
             {partnerDetails.map((partner, index) => (
-              <div key={index} className="flex items-center mb-5 mr-4 info">
-                <img
-                  src={profileImg}
-                  alt="Profile"
-                  className="rounded-lg"
-                  style={{ width: "100px", height: "100px" }}
-                />
-                <div>
-                  <h2 className="text-xl font-semibold pl-4">
-                    {partner.partner_name}
-                  </h2>
-                  <div className="flex flex-row">
-                    <p className="p-4">
-                      <i className="pi pi-phone"></i> {partner.partner_phone}
-                    </p>
-                    <p className="p-4">
-                      <i className="pi pi-envelope"></i> {partner.partner_email}
-                    </p>
-                    <p className="p-4">
-                      <i className="pi pi-briefcase"></i>{" "}
-                      {partner.partner_company_name}
-                    </p>
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center mb-5 mr-4 info">
+                  <img
+                    src={profileImg}
+                    alt="Profile"
+                    className="rounded-lg"
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                  <div>
+                    <h2 className="text-xl font-semibold pl-4">
+                      {partner.partner_name}
+                    </h2>
+                    <div className="flex flex-row">
+                      <p className="p-4">
+                        <i className="pi pi-phone"></i> {partner.partner_phone}
+                      </p>
+                      <p className="p-4">
+                        <i className="pi pi-envelope"></i>{" "}
+                        {partner.partner_email}
+                      </p>
+                      <p className="p-4">
+                        <i className="pi pi-briefcase"></i>{" "}
+                        {partner.partner_company_name}
+                      </p>
+                    </div>
                   </div>
+                </div>
+                <div
+                  className="flex gap-2 items-center border border-[#27AE60] w-fit p-2 rounded text-[#27AE60] cursor-pointer"
+                  onClick={goToEdit}
+                >
+                  Edit Profile
+                  <img src={editIcon} alt="" />
                 </div>
               </div>
             ))}

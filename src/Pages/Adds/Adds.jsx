@@ -30,6 +30,7 @@ export default function Adds() {
       price: 49.99,
       currency: "USD",
       description: "This is the description for Card 2",
+      description2: "This is the description for Card 2",
       selected: false,
     },
     {
@@ -38,6 +39,16 @@ export default function Adds() {
       price: 79.99,
       currency: "USD",
       description: "This is the description for Card 3",
+      description2: "This is the description for Card 3",
+      selected: false,
+    },
+    {
+      id: 4,
+      name: "ADD 4",
+      price: 79.99,
+      currency: "USD",
+      description: "This is the description for Card 4",
+      description2: "This is the description for Card 4",
       selected: false,
     },
   ];
@@ -52,11 +63,17 @@ export default function Adds() {
 
       {/* Navigation buttons */}
       <div
-        className="flex px-20 flex-wrap"
+        className="flex px-20 flex-wrap mb-10"
         style={{
-          justifyContent: activeIndex > 0 ? "space-between" : "flex-end",
+          justifyContent: activeIndex == 0 ? "space-between" : "flex-end",
         }}
       >
+        <div className="pl-7">
+          <h4 className="font-medium">Adds</h4>
+          <p className="text-[#8D8D8D] text-sm">
+            you can add multiple adds to your package
+          </p>
+        </div>
         <button
           className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all bg-[#0081FE] text-white ${
             selectedAddId && activeIndex === 0 ? "opacity-100" : "opacity-0"
@@ -75,21 +92,11 @@ export default function Adds() {
         {/* Start Adds  */}
         {activeIndex === 0 && (
           <div>
-            <div className="flex items-center flex-col mb-8">
-              <h1 className="text-2xl mb-5 font-medium">
-                What You Need To Add{" "}
-                <span className="text-[#0081FE]">(not required)</span>
-              </h1>
-              <p className="text-[#8D8D8D] text-base">
-                If you want to add more capacities or number of employees
-              </p>
-            </div>
-
             <div className="pb-10 px-5 gap-10 flex justify-center flex-wrap mx-auto">
               {cards.map((card) => (
                 <div
                   key={card.id}
-                  className={`card-add bg-white flex flex-col gap-5 border border-[#DCDCDC] rounded-lg py-5 px-7 w-[350px] ${
+                  className={`card-add bg-white flex flex-col gap-5 border border-[#DCDCDC] rounded-lg py-5 px-7 w-[300px] justify-between ${
                     selectedAddId === card.id ? "selected-card" : ""
                   }`}
                 >
@@ -109,6 +116,17 @@ export default function Adds() {
                       {card.description}
                     </p>
                   </div>
+                  {card.description2 && (
+                    <div className="flex items-start gap-2">
+                      <i
+                        className="pi pi-check-circle"
+                        style={{ color: "#0081fe" }}
+                      ></i>
+                      <p className="text-[#002B54] font-semibold text-sm">
+                        {card.description}
+                      </p>
+                    </div>
+                  )}
                   <button
                     className={`rounded-xl mt-7 py-3 px-2 min-w-36 text-white ${
                       selectedAddId === card.id ? "bg-[#002b54]" : "bg-blue-500"
