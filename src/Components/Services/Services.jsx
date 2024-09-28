@@ -75,7 +75,7 @@ const ServicesComponent = () => {
   };
 
   return (
-    <div id="serviceSection" className="my-5">
+    <div id="services" className="my-5">
       <div>
         <div className="pt-10 pb-5 pl-12 flex items-start justify-center flex-col lg:pl-24 lg:w-[699px]">
           <h1 className="uppercase text-blue-500 font-semibold work-heading relative">

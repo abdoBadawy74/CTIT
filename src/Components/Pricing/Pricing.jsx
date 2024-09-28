@@ -2,7 +2,7 @@ import "./Pricing.css"
 
 const PricingComponent = () => {
   return (
-    <div className="my-5 bg-gray-100" id="pricingSection">
+    <div className="my-5 bg-gray-100" id="pricing">
       <div className="py-10 flex justify-center flex-col items-center">
         <h1 className="uppercase text-blue-500 font-semibold heading relative">
           our plans

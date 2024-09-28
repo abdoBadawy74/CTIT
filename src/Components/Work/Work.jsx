@@ -10,7 +10,7 @@ import officeContent8 from "../../assets/image-5.jpg";
 const WorkComponent = () => {
   return (
     <div
-      id="workSection"
+      id="work"
       className="mb-5 flex justify-between gap-5 max-h-[765px] pr-5"
     >
       <div className="lg:flex flex-col lg:gap-[187px] overflow-hidden">
