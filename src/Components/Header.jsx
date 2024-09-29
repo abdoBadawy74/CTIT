@@ -15,7 +15,6 @@ const Header = () => {
   useEffect(() => {
     const savedEmail = JSON.parse(localStorage.getItem("LoginEmail"));
     setEmail(savedEmail);
-    console.log(savedEmail);
     setIsLoggedIn(savedEmail === null ? false : true);
 
     if (savedEmail) {
@@ -53,7 +52,7 @@ const Header = () => {
     if (savedLanguage) {
       setLanguage(savedLanguage);
     }
-  }, [setLanguage, language]);
+  }, [setLanguage]);
 
   return (
     <>
@@ -63,12 +62,17 @@ const Header = () => {
             to={"/"}
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src={logo} className="w-[120px]" alt="Company Logo" />
+            <img
+              src={logo}
+              className={`${language === "en" ? "w-[120px]" : "w-[100px]"} `}
+              alt="Company Logo"
+            />
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <select
               className="text-[#002B5466] mr-2 outline-none"
               onChange={handleLanguageChange}
+              value={language} // Bind the select value to the current language
             >
               <option value="en">EN</option>
               <option value="ar">AR</option>
