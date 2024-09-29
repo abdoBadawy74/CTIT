@@ -13,7 +13,7 @@ const App = () => {
     <LanguageProvider>
       <Routes>
         {/* Redirect to 'landing' if no specific path is provided */}
-        <Route path="/" element={<Navigate to="/landing" replace />} />
+        <Route path="/" element={<Landing />} />
 
         <Route path="/landing" element={<Landing />} />
         <Route path="/login" element={<Login />} />
@@ -26,7 +26,7 @@ const App = () => {
         <Route path="adds" element={<Adds />}></Route>
 
         {/* Catch-all route (404 redirect) */}
-        <Route path="*" element={<Navigate to="/landing" replace />} />
+        {/* <Route path="*" element={<Navigate to="/landing" replace />} /> */}
       </Routes>
     </LanguageProvider>
   );
