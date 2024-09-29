@@ -3,8 +3,13 @@ import { useState } from "react";
 import QRCode from "../../assets/qr-code-img.png";
 import { Link } from "react-router-dom";
 import Header from "../../Components/Header";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 export default function Adds() {
+  // translate
+  const { language, setLanguage } = useLanguage();
   // states
   const [activeIndex, setActiveIndex] = useState(0); // Step control
   const [selectedAddId, setSelectedAddId] = useState(null);
@@ -69,9 +74,11 @@ export default function Adds() {
         }}
       >
         <div className="pl-7">
-          <h4 className="font-medium">Adds</h4>
+          <h4 className="font-medium">
+            {t[language].Adds}
+          </h4>
           <p className="text-[#8D8D8D] text-sm">
-            you can add multiple adds to your package
+            {t[language].NewAdds_desc}
           </p>
         </div>
         <button
@@ -133,7 +140,7 @@ export default function Adds() {
                     }`}
                     onClick={() => toggleSelectionAdd(card.id)}
                   >
-                    {selectedAddId === card.id ? "Selected" : "Select"}
+                    {selectedAddId === card.id ? t[language].Selected : t[language].Select}
                   </button>
                 </div>
               ))}
@@ -145,35 +152,35 @@ export default function Adds() {
         {/* Payment */}
         {activeIndex === 1 && (
           <div className="bg-[#F8F9F9] pt-15 pb-15 payment">
-            <div className="flex items-center justify-between mb-8 px-20 pt-5">
+            <div className="flex items-center justify-center lg:justify-between mb-8 px-20 pt-5  gap-5 flex-wrap-reverse">
               <form className="flex self-start gap-5 flex-col">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 md:gap-3 justify-center sm:justify-start ">
                   {/* Radio Buttons for Category Selection */}
-                  <div className="flex items-center">
+                  <div className="flex items-center ">
                     <input type="radio" id="upload" value="upload" />
                     <label htmlFor="upload" className="ml-2">
-                      Upload a Receipt
+                      {t[language].Uplaod}
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input type="radio" id="online" value="online" />
                     <label htmlFor="online" className="ml-2">
-                      Online
+                      {t[language].Online}
                     </label>
                   </div>
                   <Link
                     to="/login"
                     type="button"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm md:text-base"
                   >
-                    Back To Login
+                    {t[language].Back}
                   </Link>
                 </div>
 
                 {/* Upload Receipt Section */}
                 <label
                   htmlFor="dropzone-file"
-                  className="relative flex flex-col items-center justify-center w-[450px] h-[300px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                  className="relative flex flex-col items-center justify-center w-[350px] md:w-[450px] h-[300px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg
@@ -192,8 +199,8 @@ export default function Adds() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
+                      <span className="font-semibold">{t[language].Click}</span>{" "}
+                      {t[language].Or}
                     </p>
                     <p className="text-xs text-gray-500">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -207,7 +214,7 @@ export default function Adds() {
                   type="submit"
                   className="mt-4 bg-blue-500 w-full text-white py-2 px-4 rounded self-center"
                 >
-                  Confirm
+                  {t[language].Confirm}
                 </button>
 
                 {/* Bank Details Section */}
@@ -218,14 +225,14 @@ export default function Adds() {
                       className="text-lg font-semibold text-gray-800"
                       style={{ fontSize: "1.5rem", color: "#002b54" }}
                     >
-                      BANK DETAILS
+                      {t[language].BankDetails}
                     </span>
                     <a
                       href="#"
                       className="text-blue-500 underline px-4"
                       style={{ fontSize: "1.5rem" }}
                     >
-                      view
+                      {t[language].View}
                     </a>
                   </div>
                 </div>
@@ -236,41 +243,47 @@ export default function Adds() {
                 <div className="w-full max-w-md">
                   <div className="mb-4">
                     <p className="text-gray-500">
-                      Promo code{" "}
-                      <span className="text-gray-400">no discount applied</span>
+                      {t[language].Promo}{" "}
+                      <span className="text-gray-400">
+                        {t[language].NoDiscount}
+                      </span>
                     </p>
                   </div>
                   <div className="flex border border-gray-300 rounded-md w-full p-2">
                     <input
-                      placeholder="Enter promo code"
+                      placeholder={
+                        language === "en"
+                          ? "Enter Promo Code"
+                          : "أدخل كود الخصم"
+                      }
                       className="p-2 outline-none "
                     />
                     <button
                       type="button"
                       className="mt-2 bg-gray-800 w-full text-white py-2 px-4 rounded"
                     >
-                      Apply
+                      {t[language].Apply}
                     </button>
                   </div>
                 </div>
-                <h2 className="font-semibold">Summary</h2>
+                <h2 className="font-semibold">{t[language].Summary}</h2>
                 <div className="text-[#8D8D8D] border-b-2 border border-[#DCDCDC] border-t-0 border-e-0 border-s-0 pb-5">
                   <p className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t[language].Subtotal}</span>
                     <span>500 $</span>
                   </p>
                   <p className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t[language].Subtotal}</span>
                     <span>500 $</span>
                   </p>
                   <p className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t[language].Subtotal}</span>
                     <span>500 $</span>
                   </p>
                 </div>
                 <div className="font-semibold">
                   <p className="flex justify-between">
-                    <span>Total</span>
+                    <span>{t[language].Total}</span>
                     <span>500 $</span>
                   </p>
                 </div>

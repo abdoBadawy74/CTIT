@@ -4,8 +4,14 @@ import about from "../../assets/about1.svg";
 import about2 from "../../assets/about2.svg";
 import { Link } from "react-router-dom";
 import "./About.css";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 const About = () => {
+  // translate
+  const { language, setLanguage } = useLanguage();
+
   return (
     <section id="about" className="px-20 about mt-5">
       <div className="container space-y-5">
@@ -13,18 +19,16 @@ const About = () => {
           {/* Left Section */}
           <div className="w-full sm:w-1/3 p-3">
             <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
-              Our <span className="text-main">Services</span>
+              {t[language].Our}{" "}
+              <span className="text-main">{t[language].Services}</span>
             </h3>
-            <p className="text-gray-400 mb-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id
-              interdum dui mollis. Suspendisse nulla:
-            </p>
+            <p className="text-gray-400 mb-8">{t[language].Services_desc}</p>
             <div>
               <a
                 className="rounded-md border brdr-main px-3 py-2 text-main"
                 href="https://undraw.co/"
               >
-                Learn more
+                {t[language].LearnMore}
               </a>
             </div>
           </div>
@@ -38,7 +42,7 @@ const About = () => {
                 <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-md bg-main p-2">
                   <img src={cloudConnection} alt="Cloud Connection" />
                 </div>
-                <h4 className="text-lg font-bold mt-8">ERP System</h4>
+                <h4 className="text-lg font-bold mt-8">{t[language].Erp}</h4>
                 <p className="text-gray-400">
                   Lorem ipsum dolor sit amet, consectetur
                 </p>
@@ -47,29 +51,31 @@ const About = () => {
                     className="bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 "
                     to="/erp"
                   >
-                    Subscribe now
+                    {t[language].Subscribe}
                   </Link>
                 </div>
               </div>
             </div>
 
             {/* Second Box (Middle Box) */}
-           <div className="middleBox">
-             <div className="w-[250px] shadow p-2 pb-4 bg-white rounded-md relative lg:mb-0 box mb-4">
-               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-md bg-main p-2">
-                 <img src={cloudChange} alt="Cloud Change" />
-               </div>
-               <h4 className="text-lg font-bold mt-8">Data Transfer</h4>
-               <p className="text-gray-400">
-                 Lorem ipsum dolor sit amet, consectetur
-               </p>
-               <div>
-                 <button className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 ">
-                   Subscribe now
-                 </button>
-               </div>
-             </div>
-           </div>
+            <div className="middleBox">
+              <div className="w-[250px] shadow p-2 pb-4 bg-white rounded-md relative lg:mb-0 box mb-4">
+                <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-md bg-main p-2">
+                  <img src={cloudChange} alt="Cloud Change" />
+                </div>
+                <h4 className="text-lg font-bold mt-8">
+                  {t[language].DataTransfer}
+                </h4>
+                <p className="text-gray-400">
+                  Lorem ipsum dolor sit amet, consectetur
+                </p>
+                <div>
+                  <button className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 ">
+                    {t[language].Subscribe}
+                  </button>
+                </div>
+              </div>
+            </div>
 
             {/* Third Box */}
             <div className="flex flex-col justify-end lastBox">
@@ -77,13 +83,15 @@ const About = () => {
                 <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-md bg-main p-2">
                   <img src={cloudConnection} alt="Cloud Connection" />
                 </div>
-                <h4 className="text-lg font-bold mt-8">Email and Hosting</h4>
+                <h4 className="text-lg font-bold mt-8">
+                  {t[language].EmailAndHosting}
+                </h4>
                 <p className="text-gray-400">
                   Lorem ipsum dolor sit amet, consectetur
                 </p>
                 <div>
                   <button className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 ">
-                    Subscribe now
+                    {t[language].Subscribe}
                   </button>
                 </div>
               </div>

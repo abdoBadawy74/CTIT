@@ -7,10 +7,16 @@ import sliderImg4 from "../../assets/slider-img4.svg";
 import sliderImg5 from "../../assets/slider-img5.svg";
 import sliderImg6 from "../../assets/slider-img6.svg";
 import sliderImg7 from "../../assets/slider-img7.svg";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 const ServicesComponent = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [responsiveOptions, setResponsiveOptions] = useState([]);
+
+   // translate
+   const { language, setLanguage } = useLanguage();
 
   const testProducts = [
     {
@@ -79,10 +85,10 @@ const ServicesComponent = () => {
       <div>
         <div className="pt-10 pb-5 pl-12 flex items-start justify-center flex-col lg:pl-24 lg:w-[699px]">
           <h1 className="uppercase text-blue-500 font-semibold work-heading relative">
-            Our Services
+            {t[language].Services}
           </h1>
           <h2 className="font-semibold text-xl leading-10 lg:text-3xl -ml-6 text-[#231F20]">
-            We have a wide range of services that you may be interested in.
+            {t[language].services_head}
           </h2>
         </div>
       </div>
@@ -99,7 +105,7 @@ const ServicesComponent = () => {
         ))}
       </div>
       <button className="block rounded-lg mt-5 py-3 px-5 bg-blue-500 text-white w-auto mx-auto">
-        View all
+        {t[language].ViewAll}
       </button>
 
       <div className="slider">

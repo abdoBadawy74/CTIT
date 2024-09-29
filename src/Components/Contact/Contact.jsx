@@ -1,10 +1,15 @@
 import { useState } from "react";
 import "./Contact.css";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 const ContactComponent = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  // translate
+  const { language, setLanguage } = useLanguage();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,13 +24,10 @@ const ContactComponent = () => {
     >
       <div className="bg-[#0081FE] px-11 flex justify-center flex-col lg:mt-24 py-10 lg:py-36 rounded-3xl custom-bg w-full">
         <h1 className="uppercase text-2xl md:text-4xl text-white pb-4">
-          Contact Us
+          {t[language].Contact}
         </h1>
         <p className="text-white max-w-[557px] lg:text-lg text-base">
-          We would love to hear from you! Whether you have a question, feedback,
-          or simply want to say hello, feel free to reach out to us using the
-          contact information below. Our dedicated team is here to assist you
-          and provide the information you need.
+          {t[language].Contact_desc}
         </p>
       </div>
       <div className="flex h-fit flex-col right-48 items-start shadow-lg bg-[#eff6ff] rounded-lg p-7 justify-between md:block lg:absolute z-20">
@@ -34,7 +36,7 @@ const ContactComponent = () => {
             <input
               type="text"
               className="w-full p-inputtext p-component p-element"
-              placeholder="name"
+              placeholder={t[language].Name}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -43,14 +45,14 @@ const ContactComponent = () => {
             <input
               type="email"
               className="w-full p-inputtext p-component p-element"
-              placeholder="email"
+              placeholder= {t[language].Email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mt-5">
             <textarea
-              placeholder="message"
+              placeholder= {t[language].Message}
               className="p-inputtext p-component p-element h-[200px] resize-none"
               rows="5"
               value={message}
@@ -62,7 +64,7 @@ const ContactComponent = () => {
               type="submit"
               className="rounded-lg py-3 px-10 bg-blue-500 text-white"
             >
-              Send
+              {t[language].Send}
             </button>
           </div>
         </form>

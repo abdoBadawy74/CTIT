@@ -4,8 +4,13 @@ import FooterComponent from "../../Components/Footer/Footer";
 import emoji from "../../assets/Emoji.svg";
 import link from "../../assets/Link.svg";
 import Picker from "emoji-picker-react";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 export default function Support() {
+  // translate
+  const { language, setLanguage } = useLanguage();
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -79,7 +84,7 @@ export default function Support() {
                 type="text"
                 value={message}
                 onChange={handleInputChange}
-                placeholder="Type a message"
+                placeholder={t[language].Type}
                 className="w-full p-2 outline-none"
               />
 
@@ -88,7 +93,7 @@ export default function Support() {
                 onClick={handleSendMessage}
                 className="bg-[#0081FE] text-white w- p-2 rounded mt-2"
               >
-                Send
+                {t[language].Send}
               </button>
             </div>
 

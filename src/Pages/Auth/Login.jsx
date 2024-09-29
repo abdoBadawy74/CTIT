@@ -1,11 +1,16 @@
-import React, { useState, startTransition } from "react";
+import React, { useState, startTransition, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/image-2.png";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 const Login = () => {
+  // translate
+  const { language, setLanguage } = useLanguage();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -76,6 +81,10 @@ const Login = () => {
         toast.error("Password reset failed");
       });
   };
+  useEffect(() => {
+    setLanguage(localStorage.getItem("language"));
+  }, []);
+  console.log(language);
 
   return (
     <section className="bg-gray-50">
@@ -90,8 +99,8 @@ const Login = () => {
         </a>
         <div className="w-full rounded-lg dark:border md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-4">
-              Welcome Back!
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl mb-4">
+              {t[language].WelcomeBack}
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
@@ -99,7 +108,7 @@ const Login = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  Email
+                  {t[language].Email}
                 </label>
                 <input
                   type="email"
@@ -117,7 +126,7 @@ const Login = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  Password
+                  {t[language].Password}
                 </label>
                 <input
                   type="password"
@@ -135,23 +144,23 @@ const Login = () => {
                   className="text-sm font-medium text-blue-600 dark:text-primary-500 cursor-pointer"
                   onClick={handleForgetPassword}
                 >
-                  Forgot password?
+                  {t[language].ForgetPassword}
                 </a>
               </div>
               <Link
                 to={"/profile"}
                 className="block text-center w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
               >
-                Login
+                {t[language].Login}
               </Link>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
+                {t[language].NoAccount}{" "}
                 <a
                   href="/landing"
                   className="font-medium text-blue-600 hover:underline dark:text-primary-500 cursor-pointer"
                 >
                   {" "}
-                  Sign up
+                  {t[language].SignUP}
                 </a>
               </p>
             </form>

@@ -6,8 +6,13 @@ import officeContent5 from "../../assets/image-6.jpg";
 import officeContent6 from "../../assets/image-10.jpg";
 import officeContent7 from "../../assets/image-9.jpg";
 import officeContent8 from "../../assets/image-5.jpg";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 const WorkComponent = () => {
+  // translate
+  const { language, setLanguage } = useLanguage();
   return (
     <div
       id="work"
@@ -17,19 +22,18 @@ const WorkComponent = () => {
         <div>
           <div className="pt-10 pb-5 pl-12 flex items-start justify-center flex-col lg:pl-24 lg:w-[428px] gap-2">
             <h1 className="uppercase text-blue-500 font-semibold work-heading relative">
-              Work
+              {t[language].Work}
             </h1>
             <h2 className="font-extrabold text-xl leading-10 lg:text-3xl -ml-6 text-[#002B54]">
-              Some pictures of our work in the real world
+              {t[language].Work_head}
             </h2>
           </div>
           <p className="text-[#002B54] pl-12 lg:pl-24 lg:w-[428px] -ml-6">
-            There are several photographs showcasing the actual projects or
-            achievements that we have accomplished in real-life situations.
+            {t[language].Work_desc}
           </p>
           <div className="mt-5 pl-12 lg:pl-24 lg:w-[428px] -ml-6">
             <button className="rounded-lg py-3 px-5 bg-blue-500 text-white lg:w-[276px] w-auto">
-              Join and subscribe now
+              {t[language].Join}
             </button>
           </div>
         </div>

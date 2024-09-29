@@ -8,8 +8,13 @@ import accountImg from "../../assets/account-image.svg";
 import VerifyEmailImg from "../../assets/Mail.png";
 import QRCode from "../../assets/qr-code-img.png";
 import { Link } from "react-router-dom";
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 export default function ErpSystem() {
+  // translate
+  const { language, setLanguage } = useLanguage();
   // states
   const [activeIndex, setActiveIndex] = useState(0); // Step control
   //packages
@@ -43,11 +48,11 @@ export default function ErpSystem() {
 
   // The steps and their corresponding labels
   const steps = [
-    { label: "Package" },
-    { label: "Adds" },
-    { label: "Create Account" },
-    { label: "Email" },
-    { label: "Payment" },
+    { label: t[language].Package },
+    { label: t[language].Adds },
+    { label: t[language].CreateAcount },
+    { label: t[language].Email },
+    { label: t[language].Payment },
   ];
 
   //   move to the next step
@@ -72,30 +77,30 @@ export default function ErpSystem() {
   ];
 
   const subscriptionPlans = [
-    { id: 1, name: "Basic", discount: 10 },
-    { id: 2, name: "Standard", discount: 20 },
-    { id: 3, name: "Premium", discount: 30 },
+    { id: 1, name: t[language].Basic, discount: 10 },
+    { id: 2, name: t[language].Standard, discount: 20 },
+    { id: 3, name: t[language].Premium, discount: 30 },
   ];
 
   useEffect(() => {
     setPackeges([
       {
         id: 1,
-        name: "Basic",
+        name: t[language].Basic,
         price: 100,
         description: "Basic package for small businesses",
         selected: false,
       },
       {
         id: 2,
-        name: "Standard",
+        name: t[language].Standard,
         price: 200,
         description: "Standard package for medium businesses",
         selected: false,
       },
       {
         id: 3,
-        name: "Premium",
+        name: t[language].Premium,
         price: 300,
         description: "Premium package for large businesses",
         selected: false,
@@ -207,6 +212,10 @@ export default function ErpSystem() {
     }
   };
 
+  useEffect(() => {
+    setLanguage(localStorage.getItem("language"));
+  }, [setLanguage]);
+
   return (
     <>
       {/* Step indicator */}
@@ -244,7 +253,7 @@ export default function ErpSystem() {
             className="px-20 py-4 my-10 lg:my-0 bg-white text-[#0081FE] border border-[#0081FE] text-lg rounded-lg focus:outline-none"
             onClick={goToThePrevious}
           >
-            Previous
+            {t[language].Previous}
           </button>
         )}
 
@@ -257,7 +266,7 @@ export default function ErpSystem() {
           onClick={goToTheNext}
           disabled={activeIndex >= steps.length - 1}
         >
-          Next
+          {t[language].Next}
         </button>
       </div>
 
@@ -270,9 +279,11 @@ export default function ErpSystem() {
         {activeIndex === 0 && (
           <div>
             <div className="flex items-center flex-col mb-8 px-44 space-y-5 packages">
-              <h1 className="text-2xl font-medium">Select Package</h1>
+              <h1 className="text-2xl font-medium">
+                {t[language].SelectPackage}
+              </h1>
               <p className="text-[#8D8D8D] text-base">
-                Please make sure that you will select the package .............
+                {t[language].SelectPackage_desc}
               </p>
 
               <div className="bg-[#F8F9F9] flex gap-5 p-1 rounded-xl w-full flex-wrap">
@@ -385,10 +396,12 @@ export default function ErpSystem() {
                         }`}
                         onClick={() => toggleSelectionCard(index)}
                       >
-                        {card.selected ? "Selected" : "Select"}
+                        {card.selected
+                          ? t[language].Selected
+                          : t[language].Select}
                       </button>
                       <button className="rounded-xl mt-7 py-3 px-2 bg-white text-blue-500 min-w-36 border border-[#0081FE]">
-                        More details
+                        {t[language].MoreDetails}
                       </button>
                     </div>
                   </div>
@@ -404,12 +417,12 @@ export default function ErpSystem() {
           <div>
             <div className="flex items-center flex-col mb-8 text-center">
               <h1 className="text-2xl mb-5 font-medium">
-                What You Need To Add{" "}
-                <span className="text-[#0081FE]">(not required)</span>
+                {t[language].Add_head}{" "}
+                <span className="text-[#0081FE]">
+                  {t[language].Not_required}
+                </span>
               </h1>
-              <p className="text-[#8D8D8D] text-base">
-                If you want to add more capacities or number of employees
-              </p>
+              <p className="text-[#8D8D8D] text-base">{t[language].Add_desc}</p>
             </div>
 
             <div className="pb-10 px-5 gap-10 flex justify-center flex-wrap mx-auto">
@@ -442,7 +455,9 @@ export default function ErpSystem() {
                     }`}
                     onClick={() => toggleSelectionAdd(card.id)}
                   >
-                    {selectedAddId === card.id ? "Selected" : "Select"}
+                    {selectedAddId === card.id
+                      ? t[language].Selected
+                      : t[language].Select}
                   </button>
                 </div>
               ))}
@@ -521,40 +536,44 @@ export default function ErpSystem() {
                 <div className="grid grid-cols-1 xl:grid-cols-2 mb-20 gap-5">
                   <div className="flex flex-col gap-2">
                     <label className="text-[#8D8D8D]">
-                      Name<span className="text-red-600">*</span>
+                      {t[language].Name}
+                      <span className="text-red-600">*</span>
                     </label>
                     <input
                       {...register("name", { required: true })}
                       type="text"
                       className="py-3 px-3 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Name"
+                      placeholder={t[language].Name}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[#8D8D8D]">
-                      Company Name<span className="text-red-600">*</span>
+                      {t[language].CompanyName}
+                      <span className="text-red-600">*</span>
                     </label>
                     <input
                       {...register("companyName", { required: true })}
                       type="text"
                       className="py-3 px-3 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Company Name"
+                      placeholder={t[language].CompanyName}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[#8D8D8D]">
-                      Email<span className="text-red-600">*</span>
+                      {t[language].Email}
+                      <span className="text-red-600">*</span>
                     </label>
                     <input
                       {...register("email", { required: true })}
                       type="email"
                       className="py-3 px-3 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Email"
+                      placeholder={t[language].Email}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[#8D8D8D]">
-                      Phone Number<span className="text-red-600">*</span>
+                      {t[language].PhoneNumber}
+                      <span className="text-red-600">*</span>
                     </label>
                     <div className="flex">
                       <Dropdown
@@ -569,13 +588,14 @@ export default function ErpSystem() {
                         {...register("phoneNumber", { required: true })}
                         type="tel"
                         className="py-3 px-3 rounded-e-md w-full border border-s-0 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Phone Number"
+                        placeholder={t[language].PhoneNumber}
                       />
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 input-container">
                     <label className="text-[#8D8D8D]">
-                      Password<span className="text-red-600">*</span>
+                      {t[language].Password}
+                      <span className="text-red-600">*</span>
                     </label>
                     <Password
                       {...register("password", { required: true })}
@@ -586,7 +606,8 @@ export default function ErpSystem() {
                   </div>
                   <div className="flex flex-col gap-2 input-container">
                     <label className="text-[#8D8D8D]">
-                      Confirm Password<span className="text-red-600">*</span>
+                      {t[language].ConfirmPassword}
+                      <span className="text-red-600">*</span>
                     </label>
                     <Password
                       {...register("confirmPassword", { required: true })}
@@ -597,7 +618,8 @@ export default function ErpSystem() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[#8D8D8D]">
-                      Tax Id (VAT - optional)
+                      {t[language].TaxId}
+                      {t[language].VAT}
                     </label>
                     <input
                       {...register("taxId")}
@@ -608,7 +630,8 @@ export default function ErpSystem() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[#8D8D8D]">
-                      Sub Domain<span className="text-red-600">*</span>
+                      {t[language].SubDomain}
+                      <span className="text-red-600">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -630,7 +653,7 @@ export default function ErpSystem() {
                         className="form-checkbox h-5 w-5 text-blue-600"
                       />
                       <span className="text-gray-700">
-                        I accept the terms and conditions
+                        {t[language].AcceptTerms}
                       </span>
                     </label>
                   </div>
@@ -638,7 +661,7 @@ export default function ErpSystem() {
                     type="submit"
                     className="px-5 py-5 bg-blue-500 text-white rounded-md"
                   >
-                    Submit
+                    {t[language].Submit}
                   </button>
                 </div>
               </form>
@@ -654,9 +677,9 @@ export default function ErpSystem() {
           <div className="lg:ml-60 sm:mb-4 mx-auto mt-28 flex flex-col lg:flex-row justify-between items-center verify">
             <div>
               <div className="flex flex-col gap-3">
-                <h1 className="text-xl">Verify email</h1>
+                <h1 className="text-xl">{t[language].VerifyEmail}</h1>
                 <p className="text-[#8D8D8D] text-sm">
-                  Please check your email{" "}
+                  {t[language].check}{" "}
                   <span className="text-[#002B54]">{/* email variable */}</span>
                 </p>
               </div>
@@ -684,16 +707,17 @@ export default function ErpSystem() {
                   className="w-full flex items-center justify-center py-4 rounded-lg text-white bg-[#002B54]"
                   disabled={countdown > 0} // Disable button while countdown is active
                 >
-                  Verify
+                  {t[language].Verify}
                 </button>
 
                 <p
                   id="helper-text-explanation"
                   className="text-center mt-8 text-gray-500 text-sm"
                 >
-                  Didn't receive anything?
+                  {t[language].DontRecieve}{" "}
                   <span className="text-[#0081FE]">
-                    Send again {countdown > 0 ? `${countdown} seconds` : "Now"}
+                    {t[language].SendAgain}
+                    {countdown > 0 ? `${countdown} seconds` : ""}
                   </span>
                 </p>
               </form>
@@ -718,13 +742,13 @@ export default function ErpSystem() {
                   <div className="flex items-center ">
                     <input type="radio" id="upload" value="upload" />
                     <label htmlFor="upload" className="ml-2">
-                      Upload a Receipt
+                      {t[language].Uplaod}
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input type="radio" id="online" value="online" />
                     <label htmlFor="online" className="ml-2">
-                      Online
+                      {t[language].Online}
                     </label>
                   </div>
                   <Link
@@ -732,7 +756,7 @@ export default function ErpSystem() {
                     type="button"
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm md:text-base"
                   >
-                    Back To Login
+                    {t[language].Back}
                   </Link>
                 </div>
 
@@ -758,8 +782,8 @@ export default function ErpSystem() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
+                      <span className="font-semibold">{t[language].Click}</span>{" "}
+                      {t[language].Or}
                     </p>
                     <p className="text-xs text-gray-500">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -773,7 +797,7 @@ export default function ErpSystem() {
                   type="submit"
                   className="mt-4 bg-blue-500 w-full text-white py-2 px-4 rounded self-center"
                 >
-                  Confirm
+                  {t[language].Confirm}
                 </button>
 
                 {/* Bank Details Section */}
@@ -784,14 +808,14 @@ export default function ErpSystem() {
                       className="text-lg font-semibold text-gray-800"
                       style={{ fontSize: "1.5rem", color: "#002b54" }}
                     >
-                      BANK DETAILS
+                      {t[language].BankDetails}
                     </span>
                     <a
                       href="#"
                       className="text-blue-500 underline px-4"
                       style={{ fontSize: "1.5rem" }}
                     >
-                      view
+                      {t[language].View}
                     </a>
                   </div>
                 </div>
@@ -802,41 +826,47 @@ export default function ErpSystem() {
                 <div className="w-full max-w-md">
                   <div className="mb-4">
                     <p className="text-gray-500">
-                      Promo code{" "}
-                      <span className="text-gray-400">no discount applied</span>
+                      {t[language].Promo}{" "}
+                      <span className="text-gray-400">
+                        {t[language].NoDiscount}
+                      </span>
                     </p>
                   </div>
                   <div className="flex border border-gray-300 rounded-md w-full p-2">
                     <input
-                      placeholder="Enter promo code"
+                      placeholder={
+                        language === "en"
+                          ? "Enter Promo Code"
+                          : "أدخل كود الخصم"
+                      }
                       className="p-2 outline-none "
                     />
                     <button
                       type="button"
                       className="mt-2 bg-gray-800 w-full text-white py-2 px-4 rounded"
                     >
-                      Apply
+                      {t[language].Apply}
                     </button>
                   </div>
                 </div>
-                <h2 className="font-semibold">Summary</h2>
+                <h2 className="font-semibold">{t[language].Summary}</h2>
                 <div className="text-[#8D8D8D] border-b-2 border border-[#DCDCDC] border-t-0 border-e-0 border-s-0 pb-5">
                   <p className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t[language].Subtotal}</span>
                     <span>500 $</span>
                   </p>
                   <p className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t[language].Subtotal}</span>
                     <span>500 $</span>
                   </p>
                   <p className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t[language].Subtotal}</span>
                     <span>500 $</span>
                   </p>
                 </div>
                 <div className="font-semibold">
                   <p className="flex justify-between">
-                    <span>Total</span>
+                    <span>{t[language].Total}</span>
                     <span>500 $</span>
                   </p>
                 </div>
