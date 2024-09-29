@@ -23,7 +23,7 @@ const t = {
     Erp: "ERP System",
     Offer: "Special Offer",
     Off: "40% Off",
-    Subscrib: "Subscribe Now",
+    Subscribe: "Subscribe Now",
     Our: "Our",
     Services_desc:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id interdum dui mollis. Suspendisse nulla: ",

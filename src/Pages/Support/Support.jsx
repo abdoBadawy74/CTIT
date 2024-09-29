@@ -41,9 +41,9 @@ export default function Support() {
   return (
     <div>
       <Header />
-      <div className="bg-[#F8F9F9] h-[70vh]">
+      <div className="bg-[#F8F9F9] h-[70vh] p-5">
         <div>
-          <div className="bg-white p-10 chat-content h-[500px] flex flex-col justify-between">
+          <div className="bg-white p-5 chat-content border rounded h-[500px] flex flex-col justify-between">
             {/* Message bubbles */}
             <div>
               <div className="senderMsg text-sm flex flex-col items-end">
