@@ -19,6 +19,7 @@ export default function ErpSystem() {
   const { language, setLanguage } = useLanguage();
   // states
   const [activeIndex, setActiveIndex] = useState(0); // Step control
+  const [flag, setFlag] = useState(false);
 
   //   Adds
   const [selectedAddId, setSelectedAddId] = useState(null);
@@ -199,12 +200,12 @@ export default function ErpSystem() {
 
         <button
           className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
-            activeIndex < steps.length - 1
+            flag
               ? "bg-[#0081FE] text-white"
               : "bg-gray-300 opacity-50"
           }`}
           onClick={goToTheNext}
-          disabled={activeIndex >= steps.length - 1}
+          disabled={flag === false}
         >
           {t[language].Next}
         </button>
@@ -217,7 +218,7 @@ export default function ErpSystem() {
       <div className="step-content">
         {/* ERP Packages */}
         {activeIndex === 0 && (
-          <SelectPackage/>
+          <SelectPackage setFlag={setFlag} />
         )}
         {/* End Erp Packages */}
 

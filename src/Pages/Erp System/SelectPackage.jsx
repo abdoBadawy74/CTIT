@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import axios from "axios";
 import { COUNTRIES, SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
 import "./ErpSystem.css";
-import { set } from "react-hook-form";
+import PropTypes from "prop-types";
 
-export default function SelectPackage() {
+export default function SelectPackage({ setFlag }) {
   // translate
   const { language, setLanguage } = useLanguage();
   //packages
@@ -37,7 +37,6 @@ export default function SelectPackage() {
       .then((res) => {
         // console.log(res.data);
         setCountries(res.data.result);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -61,7 +60,6 @@ export default function SelectPackage() {
   };
   const onSelectedCountry = (country) => {
     setSelectedCountry(country);
-    // retrieveMainPackages();
     localStorage.setItem("selected_country_id", country.id);
   };
 
@@ -75,7 +73,6 @@ export default function SelectPackage() {
       })
       .then((res) => {
         setSubscriptionPlans(res.data.result);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -100,7 +97,6 @@ export default function SelectPackage() {
   };
 
   //   package cards
-
   useEffect(() => {
     axios
       .post(`${ERP_PACKGAES}`, {
@@ -109,8 +105,8 @@ export default function SelectPackage() {
         },
       })
       .then((res) => {
-        console.log(res);
         setPackeges(res.data.result.main);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -122,6 +118,10 @@ export default function SelectPackage() {
     localStorage.setItem("selected_package_id", card.id);
     console.log(selectedPackage);
   };
+
+  if (selectedPackage && selectedPlan && selectedCountry) {
+    setFlag(true);
+  }
 
   //   return loading if data is not fetched
   if (loading) {
@@ -210,7 +210,7 @@ export default function SelectPackage() {
           </div>
 
           <div className="pb-8 px-2 gap-10 grid  grid-cols1 xl:grid-cols-3 md:max-w-[500px] lg:max-w-[1165px] mx-auto">
-            {packeges.map((card, index) => (
+            {packeges.map((card) => (
               <div
                 key={card.id}
                 style={{
@@ -286,3 +286,6 @@ export default function SelectPackage() {
     </div>
   );
 }
+SelectPackage.propTypes = {
+  setFlag: PropTypes.func,
+};
