@@ -97,6 +97,47 @@
 }
 
 /* Erp packages  */
+.custom-dropdown {
+  position: relative;
+  width: 150px;
+}
+
+.dropdown-header {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px !important;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 8px !important;
+  scrollbar-width: none;
+}
+
+.dropdown-item {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #888;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
 .selected-card {
   opacity: 1;
   background-color: #f2f8ff;
