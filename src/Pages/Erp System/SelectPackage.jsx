@@ -7,7 +7,7 @@ import { COUNTRIES, SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
 import "./ErpSystem.css";
 import PropTypes from "prop-types";
 
-export default function SelectPackage({ setFlag }) {
+export default function SelectPackage({ setFlag, setAdds }) {
   // translate
   const { language, setLanguage } = useLanguage();
   //packages
@@ -96,7 +96,7 @@ export default function SelectPackage({ setFlag }) {
     localStorage.setItem("selected_plan_id", plan.id);
   };
 
-  //   package cards
+  //  get package cards
   useEffect(() => {
     axios
       .post(`${ERP_PACKGAES}`, {
@@ -105,7 +105,9 @@ export default function SelectPackage({ setFlag }) {
         },
       })
       .then((res) => {
+        // console.log(res);
         setPackeges(res.data.result.main);
+        setAdds(res.data.result.additional);
         setLoading(false);
       })
       .catch((err) => {
@@ -116,7 +118,7 @@ export default function SelectPackage({ setFlag }) {
   const onSelectPackage = (card) => {
     setSelectedPackage(card);
     localStorage.setItem("selected_package_id", card.id);
-    console.log(selectedPackage);
+    // console.log(selectedPackage);
   };
 
   if (selectedPackage && selectedPlan && selectedCountry) {
@@ -288,4 +290,5 @@ export default function SelectPackage({ setFlag }) {
 }
 SelectPackage.propTypes = {
   setFlag: PropTypes.func,
+  setAdds: PropTypes.func,
 };

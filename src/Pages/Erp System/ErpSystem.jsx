@@ -13,16 +13,18 @@ import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import axios from "axios";
 import SelectPackage from "./SelectPackage";
+import Adds from "./Adds";
 
 export default function ErpSystem() {
+
   // translate
   const { language, setLanguage } = useLanguage();
   // states
   const [activeIndex, setActiveIndex] = useState(0); // Step control
-  const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
+  const [adds, setAdds] = useState([]); // Adds
 
-  //   Adds
-  const [selectedAddId, setSelectedAddId] = useState(null);
+ 
   //   create account
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const { register, handleSubmit, setValue } = useForm({
@@ -58,6 +60,7 @@ export default function ErpSystem() {
     if (activeIndex < steps.length - 1) {
       setActiveIndex(activeIndex + 1);
     }
+    setFlag(false);
   };
 
   //  move to the previous step
@@ -74,38 +77,7 @@ export default function ErpSystem() {
 
 
 
-  //   Adds
-  const cards = [
-    {
-      id: 1,
-      name: "ADD 1",
-      price: 29.99,
-      currency: "USD",
-      description: "This is the description for ADD 1",
-      selected: false,
-    },
-    {
-      id: 2,
-      name: "ADD 2",
-      price: 49.99,
-      currency: "USD",
-      description: "This is the description for Card 2",
-      selected: false,
-    },
-    {
-      id: 3,
-      name: "ADD 3",
-      price: 79.99,
-      currency: "USD",
-      description: "This is the description for Card 3",
-      selected: false,
-    },
-  ];
-
-  const toggleSelectionAdd = (cardId) => {
-    setSelectedAddId(cardId === selectedAddId ? null : cardId);
-  };
-
+  
   //   Create Account
   const onFileInputChange = (event) => {
     const file = event.target.files[0];
@@ -218,61 +190,13 @@ export default function ErpSystem() {
       <div className="step-content">
         {/* ERP Packages */}
         {activeIndex === 0 && (
-          <SelectPackage setFlag={setFlag} />
+          <SelectPackage setFlag={setFlag} setAdds={setAdds}/>
         )}
         {/* End Erp Packages */}
 
         {/* Start Adds  */}
         {activeIndex === 1 && (
-          <div>
-            <div className="flex items-center flex-col mb-8 text-center">
-              <h1 className="text-2xl mb-5 font-medium">
-                {t[language].Add_head}{" "}
-                <span className="text-[#0081FE]">
-                  {t[language].Not_required}
-                </span>
-              </h1>
-              <p className="text-[#8D8D8D] text-base">{t[language].Add_desc}</p>
-            </div>
-
-            <div className="pb-10 px-5 gap-10 flex justify-center flex-wrap mx-auto">
-              {cards.map((card) => (
-                <div
-                  key={card.id}
-                  className={`card-add bg-white flex flex-col gap-5 border border-[#DCDCDC] rounded-lg py-5 px-7 w-[350px] ${
-                    selectedAddId === card.id ? "selected-card" : ""
-                  }`}
-                >
-                  <div className="title flex flex-col justify-center items-center">
-                    <h2 className="py-2">{card.name}</h2>
-                    <p className="text-[#0081FE] font-medium">
-                      {card.price} {card.currency}
-                      <span className="text-xs text-[#8D8D8D]"> / monthly</span>
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <i
-                      className="pi pi-check-circle"
-                      style={{ color: "#0081fe" }}
-                    ></i>
-                    <p className="text-[#002B54] font-semibold text-sm">
-                      {card.description}
-                    </p>
-                  </div>
-                  <button
-                    className={`rounded-xl mt-7 py-3 px-2 min-w-36 text-white ${
-                      selectedAddId === card.id ? "bg-[#002b54]" : "bg-blue-500"
-                    }`}
-                    onClick={() => toggleSelectionAdd(card.id)}
-                  >
-                    {selectedAddId === card.id
-                      ? t[language].Selected
-                      : t[language].Select}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+         <Adds adds={adds} setFlag={setFlag} />
         )}
         {/* End Adds */}
 
