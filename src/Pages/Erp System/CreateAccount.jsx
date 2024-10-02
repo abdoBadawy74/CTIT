@@ -8,10 +8,10 @@ import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { RGISTER } from "../../Api/Api";
-import { data } from "autoprefixer";
+import { REGISTER } from "../../Api/Api";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 
-export default function CreateAccount({ countriesNames }) {
+export default function CreateAccount({ countriesNames, setFlag }) {
   // translate
   const { language } = useLanguage();
 
@@ -104,40 +104,47 @@ export default function CreateAccount({ countriesNames }) {
       country_id: selectedCountryId || formData.country_id, // use selected country ID
       subscription_type: "new", // set default value if not selected
       plan_id: formData.plan_id || 3, // default plan ID
-      pre_subscription_line_ids: {
-        product_id: 1, // hardcoded or dynamic product ID
-        discount: 2.0212,
-        quantity: 1,
-      },
+      pre_subscription_line_ids: [
+        {
+          product_id: 1, // hardcoded or dynamic product ID
+          discount: 2.0212,
+          quantity: 1,
+        },
+      ],
     };
-  console.log(formData);
+
+    console.log("Submitting Data:", data);
+
     // Send data to the server
-    axios.post(`${RGISTER}`, data)
+    axios
+      .post(
+        REGISTER, // Correct API endpoint
+        { params: data }, // Send `data` directly as body, not inside `params`
+        {
+          headers: {
+            "Content-Type": "application/json", // Correct header field
+          },
+        }
+      )
       .then((res) => {
         console.log("Response:", res);
+        if (res.data.result.sent) {
+          toast.success("Account created, Click next to verify your email");
+          localStorage.setItem("email", JSON.stringify(data.email));
+          setFlag(true);
+        } else {
+          toast.error("Error creating account");
+        }
       })
       .catch((err) => {
         console.error("Error:", err);
       });
   };
-  
-
-
-// المشكله هنا ان الاوبجكت بيروج صح بس الريبونس بيقول انه ناقص 
-
-
-
 
   return (
     <div className="grid grid-cols-3 mx-20 items-center xl:gap-12 account">
       <div className="flex flex-col col-span-2">
-        <Toast
-          className="md:block hidden"
-          life={2000}
-          showTransformOptions="translateX(100%)"
-          showTransitionOptions="500ms"
-          hideTransitionOptions="100ms"
-        />
+        <ToastContainer />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-14 mb-10 self-center">
             <div className="flex items-center justify-center w-full">
@@ -390,4 +397,5 @@ export default function CreateAccount({ countriesNames }) {
 
 CreateAccount.propTypes = {
   countriesNames: PropTypes.array.isRequired,
+  setFlag: PropTypes.func.isRequired,
 };

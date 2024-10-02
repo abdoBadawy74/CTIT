@@ -114,7 +114,7 @@ const Login = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  {t[language].Email}
+                  {t[language]?.Email}
                 </label>
                 <input
                   type="email"
@@ -132,7 +132,7 @@ const Login = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  {t[language].Password}
+                  {t[language]?.Password}
                 </label>
                 <input
                   type="password"
@@ -150,23 +150,23 @@ const Login = () => {
                   className="text-sm font-medium text-blue-600 dark:text-primary-500 cursor-pointer"
                   onClick={handleForgetPassword}
                 >
-                  {t[language].ForgetPassword}
+                  {t[language]?.ForgetPassword}
                 </a>
               </div>
               <button
                 type="submit"
                 className="block text-center w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
               >
-                {t[language].Login}
+                {t[language]?.Login}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                {t[language].NoAccount}{" "}
+                {t[language]?.NoAccount}{" "}
                 <a
                   href="/landing"
                   className="font-medium text-blue-600 hover:underline dark:text-primary-500 cursor-pointer"
                 >
                   {" "}
-                  {t[language].SignUP}
+                  {t[language]?.SignUP}
                 </a>
               </p>
             </form>

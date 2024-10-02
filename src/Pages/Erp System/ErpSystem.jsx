@@ -160,7 +160,7 @@ export default function ErpSystem() {
 
         {/* Start Create Account */}
         {activeIndex === 2 && (
-          <CreateAccount countriesNames={countriesNames}/>
+          <CreateAccount countriesNames={countriesNames} setFlag={setFlag} />
         )}
 
         {/* Verify Email */}

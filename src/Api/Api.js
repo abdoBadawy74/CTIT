@@ -6,7 +6,7 @@ export const SUBSCRIPTIONS = `${BASE}/subscription_plans`;
 export const ERP_PACKGAES = `${BASE}/country_package_pricing`;
 
 // Auth
-export const RGISTER = `${BASE}/action_register`;
+export const REGISTER = `${BASE}/action_register`;
 
 // Login
 export const LOGIN = `${BASE}/partner_login`;
