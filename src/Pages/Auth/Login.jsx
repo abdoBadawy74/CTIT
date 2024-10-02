@@ -28,6 +28,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(formData);
     // Wrap the asynchronous task inside startTransition
     startTransition(() => {
       axios
@@ -40,9 +41,12 @@ const Login = () => {
         .then((response) => {
           console.log(response);
           if (response.data.result.login) {
-            toast.success("Login successful");
+            toast.success("Login successful, redirecting...");
             localStorage.setItem("LoginEmail", JSON.stringify(formData.email));
-            navigate("/profile");
+            // wait for the toast to disappear before navigating
+            setTimeout(() => {
+              navigate("/profile");
+            }, 2000);
           } else {
             toast.error(response.data.result.msg);
           }
@@ -65,8 +69,8 @@ const Login = () => {
 
     axios
       .post("https://aldaifii.ctit.com.sa/saas/forget_password", {
-        params: {
-          email: formData.email,
+        Headers: {
+          "Content-Type": "application/json",
         },
       })
       .then((response) => {
@@ -81,10 +85,11 @@ const Login = () => {
         toast.error("Password reset failed");
       });
   };
+
+  // translate language
   useEffect(() => {
     setLanguage(localStorage.getItem("language"));
   }, []);
-  console.log(language);
 
   return (
     <section className="bg-gray-50">
@@ -147,12 +152,12 @@ const Login = () => {
                   {t[language].ForgetPassword}
                 </a>
               </div>
-              <Link
-                to={"/profile"}
+              <button
+                type="submit"
                 className="block text-center w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
               >
                 {t[language].Login}
-              </Link>
+              </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 {t[language].NoAccount}{" "}
                 <a

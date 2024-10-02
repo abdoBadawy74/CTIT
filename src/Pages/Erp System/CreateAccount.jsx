@@ -122,6 +122,12 @@ export default function CreateAccount({ countriesNames }) {
   };
   
 
+
+// المشكله هنا ان الاوبجكت بيروج صح بس الريبونس بيقول انه ناقص 
+
+
+
+
   return (
     <div className="grid grid-cols-3 mx-20 items-center xl:gap-12 account">
       <div className="flex flex-col col-span-2">
