@@ -229,7 +229,8 @@
 }
 @media screen and (max-width: 600px) {
   .container-box button:last-child {
-    width: 150px;
+    width:200px;
+    font-size: 14px;
     bottom: -50px;
     left: 30%;
     transform: translateX(-50%);

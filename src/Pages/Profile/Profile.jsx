@@ -9,6 +9,8 @@ import editIcon from "../../assets/edit-icon.svg";
 // translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
+import axios from "axios";
+import { PROFILE } from "../../Api/Api";
 
 const Profile = () => {
   // translate
@@ -23,41 +25,67 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulating fetching profile data
+   
+
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.post(`${PROFILE}`,
+          {
+            params: {
+              email: "abdobadawy148@gmail.com"
+            }
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response);
+        setPartnerDetails(response.data.result.partner_details)
+        setSubscriptionDetails(response.data.result.subscription_details)
+        setBillingHistory(response.data.result.billing_history)
+        setLoading(false);
+
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
     fetchProfileData();
   }, []);
 
-  const fetchProfileData = () => {
-    // Mock function to simulate data fetching
-    setTimeout(() => {
-      setPartnerDetails([
-        {
-          partner_name: "Partner 1",
-          partner_phone: "123-456-789",
-          partner_email: "partner@example.com",
-          partner_company_name: "Company XYZ",
-        },
-      ]);
-      setSubscriptionDetails([
-        {
-          subs_name: "Basic Plan",
-          subs_amount: "100$",
-          subs_state: "Active",
-          subs_renew_date: "01/01/2025",
-          db_link: "https://db-link.com",
-        },
-      ]);
-      setBillingHistory([
-        {
-          bill_state: "Paid",
-          bill_name: "Invoice #1",
-          bill_creation_date: "01/01/2024",
-          bill_amount: "100$",
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
-  };
+  // const fetchProfileData = () => {
+  //   // Mock function to simulate data fetching
+  //   setTimeout(() => {
+  //     setPartnerDetails([
+  //       {
+  //         partner_name: "Partner 1",
+  //         partner_phone: "123-456-789",
+  //         partner_email: "partner@example.com",
+  //         partner_company_name: "Company XYZ",
+  //       },
+  //     ]);
+  //     setSubscriptionDetails([
+  //       {
+  //         subs_name: "Basic Plan",
+  //         subs_amount: "100$",
+  //         subs_state: "Active",
+  //         subs_renew_date: "01/01/2025",
+  //         db_link: "https://db-link.com",
+  //       },
+  //     ]);
+  //     setBillingHistory([
+  //       {
+  //         bill_state: "Paid",
+  //         bill_name: "Invoice #1",
+  //         bill_creation_date: "01/01/2024",
+  //         bill_amount: "100$",
+  //       },
+  //     ]);
+  //     setLoading(false);
+  //   }, 1000);
+  // };
 
   const toggleDetails = () => setShowDetails(!showDetails);
 
@@ -77,7 +105,7 @@ const Profile = () => {
   };
 
   const goToEdit = () => {
-    navigate("/edit-profile");
+    navigate("/edit-profile", { state: partnerDetails });
   };
 
   return (

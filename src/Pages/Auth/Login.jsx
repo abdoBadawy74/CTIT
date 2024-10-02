@@ -7,6 +7,7 @@ import logo from "../../assets/image-2.png";
 // translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
+import { LOGIN } from "../../Api/Api";
 
 const Login = () => {
   // translate
@@ -32,7 +33,7 @@ const Login = () => {
     // Wrap the asynchronous task inside startTransition
     startTransition(() => {
       axios
-        .post("https://aldaifii.ctit.com.sa/saas/partner_login", {
+        .post(`${LOGIN}`, {
           params: {
             email: formData.email,
             password: formData.password,

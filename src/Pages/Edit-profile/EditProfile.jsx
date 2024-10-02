@@ -2,83 +2,55 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from "../../Components/Header";
 import editImg from "../../assets/edit-icon.svg";
 import trash from "../../assets/deleteIcon.svg";
-import "./Edit.css"
+import "./Edit.css";
+import { useLocation,useNavigate } from "react-router-dom";
+import axios from "axios";
+import { EDIT_PROFILE } from "../../Api/Api";
 
 function EditProfile() {
-  const [email, setEmail] = useState(
-    JSON.parse(localStorage.getItem("LoginEmail") || "{}")
-  );
-  const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
+  // get the partner details from the location state
+  const location = useLocation();
+  const partnerDetails = location.state;
+  const navigate = useNavigate();
+  // set the initial state of the edit profile form
   const [editProfileForm, setEditProfileForm] = useState({
-    name: "",
+    email: "",
+    partner_name: "",
     phone: "",
-    image: "",
+    company: "",
+    profile_img: "",
   });
-  const imageInputRef = useRef(null);
-  const [loading, setLoading] = useState(false);
-  const [partnerDetails, setPartnerDetails] = useState([]);
 
   useEffect(() => {
-    // On component mount, load profile data
-    getDataProfile();
+    if (partnerDetails) {
+      setEditProfileForm({
+        email: partnerDetails[0].partner_email,
+        partner_name: partnerDetails[0].partner_name,
+        phone: partnerDetails[0].partner_phone,
+        company: partnerDetails[0].partner_company_name,
+        profile_img: partnerDetails[0].partner_image,
+      });
+    }
   }, []);
 
-  const intiatForm = () => {
-    const {
-      partner_name: name,
-      partner_phone: phone,
-      partner_img: image,
-    } = partnerDetails[0] || {};
-    setEditProfileForm({
-      name: name || "",
-      phone: phone || "",
-      image: image || "",
-    });
-  };
+  const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
+  const imageInputRef = useRef(null);
 
-  const getDataProfile = async () => {
-    setLoading(true);
-    const email = JSON.parse(localStorage.getItem("LoginEmail") || "{}");
-    try {
-      const res = await loginService.getprogile_subscription_data(email); // Use your service here
-      setPartnerDetails(res.partner_details);
-      intiatForm();
-    } catch (error) {
-      console.error("Error loading profile data:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (partnerDetails.partner_image) {
+      setUploadedImageSrc(partnerDetails.partner_image);
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const params = {
-      email: email,
-      partner_name: editProfileForm.name,
-      phone: editProfileForm.phone,
-      profile_img: "",
-    };
-    try {
-      const res = await loginService.EditProfile(params); // Replace with your API call
-      getDataProfile();
-      // Redirect to profile page
-      window.location.href = "/profile";
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  };
+  }, [partnerDetails.partner_image]);
 
   const onFileInputChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      try {
-        const dataUrl = await fileUploadService.validateAndReadFile(file); // Replace with your service logic
-        setUploadedImageSrc(dataUrl);
-        setEditProfileForm({ ...editProfileForm, image: dataUrl });
-      } catch (error) {
-        console.error("Error reading file:", error.message);
-        resetFileInput();
-      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadedImageSrc(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setEditProfileForm({ ...editProfileForm, profile_img: file });
     }
   };
 
@@ -90,14 +62,47 @@ function EditProfile() {
 
   const resetImage = () => {
     setUploadedImageSrc(null);
-    setEditProfileForm({ ...editProfileForm, image: "" });
+    setEditProfileForm({ ...editProfileForm, profile_img: "" });
     resetFileInput();
   };
+
+  const changeImage = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(editProfileForm);
+    axios.post(`${EDIT_PROFILE}`,  {
+      params: {
+        email: editProfileForm.email,
+        partner_name: editProfileForm.partner_name,
+        phone: editProfileForm.phone,
+        profile_img: editProfileForm.profile_img,
+      },
+    },{
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      console.log(res);
+      if(res.data.result.success) {
+        navigate('/profile');
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  console.log(partnerDetails);
 
   return (
     <>
       <Header />
-      <form onSubmit={handleSubmit} className="flex px-10 md:px-24 gap-10 flex-wrap editForm">
+      <form
+        onSubmit={handleSubmit}
+        className="flex px-10 md:px-24 gap-10 flex-wrap editForm"
+      >
         <div className="mt-14 mb-10 self-center">
           <div className="flex flex-col gap-5 items-center justify-center w-full">
             <label htmlFor="dropzone-file" className="cursor-pointer">
@@ -105,7 +110,7 @@ function EditProfile() {
                 {uploadedImageSrc ? (
                   <img
                     src={uploadedImageSrc}
-                    className="w-[200px] h-[200px] object-contain rounded-3xl"
+                    className="w-[200px] h-[200px] object-cover rounded-full"
                     alt="Uploaded Image"
                   />
                 ) : (
@@ -140,7 +145,10 @@ function EditProfile() {
               />
             </label>
             <div className="flex items-center gap-3 mx-6 space-y-3">
-              <div className="flex items-center gap-3 text-[#27AE60] border p-2 rounded-bl-lg border-[#27AE60] cursor-pointer">
+              <div
+                className="flex items-center gap-3 text-[#27AE60] border p-2 rounded-bl-lg border-[#27AE60] cursor-pointer"
+                onClick={changeImage}
+              >
                 Change <img src={editImg} alt="edit" className="pr-3" />
               </div>
               <div
@@ -148,6 +156,7 @@ function EditProfile() {
                 style={{
                   margin: 0,
                 }}
+                onClick={resetImage}
               >
                 Delete <img src={trash} alt="trash" className="pr-3" />
               </div>
@@ -159,9 +168,9 @@ function EditProfile() {
           <div className="flex flex-col gap-2 mb-4">
             <label className="text-[#8D8D8D]">Name</label>
             <input
-              value={editProfileForm.name}
+              value={editProfileForm?.partner_name}
               onChange={(e) =>
-                setEditProfileForm({ ...editProfileForm, name: e.target.value })
+                setEditProfileForm({ ...editProfileForm, partner_name: e.target.value })
               }
               required
               type="text"
@@ -174,16 +183,19 @@ function EditProfile() {
           <div className="flex flex-col gap-2 mb-4">
             <label className="text-[#8D8D8D]">Company Name</label>
             <input
-              value={editProfileForm.name}
+              value={editProfileForm.company}
               onChange={(e) =>
-                setEditProfileForm({ ...editProfileForm, name: e.target.value })
+                setEditProfileForm({
+                  ...editProfileForm,
+                  company: e.target.value,
+                })
               }
               required
               type="text"
               style={{ width: "400px" }}
               className="py-3 px-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               id="name"
-              placeholder="Name"
+              placeholder="Company Name"
             />
           </div>
           <div className="flex flex-col mb-4">
