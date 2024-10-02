@@ -7,7 +7,7 @@ import { COUNTRIES, SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
 import "./ErpSystem.css";
 import PropTypes from "prop-types";
 
-export default function SelectPackage({ setFlag, setAdds }) {
+export default function SelectPackage({ setFlag, setAdds,setCountriesNames }) {
   // translate
   const { language, setLanguage } = useLanguage();
   //packages
@@ -37,6 +37,7 @@ export default function SelectPackage({ setFlag, setAdds }) {
       .then((res) => {
         // console.log(res.data);
         setCountries(res.data.result);
+        setCountriesNames(res.data.result);
       })
       .catch((err) => {
         console.log(err);

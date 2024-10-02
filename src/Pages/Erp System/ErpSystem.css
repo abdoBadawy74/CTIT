@@ -154,6 +154,13 @@
   }
 }
 /* Create Account  */
+.input-container .passwordInput{
+  padding: 0;
+  border-radius: 8px !important;
+}
+.input-container input {
+  
+}
 @media screen and (max-width: 768px) {
   .account {
     margin: 0 10px;
