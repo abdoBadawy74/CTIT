@@ -25,15 +25,14 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-   
-
     const fetchProfileData = async () => {
       try {
-        const response = await axios.post(`${PROFILE}`,
+        const response = await axios.post(
+          `${PROFILE}`,
           {
             params: {
-              email: "abdobadawy148@gmail.com"
-            }
+              email: localStorage.getItem("LoginEmail").replace(/['"]+/g, ""),
+            },
           },
           {
             headers: {
@@ -42,11 +41,10 @@ const Profile = () => {
           }
         );
         console.log(response);
-        setPartnerDetails(response.data.result.partner_details)
-        setSubscriptionDetails(response.data.result.subscription_details)
-        setBillingHistory(response.data.result.billing_history)
+        setPartnerDetails(response.data.result.partner_details);
+        setSubscriptionDetails(response.data.result.subscription_details);
+        setBillingHistory(response.data.result.billing_history);
         setLoading(false);
-
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }

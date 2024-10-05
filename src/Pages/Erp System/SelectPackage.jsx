@@ -7,7 +7,12 @@ import { COUNTRIES, SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
 import "./ErpSystem.css";
 import PropTypes from "prop-types";
 
-export default function SelectPackage({ setFlag, setAdds,setCountriesNames }) {
+export default function SelectPackage({
+  setFlag,
+  setAdds,
+  setCountriesNames,
+  setSelectedPackageId,
+}) {
   // translate
   const { language, setLanguage } = useLanguage();
   //packages
@@ -118,6 +123,7 @@ export default function SelectPackage({ setFlag, setAdds,setCountriesNames }) {
 
   const onSelectPackage = (card) => {
     setSelectedPackage(card);
+    setSelectedPackageId(card.id);
     localStorage.setItem("selected_package_id", card.id);
     // console.log(selectedPackage);
   };
@@ -292,4 +298,6 @@ export default function SelectPackage({ setFlag, setAdds,setCountriesNames }) {
 SelectPackage.propTypes = {
   setFlag: PropTypes.func,
   setAdds: PropTypes.func,
+  setCountriesNames: PropTypes.func,
+  setSelectedPackageId: PropTypes.func,
 };

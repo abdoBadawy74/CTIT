@@ -7,10 +7,10 @@ export const ERP_PACKGAES = `${BASE}/country_package_pricing`;
 
 // Auth
 export const REGISTER = `${BASE}/action_register`;
-
+export const VERIFY_EMAIL = `${BASE}/verify_email`;
 // Login
 export const LOGIN = `${BASE}/partner_login`;
 
-// Profile 
+// Profile
 export const PROFILE = `${BASE}/profile_subscription_data`;
 export const EDIT_PROFILE = `${BASE}/edit_personal_information`;

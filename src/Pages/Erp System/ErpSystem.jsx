@@ -11,9 +11,9 @@ import axios from "axios";
 import SelectPackage from "./SelectPackage";
 import Adds from "./Adds";
 import CreateAccount from "./CreateAccount";
+import VerifyEmail from "./VerifyEmail";
 
 export default function ErpSystem() {
-
   // translate
   const { language } = useLanguage();
   // states
@@ -21,12 +21,7 @@ export default function ErpSystem() {
   const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
   const [adds, setAdds] = useState([]); // Adds
   const [countriesNames, setCountriesNames] = useState([]); // Countries
-
- 
-  
-  //   verify email
-  const [countdown, setCountdown] = useState(30);
-  const inputRefs = useRef([]);
+  const [SelectedPackageId, setSelectedPackageId] = useState(null); // Selected Package
 
   // The steps and their corresponding labels
   const steps = [
@@ -51,41 +46,6 @@ export default function ErpSystem() {
       setActiveIndex(activeIndex - 1);
     }
   };
-
-
-
-
-
-
-
-
-  
-  
-  //   Verify Email
-  useEffect(() => {
-    // Start countdown
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(timer);
-          return 0; // Stop at 0
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer); // Cleanup on unmount
-  }, []);
-
-  const handleInputChange = (index, event) => {
-    const value = event.target.value;
-
-    // Move focus to the next input field if a character is typed
-    if (value && index < inputRefs.current.length - 1) {
-      inputRefs.current[index + 1].focus();
-    }
-  };
-
 
   return (
     <>
@@ -130,9 +90,7 @@ export default function ErpSystem() {
 
         <button
           className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
-            flag
-              ? "bg-[#0081FE] text-white"
-              : "bg-gray-300 opacity-50"
+            flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
           }`}
           onClick={goToTheNext}
           disabled={flag === false}
@@ -148,80 +106,30 @@ export default function ErpSystem() {
       <div className="step-content">
         {/* ERP Packages */}
         {activeIndex === 0 && (
-          <SelectPackage setFlag={setFlag} setAdds={setAdds} setCountriesNames={setCountriesNames} />
+          <SelectPackage
+            setFlag={setFlag}
+            setAdds={setAdds}
+            setCountriesNames={setCountriesNames}
+            setSelectedPackageId={setSelectedPackageId}
+          />
         )}
         {/* End Erp Packages */}
 
         {/* Start Adds  */}
-        {activeIndex === 1 && (
-         <Adds adds={adds} setFlag={setFlag} />
-        )}
+        {activeIndex === 1 && <Adds adds={adds} setFlag={setFlag} />}
         {/* End Adds */}
 
         {/* Start Create Account */}
         {activeIndex === 2 && (
-          <CreateAccount countriesNames={countriesNames} setFlag={setFlag} />
+          <CreateAccount
+            countriesNames={countriesNames}
+            setFlag={setFlag}
+            SelectedPackageId={SelectedPackageId}
+          />
         )}
 
         {/* Verify Email */}
-        {activeIndex === 3 && (
-          <div className="lg:ml-60 sm:mb-4 mx-auto mt-28 flex flex-col lg:flex-row justify-between items-center verify">
-            <div>
-              <div className="flex flex-col gap-3">
-                <h1 className="text-xl">{t[language].VerifyEmail}</h1>
-                <p className="text-[#8D8D8D] text-sm">
-                  {t[language].check}{" "}
-                  <span className="text-[#002B54]">{/* email variable */}</span>
-                </p>
-              </div>
-              <form className="max-w-[426px]">
-                <div className="flex space-x-8 items-center my-12">
-                  {[...Array(4)].map((_, index) => (
-                    <div key={index}>
-                      <label htmlFor={`code-${index + 1}`} className="sr-only">
-                        {`${index + 1} code`}
-                      </label>
-                      <input
-                        type="text"
-                        maxLength="1"
-                        id={`code-${index + 1}`}
-                        ref={(el) => (inputRefs.current[index] = el)}
-                        className="block font-semibold w-20 h-20 text-2xl text-center text-gray-900 bg-[#ebf0f3] rounded-lg focus:ring-0 outline-0 border-0"
-                        required
-                        onChange={(e) => handleInputChange(index, e)}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center py-4 rounded-lg text-white bg-[#002B54]"
-                  disabled={countdown > 0} // Disable button while countdown is active
-                >
-                  {t[language].Verify}
-                </button>
-
-                <p
-                  id="helper-text-explanation"
-                  className="text-center mt-8 text-gray-500 text-sm"
-                >
-                  {t[language].DontRecieve}{" "}
-                  <span className="text-[#0081FE]">
-                    {t[language].SendAgain}
-                    {countdown > 0 ? `${countdown} seconds` : ""}
-                  </span>
-                </p>
-              </form>
-            </div>
-            <div className="mr-56 hidden lg:block">
-              <img
-                src={VerifyEmailImg}
-                alt="Verify email"
-                className="w-[350px]"
-              />
-            </div>
-          </div>
-        )}
+        {activeIndex === 3 && <VerifyEmail setFlag={setFlag} />}
 
         {/* Payment */}
         {activeIndex === 4 && (

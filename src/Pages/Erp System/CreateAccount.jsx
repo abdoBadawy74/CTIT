@@ -1,6 +1,5 @@
 import { Password } from "primereact/password";
-import { Toast } from "primereact/toast";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import accountImg from "../../assets/account-image.svg";
 // translate
@@ -11,7 +10,12 @@ import axios from "axios";
 import { REGISTER } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 
-export default function CreateAccount({ countriesNames, setFlag }) {
+export default function CreateAccount({
+  countriesNames,
+  setFlag,
+  SelectedPackageId,
+}) {
+  console.log(SelectedPackageId);
   // translate
   const { language } = useLanguage();
 
@@ -20,18 +24,15 @@ export default function CreateAccount({ countriesNames, setFlag }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCountryId, setSelectedCountryId] = useState(null);
+  const [btnDisabled, setBtnDisabled] = useState();
 
   const {
     register,
     handleSubmit,
+    getValues,
     setValue,
+    watch,
     formState: { errors },
-
-    /*
-    Missing Required Data ['email', 'partner_name', 'phone', 'password', 'confirm_password', 'sub_domain', 'country_id', 
-    'subscription_type', 'plan_id', 'pre_subscription_line_ids', 'company_name']
-    
-    */
   } = useForm({
     defaultValues: {
       partner_name: "",
@@ -48,9 +49,9 @@ export default function CreateAccount({ countriesNames, setFlag }) {
       subscription_type: "new",
       plan_id: 3,
       pre_subscription_line_ids: {
-        product_id: 1,
-        discount: 2.0212,
-        quantity: 1,
+        product_id: "",
+        discount: "",
+        quantity: "",
       },
     },
   });
@@ -97,6 +98,14 @@ export default function CreateAccount({ countriesNames, setFlag }) {
     setValue("profile_img", null);
   };
 
+  useEffect(() => {
+    // show toast if any field required not write
+
+    if (!getValues) {
+      toast.error("Please Enter Require Info !");
+    }
+  }, [getValues]);
+
   const onSubmit = (formData) => {
     // Ensure required fields are included and formatted
     const data = {
@@ -106,39 +115,43 @@ export default function CreateAccount({ countriesNames, setFlag }) {
       plan_id: formData.plan_id || 3, // default plan ID
       pre_subscription_line_ids: [
         {
-          product_id: 1, // hardcoded or dynamic product ID
-          discount: 2.0212,
+          product_id: SelectedPackageId.id, // hardcoded or dynamic product ID
+          discount: 0,
           quantity: 1,
         },
       ],
     };
 
-    console.log("Submitting Data:", data);
+    if (!data.acceptPolicy) {
+      toast.error("Please accept policies");
+    } else {
+      console.log("Submitting Data:", data);
 
-    // Send data to the server
-    axios
-      .post(
-        REGISTER, // Correct API endpoint
-        { params: data }, // Send `data` directly as body, not inside `params`
-        {
-          headers: {
-            "Content-Type": "application/json", // Correct header field
-          },
-        }
-      )
-      .then((res) => {
-        console.log("Response:", res);
-        if (res.data.result.sent) {
-          toast.success("Account created, Click next to verify your email");
-          localStorage.setItem("email", JSON.stringify(data.email));
-          setFlag(true);
-        } else {
-          toast.error("Error creating account");
-        }
-      })
-      .catch((err) => {
-        console.error("Error:", err);
-      });
+      // Send data to the server
+      axios
+        .post(
+          REGISTER, // Correct API endpoint
+          { params: data }, // Send `data` directly as body, not inside `params`
+          {
+            headers: {
+              "Content-Type": "application/json", // Correct header field
+            },
+          }
+        )
+        .then((res) => {
+          console.log("Response:", res);
+          if (res.data.result.sent) {
+            toast.success("Account created, Click next to verify your email");
+            localStorage.setItem("email", JSON.stringify(data.email));
+            setFlag(true);
+          } else {
+            toast.error("Error creating account");
+          }
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+        });
+    }
   };
 
   return (
@@ -370,7 +383,7 @@ export default function CreateAccount({ countriesNames, setFlag }) {
               </div>
             </div>
             <div className="p-6">
-              <label className="flex items-center space-x-2">
+              <label className="flex item         space-x-2">
                 <input
                   type="checkbox"
                   {...register("acceptPolicy")}
@@ -381,7 +394,14 @@ export default function CreateAccount({ countriesNames, setFlag }) {
             </div>
             <button
               type="submit"
-              className="px-5 py-5 bg-blue-500 text-white rounded-md"
+              className={`py-3 px-6 rounded-md w-full text-white font-bold
+                ${
+                  btnDisabled
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-700"
+                }
+              `}
+              disabled={btnDisabled}
             >
               {t[language].Submit}
             </button>
@@ -398,4 +418,5 @@ export default function CreateAccount({ countriesNames, setFlag }) {
 CreateAccount.propTypes = {
   countriesNames: PropTypes.array.isRequired,
   setFlag: PropTypes.func.isRequired,
+  SelectedPackageId: PropTypes.object.isRequired,
 };

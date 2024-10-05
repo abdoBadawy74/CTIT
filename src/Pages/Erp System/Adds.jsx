@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
@@ -15,9 +15,9 @@ export default function Adds({ adds, setFlag }) {
     setSelectedAddId(cardId === selectedAddId ? null : cardId);
   };
 
-  if (selectedAddId) {
+  useEffect(() => {
     setFlag(true);
-  }
+  }, [selectedAddId]);
 
   return (
     <div>
