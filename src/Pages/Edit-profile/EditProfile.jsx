@@ -3,9 +3,10 @@ import Header from "../../Components/Header";
 import editImg from "../../assets/edit-icon.svg";
 import trash from "../../assets/deleteIcon.svg";
 import "./Edit.css";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EDIT_PROFILE } from "../../Api/Api";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 
 function EditProfile() {
   // get the partner details from the location state
@@ -17,7 +18,7 @@ function EditProfile() {
     email: "",
     partner_name: "",
     phone: "",
-    company: "",
+    partner_company_name: "",
     profile_img: "",
   });
 
@@ -37,20 +38,23 @@ function EditProfile() {
   const imageInputRef = useRef(null);
 
   useEffect(() => {
-    if (partnerDetails.partner_image) {
-      setUploadedImageSrc(partnerDetails.partner_image);
+    if (partnerDetails[0].partner_image) {
+      setUploadedImageSrc(partnerDetails[0].partner_image);
     }
   }, [partnerDetails.partner_image]);
+
+  console.log(uploadedImageSrc);
 
   const onFileInputChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setUploadedImageSrc(reader.result);
+        const base64String = reader.result.split(",")[1]; // Only take the Base64 part
+        setUploadedImageSrc(reader.result); // Display the uploaded image
+        setEditProfileForm({ ...editProfileForm, profile_img: base64String }); // Store the Base64 string in state
       };
       reader.readAsDataURL(file);
-      setEditProfileForm({ ...editProfileForm, profile_img: file });
     }
   };
 
@@ -73,25 +77,37 @@ function EditProfile() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(editProfileForm);
-    axios.post(`${EDIT_PROFILE}`,  {
-      params: {
-        email: editProfileForm.email,
-        partner_name: editProfileForm.partner_name,
-        phone: editProfileForm.phone,
-        profile_img: editProfileForm.profile_img,
-      },
-    },{
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      console.log(res);
-      if(res.data.result.success) {
-        navigate('/profile');
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    axios
+      .post(
+        `${EDIT_PROFILE}`,
+        {
+          params: {
+            email: editProfileForm.email,
+            partner_name: editProfileForm.partner_name,
+            phone: editProfileForm.phone,
+            profile_img: editProfileForm.profile_img,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.result.success) {
+          toast.success("Profile updated successfully");
+          setTimeout(() => {
+            navigate("/profile");
+          }, 2000);
+        } else {
+          toast.error("Error updating profile, please try again");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   console.log(partnerDetails);
@@ -99,6 +115,7 @@ function EditProfile() {
   return (
     <>
       <Header />
+      <ToastContainer />
       <form
         onSubmit={handleSubmit}
         className="flex px-10 md:px-24 gap-10 flex-wrap editForm"
@@ -109,7 +126,7 @@ function EditProfile() {
               <div className="flex flex-col items-center justify-center">
                 {uploadedImageSrc ? (
                   <img
-                    src={uploadedImageSrc}
+                    src={`data:image/jpeg;base64,${uploadedImageSrc}`}
                     className="w-[200px] h-[200px] object-cover rounded-full"
                     alt="Uploaded Image"
                   />
@@ -170,7 +187,10 @@ function EditProfile() {
             <input
               value={editProfileForm?.partner_name}
               onChange={(e) =>
-                setEditProfileForm({ ...editProfileForm, partner_name: e.target.value })
+                setEditProfileForm({
+                  ...editProfileForm,
+                  partner_name: e.target.value,
+                })
               }
               required
               type="text"

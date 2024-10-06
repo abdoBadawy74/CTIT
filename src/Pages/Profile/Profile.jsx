@@ -123,7 +123,7 @@ const Profile = () => {
               >
                 <div className="flex items-center mb-5 mr-4 info flex-wrap">
                   <img
-                    src={profileImg}
+                    src={`data:image/jpeg;base64,${partner.partner_image}`}
                     alt="Profile"
                     className="rounded-lg"
                     style={{ width: "100px", height: "100px" }}

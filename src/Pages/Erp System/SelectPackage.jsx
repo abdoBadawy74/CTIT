@@ -40,7 +40,7 @@ export default function SelectPackage({
         },
       })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setCountries(res.data.result);
         setCountriesNames(res.data.result);
       })
