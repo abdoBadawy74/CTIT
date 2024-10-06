@@ -7,6 +7,7 @@ import Adds from "./Pages/Adds/Adds";
 import EditProfile from "./Pages/Edit-profile/EditProfile";
 import Support from "./Pages/Support/Support";
 import LanguageProvider from "./Context/LanguageProvider";
+import ChangePass from "./Pages/Change Pass/ChangePass";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
 
         <Route path="/landing" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/change-password" element={<ChangePass />} />
         <Route path="/support" element={<Support />} />
 
         <Route path="/profile" element={<Profile />} />

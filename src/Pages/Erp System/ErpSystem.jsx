@@ -16,7 +16,7 @@ export default function ErpSystem() {
   // translate
   const { language } = useLanguage();
   // states
-  const [activeIndex, setActiveIndex] = useState(4); // Step control
+  const [activeIndex, setActiveIndex] = useState(3); // Step control
   const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
   const [adds, setAdds] = useState([]); // Adds
   const [countriesNames, setCountriesNames] = useState([]); // Countries

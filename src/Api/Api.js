@@ -10,6 +10,7 @@ export const REGISTER = `${BASE}/action_register`;
 export const VERIFY_EMAIL = `${BASE}/verify_email`;
 // Login
 export const LOGIN = `${BASE}/partner_login`;
+export const CHANGE_PASSWORD = `${BASE}/change_password`;
 
 // Profile
 export const PROFILE = `${BASE}/profile_subscription_data`;

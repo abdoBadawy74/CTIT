@@ -65,7 +65,9 @@ const Header = () => {
   const logout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("LoginEmail");
+    // reload the page
     navigate("/landing");
+    window.location.reload();
   };
 
   return (
@@ -123,18 +125,21 @@ const Header = () => {
                         <Link
                           to={"/edit-profile"}
                           state={partnerDetails}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded"
+                          className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center"
                         >
+                          <span className="pi pi-user text-gray-700 mr-2"></span>
                           Edit Profile
                         </Link>
                       </li>
                       <li>
-                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">
+                        <Link to={"/change-password"} className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center">
+                        <span className="pi pi-lock text-gray-700 mr-2"></span>
                           Change Password
-                        </a>
+                        </Link>
                       </li>
-                      <li>
-                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">
+                      <li onClick={logout}>
+                        <a className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center">
+                        <span className="pi pi-sign-out text-gray-700 mr-2"></span>
                           Sign Out
                         </a>
                       </li>
