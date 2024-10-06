@@ -40,7 +40,7 @@ const Profile = () => {
             },
           }
         );
-        console.log(response);
+        // console.log(response);
         setPartnerDetails(response.data.result.partner_details);
         setSubscriptionDetails(response.data.result.subscription_details);
         setBillingHistory(response.data.result.billing_history);
@@ -52,38 +52,6 @@ const Profile = () => {
 
     fetchProfileData();
   }, []);
-
-  // const fetchProfileData = () => {
-  //   // Mock function to simulate data fetching
-  //   setTimeout(() => {
-  //     setPartnerDetails([
-  //       {
-  //         partner_name: "Partner 1",
-  //         partner_phone: "123-456-789",
-  //         partner_email: "partner@example.com",
-  //         partner_company_name: "Company XYZ",
-  //       },
-  //     ]);
-  //     setSubscriptionDetails([
-  //       {
-  //         subs_name: "Basic Plan",
-  //         subs_amount: "100$",
-  //         subs_state: "Active",
-  //         subs_renew_date: "01/01/2025",
-  //         db_link: "https://db-link.com",
-  //       },
-  //     ]);
-  //     setBillingHistory([
-  //       {
-  //         bill_state: "Paid",
-  //         bill_name: "Invoice #1",
-  //         bill_creation_date: "01/01/2024",
-  //         bill_amount: "100$",
-  //       },
-  //     ]);
-  //     setLoading(false);
-  //   }, 1000);
-  // };
 
   const toggleDetails = () => setShowDetails(!showDetails);
 
@@ -108,7 +76,7 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
+      <Header profileData={partnerDetails} />
       {loading ? (
         <div className="text-center">
           <div>Loading...</div> {/* Replace with spinner component */}
@@ -125,7 +93,7 @@ const Profile = () => {
                   <img
                     src={`data:image/jpeg;base64,${partner.partner_image}`}
                     alt="Profile"
-                    className="rounded-lg"
+                    className="rounded-lg object-cover"
                     style={{ width: "100px", height: "100px" }}
                   />
                   <div>

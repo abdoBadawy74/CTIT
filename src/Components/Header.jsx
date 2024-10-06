@@ -4,34 +4,36 @@ import axios from "axios";
 import logo from "../assets/image-2.png";
 import useLanguage from "../Context/useLanguage";
 import t from "../translation/translation";
+import PropTypes from "prop-types";
+import { PROFILE } from "../Api/Api";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState();
-  const [userData, setUserData] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Added state for menu toggle
-  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const savedEmail = JSON.parse(localStorage.getItem("LoginEmail"));
-    setEmail(savedEmail);
     setIsLoggedIn(savedEmail === null ? false : true);
-
-    if (savedEmail) {
-      getDataProfile(savedEmail);
-    }
   }, []);
 
-  const getDataProfile = async (email) => {
-    const res = await axios.get(`API_ENDPOINT`, { params: { email } });
-    setUserData(res.data.partner_details[0]);
-  };
-
-  const logout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("LoginEmail");
-    navigate("/landing");
-  };
+  // get profile data
+  const [profileData, setProfileData] = useState([]);
+  useEffect(() => {
+    axios
+      .post(`${PROFILE}`, {
+        params: {
+          email: JSON.parse(localStorage.getItem("LoginEmail")),
+        },
+      })
+      .then((response) => {
+        // console.log(response);
+        setProfileData(response.data.result.partner_details[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -39,7 +41,6 @@ const Header = () => {
 
   // Language context
   const { language, setLanguage } = useLanguage();
-
   const handleLanguageChange = (event) => {
     const selectedLanguage = event.target.value; // Get the selected language from the event
     setLanguage(selectedLanguage);
@@ -53,6 +54,12 @@ const Header = () => {
       setLanguage(savedLanguage);
     }
   }, [setLanguage]);
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("LoginEmail");
+    navigate("/landing");
+  };
 
   return (
     <>
@@ -78,8 +85,51 @@ const Header = () => {
               <option value="ar">AR</option>
             </select>
             {isLoggedIn ? (
-              <div className="bg-gray-400 w-[40px] h-[40px] rounded-full">
-                
+              <div className="cursor-pointer relative" onClick={toggleMenu}>
+                {profileData?.partner_image ? (
+                  <img
+                    src={`data:image/jpeg;base64,${profileData?.partner_image}`}
+                    className="w-[40px] h-[40px] rounded-full"
+                    alt="Profile Image"
+                  />
+                ) : (
+                  <div className="bg-gray-400 w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold">
+                    <p>{profileData?.partner_name.slice(0, 1).toUpperCase()}</p>
+                  </div>
+                )}
+                {/* Dropdown menu  */}
+                {isMenuOpen && (
+                  <div
+                    className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-[fit-content] absolute top-8 right-0 px-2 py-2 "
+                    id="user-dropdown"
+                  >
+                    <div className="px-4 py-3 border-b border-b-gray-300">
+                      <span className="block text-sm text-gray-900 ">
+                        {profileData?.partner_name}
+                      </span>
+                      <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                        {profileData?.partner_email}
+                      </span>
+                    </div>
+                    <ul className="py-2" aria-labelledby="user-menu-button">
+                      <li>
+                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">
+                          Edit Profile
+                        </a>
+                      </li>
+                      <li>
+                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">
+                          Change Password
+                        </a>
+                      </li>
+                      <li>
+                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">
+                          Sign Out
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             ) : (
               <div>
