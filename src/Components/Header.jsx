@@ -10,6 +10,8 @@ import { PROFILE } from "../Api/Api";
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Added state for menu toggle
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [partnerDetails, setPartnerDetails] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ const Header = () => {
       .then((response) => {
         // console.log(response);
         setProfileData(response.data.result.partner_details[0]);
+        setPartnerDetails(response.data.result.partner_details[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -37,6 +40,10 @@ const Header = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const dropDownMenu = () => {
+    setIsDropDownOpen(!isDropDownOpen);
   };
 
   // Language context
@@ -85,7 +92,7 @@ const Header = () => {
               <option value="ar">AR</option>
             </select>
             {isLoggedIn ? (
-              <div className="cursor-pointer relative" onClick={toggleMenu}>
+              <div className="cursor-pointer relative" onClick={dropDownMenu}>
                 {profileData?.partner_image ? (
                   <img
                     src={`data:image/jpeg;base64,${profileData?.partner_image}`}
@@ -94,11 +101,11 @@ const Header = () => {
                   />
                 ) : (
                   <div className="bg-gray-400 w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold">
-                    <p>{profileData?.partner_name.slice(0, 1).toUpperCase()}</p>
+                    <p>{profileData.partner_name?.slice(0, 1).toUpperCase()}</p>
                   </div>
                 )}
                 {/* Dropdown menu  */}
-                {isMenuOpen && (
+                {isDropDownOpen && (
                   <div
                     className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-[fit-content] absolute top-8 right-0 px-2 py-2 "
                     id="user-dropdown"
@@ -113,9 +120,13 @@ const Header = () => {
                     </div>
                     <ul className="py-2" aria-labelledby="user-menu-button">
                       <li>
-                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">
+                        <Link
+                          to={"/edit-profile"}
+                          state={partnerDetails}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded"
+                        >
                           Edit Profile
-                        </a>
+                        </Link>
                       </li>
                       <li>
                         <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded">

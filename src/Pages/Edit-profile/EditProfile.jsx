@@ -12,6 +12,7 @@ function EditProfile() {
   // get the partner details from the location state
   const location = useLocation();
   const partnerDetails = location.state;
+  console.log(partnerDetails);
   const navigate = useNavigate();
   // set the initial state of the edit profile form
   const [editProfileForm, setEditProfileForm] = useState({
@@ -25,11 +26,11 @@ function EditProfile() {
   useEffect(() => {
     if (partnerDetails) {
       setEditProfileForm({
-        email: partnerDetails[0].partner_email,
-        partner_name: partnerDetails[0].partner_name,
-        phone: partnerDetails[0].partner_phone,
-        company: partnerDetails[0].partner_company_name,
-        profile_img: partnerDetails[0].partner_image,
+        email: partnerDetails?.partner_email,
+        partner_name: partnerDetails?.partner_name,
+        phone: partnerDetails?.partner_phone,
+        company: partnerDetails?.partner_company_name,
+        profile_img: partnerDetails?.partner_image,
       });
     }
   }, []);
@@ -38,10 +39,10 @@ function EditProfile() {
   const imageInputRef = useRef(null);
 
   useEffect(() => {
-    if (partnerDetails[0].partner_image) {
-      setUploadedImageSrc(partnerDetails[0].partner_image);
+    if (partnerDetails?.partner_image) {
+      setUploadedImageSrc(partnerDetails?.partner_image);
     }
-  }, [partnerDetails.partner_image]);
+  }, [partnerDetails?.partner_image]);
 
   console.log(uploadedImageSrc);
 

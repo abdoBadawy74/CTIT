@@ -4,7 +4,7 @@ import Footer from "../../Components/Footer/Footer";
 import "./Profile.css";
 import profileImg from "../../assets/profile_img.png";
 import exportImg from "../../assets/export.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import editIcon from "../../assets/edit-icon.svg";
 // translate
 import useLanguage from "../../Context/useLanguage";
@@ -76,7 +76,7 @@ const Profile = () => {
 
   return (
     <>
-      <Header profileData={partnerDetails} />
+      <Header />
       {loading ? (
         <div className="text-center">
           <div>Loading...</div> {/* Replace with spinner component */}
@@ -115,13 +115,14 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                <div
+                <Link
+                  to="/edit-profile"
                   className="flex gap-2 items-center border border-[#27AE60] w-fit p-2 rounded text-[#27AE60] cursor-pointer"
-                  onClick={goToEdit}
+                  state={partnerDetails[0]}
                 >
                   {t[language].EditProfile}
                   <img src={editIcon} alt="" />
-                </div>
+                </Link>
               </div>
             ))}
 
