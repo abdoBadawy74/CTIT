@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/image-2.png";
 import useLanguage from "../Context/useLanguage";
 import t from "../translation/translation";
-import PropTypes from "prop-types";
 import { PROFILE } from "../Api/Api";
 
 const Header = () => {
@@ -132,14 +131,17 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to={"/change-password"} className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center">
-                        <span className="pi pi-lock text-gray-700 mr-2"></span>
+                        <Link
+                          to={"/change-password"}
+                          className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center"
+                        >
+                          <span className="pi pi-lock text-gray-700 mr-2"></span>
                           Change Password
                         </Link>
                       </li>
                       <li onClick={logout}>
                         <a className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center">
-                        <span className="pi pi-sign-out text-gray-700 mr-2"></span>
+                          <span className="pi pi-sign-out text-gray-700 mr-2"></span>
                           Sign Out
                         </a>
                       </li>

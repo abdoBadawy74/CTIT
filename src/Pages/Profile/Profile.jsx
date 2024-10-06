@@ -70,9 +70,6 @@ const Profile = () => {
     navigate("/adds");
   };
 
-  const goToEdit = () => {
-    navigate("/edit-profile", { state: partnerDetails });
-  };
 
   return (
     <>
