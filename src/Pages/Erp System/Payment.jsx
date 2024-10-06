@@ -10,24 +10,20 @@ export default function Payment() {
   // translate
   const { language } = useLanguage();
 
-
-  useEffect(()=>{
-    axios.post("https://aldaifii.ctit.com.sa/saas/available_online_payment",{
-        headers:{
-            "Content-Type":"application/json"
-        }
-    }).then((response)=>{
+  useEffect(() => {
+    axios
+      .post("https://aldaifii.ctit.com.sa/saas/available_online_payment", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
         console.log(response.data);
-    }).catch((error)=>{
+      })
+      .catch((error) => {
         console.log(error);
-    })
-  },[])
-
-
-
-
-
-
+      });
+  }, []);
 
   return (
     <div className="bg-[#F8F9F9] pt-15 pb-15 payment">

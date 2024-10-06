@@ -17,7 +17,7 @@ export default function Landing() {
       <WorkComponent />
       <ServicesComponent />
       <ContactComponent />
-      <FooterComponent/>
+      <FooterComponent />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "../../Components/Header";
 import editImg from "../../assets/edit-icon.svg";
 import trash from "../../assets/deleteIcon.svg";

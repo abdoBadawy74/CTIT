@@ -46,7 +46,8 @@ const t = {
     services_head:
       "We have a wide range of services that you may be interested in.",
     ViewAll: "View All",
-    Contact_desc:"We would love to hear from you! Whether you have a question, feedback,or simply want to say hello, feel free to reach out to us using the contact information below. Our dedicated team is here to assist you and provide the information you need.",
+    Contact_desc:
+      "We would love to hear from you! Whether you have a question, feedback,or simply want to say hello, feel free to reach out to us using the contact information below. Our dedicated team is here to assist you and provide the information you need.",
     Name: "Name",
     Email: "Email",
     Message: "Message",
@@ -57,7 +58,8 @@ const t = {
     Service: "Service",
     Address1: "United St, Alsahel Albahary",
     Address2: "Tema, Sohag ",
-    Footer_desc:"Hello, we are Lift Media. Our goal is to translate the positive effects from revolutionizing how companies engage with their clients & their team.",
+    Footer_desc:
+      "Hello, we are Lift Media. Our goal is to translate the positive effects from revolutionizing how companies engage with their clients & their team.",
     Terms: "Terms",
     Privacy: "Privacy",
     CooKies: "Cookies",
@@ -162,7 +164,7 @@ const t = {
     Offer: "عرض خاص",
     Off: "خصم 40%",
     Subscribe: "اشترك الآن",
-    
+
     Services_desc:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id interdum dui mollis. Suspendisse nulla: ",
     LearnMore: "اعرف أكثر",
@@ -183,7 +185,8 @@ const t = {
     Join: "انضم واشترك الآن",
     services_head: "لدينا مجموعة واسعة من الخدمات التي قد تهمك.",
     ViewAll: "عرض الكل",
-    Contact_desc:"نحن نحب أن نسمع منك! سواء كان لديك سؤال أو تعليق أو ترغب ببساطة في قول مرحبًا ، فلا تتردد في التواصل معنا باستخدام معلومات الاتصال أدناه. فريقنا المخصص هنا لمساعدتك وتقديم المعلومات التي تحتاج إليها.",
+    Contact_desc:
+      "نحن نحب أن نسمع منك! سواء كان لديك سؤال أو تعليق أو ترغب ببساطة في قول مرحبًا ، فلا تتردد في التواصل معنا باستخدام معلومات الاتصال أدناه. فريقنا المخصص هنا لمساعدتك وتقديم المعلومات التي تحتاج إليها.",
     Name: "الاسم",
     Email: "البريد الإلكتروني",
     Message: "الرسالة",
@@ -194,7 +197,8 @@ const t = {
     Service: "الخدمة",
     Address1: "الولايات المتحدة ، الصاحل البحري",
     Address2: "تيما ، سوهاج",
-    Footer_desc:"مرحبًا ، نحن ليفت ميديا. هدفنا هو ترجمة التأثيرات الإيجابية من تحويل كيفية تفاعل الشركات مع عملائها وفريقها.",
+    Footer_desc:
+      "مرحبًا ، نحن ليفت ميديا. هدفنا هو ترجمة التأثيرات الإيجابية من تحويل كيفية تفاعل الشركات مع عملائها وفريقها.",
     Terms: "الشروط",
     Privacy: "الخصوصية",
     CooKies: "الكوكيز",

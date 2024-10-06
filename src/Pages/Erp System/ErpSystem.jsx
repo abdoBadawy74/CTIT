@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ErpSystem.css";
 
-
 // translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";

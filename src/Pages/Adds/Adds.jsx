@@ -9,7 +9,7 @@ import t from "../../translation/translation";
 
 export default function Adds() {
   // translate
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   // states
   const [activeIndex, setActiveIndex] = useState(0); // Step control
   const [selectedAddId, setSelectedAddId] = useState(null);
@@ -74,12 +74,8 @@ export default function Adds() {
         }}
       >
         <div className="pl-7">
-          <h4 className="font-medium">
-            {t[language].Adds}
-          </h4>
-          <p className="text-[#8D8D8D] text-sm">
-            {t[language].NewAdds_desc}
-          </p>
+          <h4 className="font-medium">{t[language].Adds}</h4>
+          <p className="text-[#8D8D8D] text-sm">{t[language].NewAdds_desc}</p>
         </div>
         <button
           className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all bg-[#0081FE] text-white ${
@@ -140,7 +136,9 @@ export default function Adds() {
                     }`}
                     onClick={() => toggleSelectionAdd(card.id)}
                   >
-                    {selectedAddId === card.id ? t[language].Selected : t[language].Select}
+                    {selectedAddId === card.id
+                      ? t[language].Selected
+                      : t[language].Select}
                   </button>
                 </div>
               ))}

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer/Footer";
 import "./Profile.css";
-import profileImg from "../../assets/profile_img.png";
 import exportImg from "../../assets/export.png";
 import { Link, useNavigate } from "react-router-dom";
 import editIcon from "../../assets/edit-icon.svg";
@@ -14,7 +13,7 @@ import { PROFILE } from "../../Api/Api";
 
 const Profile = () => {
   // translate
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
 
   const [loading, setLoading] = useState(true);
   const [partnerDetails, setPartnerDetails] = useState([]);
@@ -69,7 +68,6 @@ const Profile = () => {
   const goToAdd = () => {
     navigate("/adds");
   };
-
 
   return (
     <>

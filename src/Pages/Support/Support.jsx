@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "../../Components/Header";
 import FooterComponent from "../../Components/Footer/Footer";
 import emoji from "../../assets/Emoji.svg";
@@ -10,7 +10,7 @@ import t from "../../translation/translation";
 
 export default function Support() {
   // translate
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);

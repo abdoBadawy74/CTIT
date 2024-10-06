@@ -1,5 +1,5 @@
 import { Password } from "primereact/password";
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import accountImg from "../../assets/account-image.svg";
 // translate
@@ -31,7 +31,7 @@ export default function CreateAccount({
     handleSubmit,
     getValues,
     setValue,
-    watch,
+
     formState: { errors },
   } = useForm({
     defaultValues: {
