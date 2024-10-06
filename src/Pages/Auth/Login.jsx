@@ -1,21 +1,24 @@
 import { useState, startTransition, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/image-2.png";
-// translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
-import { LOGIN } from "../../Api/Api";
+import { FORGET_PASSWORD, LOGIN } from "../../Api/Api";
 
 const Login = () => {
   // translate
   const { language, setLanguage } = useLanguage();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const navigate = useNavigate();
 
@@ -30,7 +33,6 @@ const Login = () => {
     e.preventDefault();
 
     console.log(formData);
-    // Wrap the asynchronous task inside startTransition
     startTransition(() => {
       axios
         .post(`${LOGIN}`, {
@@ -44,7 +46,6 @@ const Login = () => {
           if (response.data.result.login) {
             toast.success("Login successful, redirecting...");
             localStorage.setItem("LoginEmail", JSON.stringify(formData.email));
-            // wait for the toast to disappear before navigating
             setTimeout(() => {
               navigate("/profile");
             }, 2000);
@@ -63,22 +64,31 @@ const Login = () => {
   };
 
   const handleForgetPassword = () => {
-    if (!formData.email) {
+    setIsPopupOpen(true);
+  };
+
+  // Forgot password functionality
+
+  const handleSendForgotPassword = () => {
+    if (!forgotEmail) {
       toast.info("Please enter your email");
       return;
     }
 
     axios
-      .post("https://aldaifii.ctit.com.sa/saas/forget_password", {
-        Headers: {
-          "Content-Type": "application/json",
+      .post(`${FORGET_PASSWORD}`, {
+        params: {
+          email: forgotEmail,
         },
       })
       .then((response) => {
-        if (response.data.sent) {
-          toast.success(response.data.msg);
+        console.log(response);
+        if (response.data.result.sent) {
+          toast.success(response.data.result.msg);
+          setIsPopupOpen(false); // Close popup after successful response
+          setForgotEmail(""); // Clear the email field
         } else {
-          toast.error(response.data.msg);
+          toast.error("Email not found");
         }
       })
       .catch((error) => {
@@ -94,7 +104,6 @@ const Login = () => {
 
   return (
     <section className="bg-gray-50">
-      {/* Add ToastContainer here */}
       <ToastContainer />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
@@ -173,6 +182,48 @@ const Login = () => {
           </div>
         </div>
       </div>
+
+      {/* Popup for forget password */}
+      {isPopupOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[400px]">
+            <h2 className="text-center text-lg font-bold mb-4">
+              Forgot Password
+            </h2>
+            <div className="mb-4">
+              <label htmlFor="forgotEmail" className="block text-gray-700">
+                Email Address:
+              </label>
+              <input
+                type="email"
+                id="forgotEmail"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={() => {
+                  setIsPopupOpen(false);
+                  setForgotEmail("");
+                }}
+                className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSendForgotPassword}
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+              >
+                change password
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

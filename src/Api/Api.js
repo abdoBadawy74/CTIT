@@ -11,6 +11,7 @@ export const VERIFY_EMAIL = `${BASE}/verify_email`;
 // Login
 export const LOGIN = `${BASE}/partner_login`;
 export const CHANGE_PASSWORD = `${BASE}/change_password`;
+export const FORGET_PASSWORD = `${BASE}/forget_password`;
 
 // Profile
 export const PROFILE = `${BASE}/profile_subscription_data`;
