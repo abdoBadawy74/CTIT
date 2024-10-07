@@ -39,7 +39,7 @@ const Profile = () => {
             },
           }
         );
-        // console.log(response);
+        console.log(response);
         setPartnerDetails(response.data.result.partner_details);
         setSubscriptionDetails(response.data.result.subscription_details);
         setBillingHistory(response.data.result.billing_history);
@@ -85,12 +85,21 @@ const Profile = () => {
                 className="flex items-center justify-between flex-wrap px-3"
               >
                 <div className="flex items-center mb-5 mr-4 info flex-wrap">
-                  <img
-                    src={`data:image/jpeg;base64,${partner.partner_image}`}
-                    alt="Profile"
-                    className="rounded-lg object-cover"
-                    style={{ width: "100px", height: "100px" }}
-                  />
+                  {partner.partner_image ? (
+                    <img
+                      src={`data:image/jpeg;base64,${partner.partner_image}`}
+                      alt="Profile"
+                      className="rounded-lg object-cover"
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  ) : (
+                    <img
+                      src={`https://ui-avatars.com/api/?name=${partner.partner_name}`}
+                      alt="Profile"
+                      className="rounded-lg object-cover"
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  )}
                   <div>
                     <h2 className="text-xl font-semibold pl-4">
                       {partner.partner_name}
