@@ -111,14 +111,14 @@ const Header = () => {
                     className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-[fit-content] absolute top-8 right-0 px-2 py-2 "
                     id="user-dropdown"
                   >
-                    <div className="px-4 py-3 border-b border-b-gray-300">
+                    <Link to={"/profile"} className="block px-4 py-3 border-b border-b-gray-300">
                       <span className="block text-sm text-gray-900 ">
                         {profileData?.partner_name}
                       </span>
                       <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
                         {profileData?.partner_email}
                       </span>
-                    </div>
+                    </Link>
                     <ul className="py-2" aria-labelledby="user-menu-button">
                       <li>
                         <Link
