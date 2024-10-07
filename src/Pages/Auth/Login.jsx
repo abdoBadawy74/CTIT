@@ -1,5 +1,5 @@
 import { useState, startTransition, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -170,13 +170,13 @@ const Login = () => {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 {t[language]?.NoAccount}{" "}
-                <a
-                  href="/landing"
+                <Link
+                  to="/landing"
                   className="font-medium text-blue-600 hover:underline dark:text-primary-500 cursor-pointer"
                 >
                   {" "}
                   {t[language]?.SignUP}
-                </a>
+                </Link>
               </p>
             </form>
           </div>
