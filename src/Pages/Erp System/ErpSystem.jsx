@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ErpSystem.css";
 
 // translate
@@ -14,20 +14,36 @@ import Payment from "./Payment";
 export default function ErpSystem() {
   // translate
   const { language } = useLanguage();
+
   // states
   const [activeIndex, setActiveIndex] = useState(0); // Step control
   const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
   const [adds, setAdds] = useState([]); // Adds
   const [countriesNames, setCountriesNames] = useState([]); // Countries
   const [SelectedPackageId, setSelectedPackageId] = useState(null); // Selected Package
+  const [steps, setSteps] = useState([]); // Dynamic steps
 
-  // The steps and their corresponding labels
-  const steps = [
-    { label: t[language].Package },
-    { label: t[language].Adds },
-    { label: t[language].CreateAcount },
-    { label: t[language].Email },
-  ];
+  // Check if LoginEmail exists in local storage
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("LoginEmail");
+
+    if (isLoggedIn) {
+      // If user is logged in, only show Package, Adds, and Payment
+      setSteps([
+        { label: t[language].Package },
+        { label: t[language].Adds },
+        { label: t[language].Payment },
+      ]);
+    } else {
+      // If user is not logged in, show all steps
+      setSteps([
+        { label: t[language].Package },
+        { label: t[language].Adds },
+        { label: t[language].CreateAcount },
+        { label: t[language].Confirm_Email },
+      ]);
+    }
+  }, [language]);
 
   //   move to the next step
   const goToTheNext = () => {
@@ -85,7 +101,7 @@ export default function ErpSystem() {
           </button>
         )}
 
-        {activeIndex < 3 && (
+        {activeIndex < steps.length - 1 && (
           <button
             className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
               flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
@@ -101,7 +117,6 @@ export default function ErpSystem() {
       {/* End of Steps  */}
 
       {/* Step content */}
-
       <div className="step-content">
         {/* ERP Packages */}
         {activeIndex === 0 && (
@@ -118,8 +133,8 @@ export default function ErpSystem() {
         {activeIndex === 1 && <Adds adds={adds} setFlag={setFlag} />}
         {/* End Adds */}
 
-        {/* Start Create Account */}
-        {activeIndex === 2 && (
+        {/* Conditional rendering for Create Account and Verify Email */}
+        {!localStorage.getItem("LoginEmail") && activeIndex === 2 && (
           <CreateAccount
             countriesNames={countriesNames}
             setFlag={setFlag}
@@ -127,11 +142,12 @@ export default function ErpSystem() {
           />
         )}
 
-        {/* Verify Email */}
-        {activeIndex === 3 && <VerifyEmail setFlag={setFlag} />}
+        {!localStorage.getItem("LoginEmail") && activeIndex === 3 && (
+          <VerifyEmail setFlag={setFlag} />
+        )}
 
         {/* Payment */}
-        {activeIndex === 4 && <Payment />}
+        {activeIndex === steps.length - 1 && <Payment />}
       </div>
     </>
   );
