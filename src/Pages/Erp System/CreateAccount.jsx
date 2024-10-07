@@ -15,7 +15,7 @@ export default function CreateAccount({
   setFlag,
   SelectedPackageId,
 }) {
-  console.log(SelectedPackageId);
+  // console.log(SelectedPackageId);
   // translate
   const { language } = useLanguage();
 

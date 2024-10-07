@@ -8,8 +8,10 @@ import axios from "axios";
 import { VERIFY_EMAIL } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 export default function VerifyEmail({ setFlag }) {
+  const navigate = useNavigate();
   // translate
   const { language } = useLanguage();
   //   verify email
@@ -50,10 +52,12 @@ export default function VerifyEmail({ setFlag }) {
       .then((response) => {
         console.log(response);
         if (response.data.result.verified) {
-          toast.success("Email verified successfully, click Next to continue");
-          setFlag(true);
+          toast.success("Email verified successfully,redirecting..");
+          setTimeout(()=>{
+            navigate("/profile")
+          },1000)
         } else {
-          toast.error("Wrong or expired code");
+          toast.error("Wrong or expired code entered, back to register again");
         }
       })
       .catch((error) => {

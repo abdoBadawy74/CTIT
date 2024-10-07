@@ -6,6 +6,7 @@ import axios from "axios";
 import { COUNTRIES, SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
 import "./ErpSystem.css";
 import PropTypes from "prop-types";
+import { BeatLoader, BounceLoader } from "react-spinners";
 
 export default function SelectPackage({
   setFlag,
@@ -25,6 +26,7 @@ export default function SelectPackage({
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState(); // New state
 
   //  get language from local storage
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function SelectPackage({
         },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setCountries(res.data.result);
         setCountriesNames(res.data.result);
       })
@@ -54,6 +56,9 @@ export default function SelectPackage({
     countries.map((country) => {
       if (country.is_default === true) {
         setSelectedCountry(country);
+        setTimeout(() => {
+          setImageLoading(`data:image/png;base64,${country?.image}`);
+        }, 1000);
       }
     });
   }, [countries]);
@@ -133,10 +138,11 @@ export default function SelectPackage({
   }
 
   //   return loading if data is not fetched
-  if (loading) {
-    return <h1 className="text-center text-[45px]">Loading...</h1>;
+  if (loading || !imageLoading) {
+    return (
+      <BeatLoader className="text-center mt-20" color="#0081FE" size={50} />
+    );
   }
-
   return (
     <div>
       <div>
@@ -154,7 +160,7 @@ export default function SelectPackage({
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <img
-                  src={`data:image/png;base64,${selectedCountry?.image}`}
+                  src={imageLoading}
                   alt={selectedCountry?.name}
                   style={{ width: "20px", height: "15px", marginRight: "10px" }}
                 />

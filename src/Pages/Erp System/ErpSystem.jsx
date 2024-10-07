@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import "./ErpSystem.css";
 
 // translate
@@ -15,7 +15,7 @@ export default function ErpSystem() {
   // translate
   const { language } = useLanguage();
   // states
-  const [activeIndex, setActiveIndex] = useState(3); // Step control
+  const [activeIndex, setActiveIndex] = useState(0); // Step control
   const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
   const [adds, setAdds] = useState([]); // Adds
   const [countriesNames, setCountriesNames] = useState([]); // Countries
@@ -27,7 +27,6 @@ export default function ErpSystem() {
     { label: t[language].Adds },
     { label: t[language].CreateAcount },
     { label: t[language].Email },
-    { label: t[language].Payment },
   ];
 
   //   move to the next step
@@ -86,15 +85,17 @@ export default function ErpSystem() {
           </button>
         )}
 
-        <button
-          className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
-            flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
-          }`}
-          onClick={goToTheNext}
-          disabled={flag === false}
-        >
-          {t[language].Next}
-        </button>
+        {activeIndex < 3 && (
+          <button
+            className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
+              flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
+            }`}
+            onClick={goToTheNext}
+            disabled={flag === false}
+          >
+            {t[language].Next}
+          </button>
+        )}
       </div>
 
       {/* End of Steps  */}
