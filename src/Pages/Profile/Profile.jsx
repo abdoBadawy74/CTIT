@@ -228,7 +228,9 @@ const Profile = () => {
                           </td>
                           <td className="py-3">{bill.bill_name}</td>
                           <td className="py-3">{bill.bill_creation_date}</td>
-                          <td className="py-3">{bill.bill_amount}</td>
+                          <td className="py-3">
+                            {bill.amount_total.toFixed(3)}
+                          </td>
                           <td>
                             <button
                               onClick={goToPayment}
