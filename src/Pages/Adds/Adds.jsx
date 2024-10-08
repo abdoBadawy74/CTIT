@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-
-import QRCode from "../../assets/qr-code-img.png";
-import { Link } from "react-router-dom";
 import Header from "../../Components/Header";
 // translate
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import axios from "axios";
 import { ERP_PACKGAES } from "../../Api/Api";
-import { toast, ToastContainer } from "react-toastify";
 import Payment from "../Erp System/Payment";
 
 export default function Adds() {
@@ -61,7 +57,6 @@ export default function Adds() {
           justifyContent: activeIndex == 0 ? "space-between" : "flex-end",
         }}
       >
-        <ToastContainer />
         <div className="pl-7">
           <h4 className="font-medium">{t[language].Adds}</h4>
           <p className="text-[#8D8D8D] text-sm">{t[language].NewAdds_desc}</p>
