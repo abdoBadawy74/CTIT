@@ -19,3 +19,7 @@ export const EDIT_PROFILE = `${BASE}/edit_personal_information`;
 
 // Payment
 export const PAYMENT = `${BASE}/set_payment_attachment`;
+
+// Promo code
+export const CHEK_PROMO_CODE = `${BASE}/check_promo_code`;
+export const SET_PROMO_CODE = `${BASE}/set_promo_code`;

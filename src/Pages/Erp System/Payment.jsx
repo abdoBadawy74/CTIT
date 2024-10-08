@@ -5,8 +5,14 @@ import QRCode from "../../assets/qr-code-img.png";
 import { Link } from "react-router-dom";
 import PDF from "../../assets/pdf_icon.svg";
 import axios from "axios";
-import { PAYMENT, PROFILE } from "../../Api/Api";
+import {
+  CHEK_PROMO_CODE,
+  PAYMENT,
+  PROFILE,
+  SET_PROMO_CODE,
+} from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify";
+import { set } from "react-hook-form";
 
 export default function Payment() {
   const { language } = useLanguage();
@@ -103,6 +109,61 @@ export default function Payment() {
       }
     } else {
       toast.error("Please select a file to upload!");
+    }
+  };
+
+  // promo code
+  const [promoCode, setPromoCode] = useState("");
+  const [checked, setChecked] = useState(false);
+
+  const handlePromoCode = () => {
+    if (!checked) {
+      try {
+        axios
+          .post(`${CHEK_PROMO_CODE}`, {
+            params: {
+              code: promoCode,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            setPromoCode("");
+            if (response.data.result.valid === true) {
+              setChecked(true);
+              toast.success("Promo code applied successfully!");
+            } else {
+              setChecked(false);
+              toast.error("Invalid promo code!");
+            }
+          });
+      } catch (error) {
+        setPromoCode("");
+        console.error("Error applying promo code:", error);
+      }
+    } else {
+      try {
+        axios
+          .post(`${SET_PROMO_CODE}`, {
+            params: {
+              pre_subscription_id: bill_id,
+              code: promoCode,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            setPromoCode("");
+            if (response.data.result.valid === true) {
+              setChecked(true);
+              toast.success("Promo code applied successfully!");
+            } else {
+              setChecked(false);
+              toast.error("Invalid promo code!");
+            }
+          });
+      } catch (error) {
+        setPromoCode("");
+        console.error("Error applying promo code:", error);
+      }
     }
   };
 
@@ -259,12 +320,15 @@ export default function Payment() {
                   language === "en" ? "Enter Promo Code" : "أدخل كود الخصم"
                 }
                 className="p-2 outline-none"
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
               />
               <button
                 type="button"
+                onClick={handlePromoCode}
                 className="mt-2 bg-gray-800 w-full text-white py-2 px-4 rounded"
               >
-                {t[language].Apply}
+                {checked ? t[language].Apply : t[language].Check}
               </button>
             </div>
           </div>
