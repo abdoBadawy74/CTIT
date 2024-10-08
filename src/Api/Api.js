@@ -16,3 +16,6 @@ export const FORGET_PASSWORD = `${BASE}/forget_password`;
 // Profile
 export const PROFILE = `${BASE}/profile_subscription_data`;
 export const EDIT_PROFILE = `${BASE}/edit_personal_information`;
+
+// Payment
+export const PAYMENT = `${BASE}/set_payment_attachment`;

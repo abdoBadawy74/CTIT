@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import QRCode from "../../assets/qr-code-img.png";
 import { Link } from "react-router-dom";
 import PDF from "../../assets/pdf_icon.svg";
 import axios from "axios";
+import { PAYMENT, PROFILE } from "../../Api/Api";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Payment() {
   const { language } = useLanguage();
@@ -12,6 +14,7 @@ export default function Payment() {
   const [filePreview, setFilePreview] = useState(null);
   const [fileType, setFileType] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null); // Track the actual file
+  const [bill_id, setBill_id] = useState(null);
 
   const handlePaymentMethodChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
@@ -46,7 +49,27 @@ export default function Payment() {
     setSelectedFile(null); // Clear the file
   };
 
-  // Handle form submission
+  // get profile data to get bill_id for pre_subscription_id
+  useEffect(() => {
+    const getProfileData = async () => {
+      try {
+        const response = await axios.post(`${PROFILE}`, {
+          params: {
+            email: localStorage.getItem("LoginEmail"),
+          },
+        });
+        // console.log("Profile data:", response.data);
+        setBill_id(response.data?.result.billing_history[0]?.bill_id);
+        console.log(bill_id);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    getProfileData();
+  }, [bill_id]);
+
+  // Handle form submission (upload method)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,28 +77,39 @@ export default function Payment() {
     const formData = new FormData();
     formData.append("pre_subscription_id", 5); // static value
     formData.append("attachment", selectedFile || ""); // include file if present
-    console.log(selectedFile);
-    try {
-      const response = await axios.post(
-        "https://aldaifii.ctit.com.sa/saas/set_payment_attachment",
-        {
+
+    if (selectedFile) {
+      try {
+        const response = await axios.post(`${PAYMENT}`, {
           params: {
-            pre_subscription_id: 55, // static value
+            pre_subscription_id: bill_id, // static value
             attachment: selectedFile, // send attachment if file selected
           },
-        }
-      );
+        });
 
-      // Handle response (success)
-      console.log("Form submitted successfully:", response.data);
-    } catch (error) {
-      // Handle error
-      console.error("Error submitting form:", error);
+        // Handle response (success)
+        console.log("Form submitted successfully:", response.data);
+        if (response.data.result.success === true) {
+          toast.success("Process completed successfully! ,redirecting...");
+          setTimeout(() => {
+            window.location.href = "/profile";
+          }, 1500);
+        } else {
+          toast.error("Error submitting form!");
+        }
+      } catch (error) {
+        // Handle error
+        console.error("Error submitting form:", error);
+      }
+    } else {
+      toast.error("Please select a file to upload!");
     }
   };
 
+  // return statement of the component
   return (
     <div className="bg-[#F8F9F9] pt-15 pb-15 payment">
+      <ToastContainer />
       <div className="flex items-center justify-center lg:justify-between mb-8 px-20 pt-5 gap-5 flex-wrap-reverse">
         <form
           className="flex self-start gap-5 flex-col"
