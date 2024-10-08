@@ -25,7 +25,9 @@ const Hero = () => {
             <span className="text-main">{t[language].Head2}</span>{" "}
             {t[language].Easy}
           </h1>
-          <p className="leading-normal text-lg mb-6">{t[language].Hero_desc}</p>
+          <p className="leading-normal text-lg mb-6 text-start">
+            {t[language].Hero_desc}
+          </p>
           <a
             href="#"
             className="bg-main mx-auto lg:mx-0 text-white font-bold rounded-md my-3 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"

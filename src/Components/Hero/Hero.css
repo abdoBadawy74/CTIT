@@ -3,6 +3,13 @@
   min-height: 100vh;
   background-color: #fbfbfb !important;
   position: relative;
+  animation: riseUp 1.5s ease-out forwards;
+  transform: translateY(100%);
+}
+@keyframes riseUp {
+  to {
+    transform: translateY(0);
+  }
 }
 .hero p.welcome {
   display: inline-flex;
@@ -229,7 +236,7 @@
 }
 @media screen and (max-width: 600px) {
   .container-box button:last-child {
-    width:200px;
+    width: 200px;
     font-size: 14px;
     bottom: -50px;
     left: 30%;
