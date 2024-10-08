@@ -37,7 +37,7 @@ const About = () => {
 
           <div className=" h-[240px] w-full sm:w-2/3 p-3 px-3 mt-0 flex flex-wrap justify-around text-center right-section">
             {/* First Box */}
-            <div className="flex flex-col justify-end">
+            <div className="flex flex-col justify-end ">
               <div className="w-[250px] shadow p-2 pb-4 bg-white rounded-md relative lg:mb-0 box order-2 lg:order-1 ">
                 <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-md bg-main p-2">
                   <img src={cloudConnection} alt="Cloud Connection" />
@@ -48,7 +48,9 @@ const About = () => {
                 </p>
                 <div>
                   <Link
-                    className="bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 "
+                    className={`bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-10 ${
+                      language === "en" ? "left-10" : "left-16"
+                    } `}
                     to="/erp"
                   >
                     {t[language].Subscribe}
@@ -70,7 +72,11 @@ const About = () => {
                   Lorem ipsum dolor sit amet, consectetur
                 </p>
                 <div>
-                  <button className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 ">
+                  <button
+                    className={`bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-10 ${
+                      language === "en" ? "left-10" : "left-16"
+                    } `}
+                  >
                     {t[language].Subscribe}
                   </button>
                 </div>
@@ -90,7 +96,11 @@ const About = () => {
                   Lorem ipsum dolor sit amet, consectetur
                 </p>
                 <div>
-                  <button className="inline-block bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-9 left-10 ">
+                  <button
+                    className={`bg-main text-white lg:mx-0 font-bold rounded-md my-3 py-2 px-6 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out absolute -bottom-10 ${
+                      language === "en" ? "left-10" : "left-16"
+                    } `}
+                  >
                     {t[language].Subscribe}
                   </button>
                 </div>

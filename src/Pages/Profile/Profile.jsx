@@ -201,7 +201,11 @@ const Profile = () => {
               <div className="bg-white rounded-lg pt-5 m-3 md:m-5 shadow-lg">
                 <div className="flex justify-between top">
                   <h1>{t[language].Billing} </h1>
-                  <button className={`${language === "en" ? "ml-auto" : "mr-auto"} btn-export flex flex-row mb-2`}>
+                  <button
+                    className={`${
+                      language === "en" ? "ml-auto" : "mr-auto"
+                    } btn-export flex flex-row mb-2`}
+                  >
                     {t[language].Export}{" "}
                     <img src={exportImg} alt="Export" className="mx-1" />
                   </button>
@@ -233,12 +237,18 @@ const Profile = () => {
                             {bill.amount_total.toFixed(3)}
                           </td>
                           <td>
-                            <Link
-                              to={`/payment/${bill.bill_id}`}
-                              className="p-1 rounded border border-[#27AE60] text-[#27AE60] cursor-pointer"
+                            <button
+                              onClick={() => {
+                                navigate(`/payment/${bill.bill_id}`);
+                              }}
+                              className="p-1 rounded"
+                              style={{
+                                borderColor: "#27AE60",
+                                color: "#27AE60",
+                              }}
                             >
                               {t[language].Upload}
-                            </Link>
+                            </button>
                           </td>
                         </tr>
                       ))}

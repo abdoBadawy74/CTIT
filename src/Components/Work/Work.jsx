@@ -12,7 +12,7 @@ import t from "../../translation/translation";
 
 const WorkComponent = () => {
   // translate
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   return (
     <div
       id="work"
@@ -54,7 +54,11 @@ const WorkComponent = () => {
           </div>
         </div>
       </div>
-      <div className="hidden lg:grid grid-cols-1 lg:grid-cols-4 gap-x-4 mt-8 lg:pr-24 grow overflow-hidden">
+      <div
+        className={`hidden lg:grid grid-cols-1 lg:grid-cols-4 gap-x-4 mt-8 ${
+          language === "en" ? "lg:pr-24" : "lg:pl-24"
+        } grow overflow-hidden`}
+      >
         <div className="h-[210px] w-[135px] ml-auto justify-self-start">
           <img
             className="hidden lg:block shadow-lg rounded-lg w-full object-cover h-full"

@@ -15,8 +15,8 @@ const ServicesComponent = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [responsiveOptions, setResponsiveOptions] = useState([]);
 
-   // translate
-   const { language, setLanguage } = useLanguage();
+  // translate
+  const { language } = useLanguage();
 
   const testProducts = [
     {
@@ -83,7 +83,11 @@ const ServicesComponent = () => {
   return (
     <div id="services" className="my-5">
       <div>
-        <div className="pt-10 pb-5 pl-12 flex items-start justify-center flex-col lg:pl-24 lg:w-[699px]">
+        <div
+          className={`pt-10 pb-5  flex items-start justify-center flex-col ${
+            language === "en" ? "pl-10 lg:pl-24" : "pr-10 lg:pr-24"
+          } lg:w-[699px]`}
+        >
           <h1 className="uppercase text-blue-500 font-semibold work-heading relative">
             {t[language].Services}
           </h1>
@@ -92,7 +96,11 @@ const ServicesComponent = () => {
           </h2>
         </div>
       </div>
-      <div className="cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-12 lg:pl-24 lg:pr-12 -ml-6 gap-7">
+      <div
+        className={`cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-12 ${
+          language === "en" ? "lg:pl-24 lg:pr-12" : "lg:pr-24 lg:pl-12"
+        }  -ml-6 gap-7`}
+      >
         {testimonials.map((product) => (
           <div key={product.id} className="card bg-[#F8F9F9]">
             <svg /* Your SVG content */ />

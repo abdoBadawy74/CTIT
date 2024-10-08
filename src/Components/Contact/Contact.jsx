@@ -9,7 +9,7 @@ const ContactComponent = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   // translate
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,14 +23,27 @@ const ContactComponent = () => {
       className="mb-5 px-4 lg:px-16 flex gap-3 flex-col lg:flex-row"
     >
       <div className="bg-[#0081FE] px-11 flex justify-center flex-col lg:mt-24 py-10 lg:py-36 rounded-3xl custom-bg w-full">
-        <h1 className="uppercase text-2xl md:text-4xl text-white pb-4">
+        <h1
+          className={`uppercase text-2xl md:text-4xl  ${
+            language === "en" ? "text-white" : " text-white md:text-black"
+          }  pb-4`}
+        >
           {t[language].Contact}
         </h1>
-        <p className="text-white max-w-[557px] lg:text-lg text-base">
+        <p
+          className={`${
+            language === "en" ? "text-white" : "text-white md:text-black"
+          } max-w-[557px] lg:text-lg text-base`}
+        >
           {t[language].Contact_desc}
         </p>
       </div>
-      <div className="flex h-fit flex-col right-48 items-start shadow-lg bg-[#eff6ff] rounded-lg p-7 justify-between md:block lg:absolute z-20">
+
+      <div
+        className={`flex h-fit flex-col ${
+          language === "en" ? "right-48" : "left-48"
+        }  items-start shadow-lg bg-[#eff6ff] rounded-lg p-7 justify-between md:block lg:absolute z-20`}
+      >
         <form onSubmit={handleSubmit} className="p-2 w-full h-full">
           <div className="mt-5">
             <input
@@ -45,14 +58,14 @@ const ContactComponent = () => {
             <input
               type="email"
               className="w-full p-inputtext p-component p-element"
-              placeholder= {t[language].Email}
+              placeholder={t[language].Email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mt-5">
             <textarea
-              placeholder= {t[language].Message}
+              placeholder={t[language].Message}
               className="p-inputtext p-component p-element h-[200px] resize-none"
               rows="5"
               value={message}
