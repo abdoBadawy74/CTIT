@@ -85,7 +85,9 @@ const Header = () => {
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <select
-              className="text-[#002B5466] mr-2 outline-none"
+              className={`text-[#002B5466] outline-none ${
+                language === "en" ? "mr-2" : "ml-2"
+              }`}
               onChange={handleLanguageChange}
               value={language} // Bind the select value to the current language
             >
@@ -108,10 +110,15 @@ const Header = () => {
                 {/* Dropdown menu  */}
                 {isDropDownOpen && (
                   <div
-                    className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-[fit-content] absolute top-8 right-0 px-2 py-2 "
+                    className={`z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-[fit-content] absolute top-8  ${
+                      language === "en" ? "right-0" : "left-0"
+                    } px-2 py-2 `}
                     id="user-dropdown"
                   >
-                    <Link to={"/profile"} className="block px-4 py-3 border-b border-b-gray-300">
+                    <Link
+                      to={"/profile"}
+                      className="block px-4 py-3 border-b border-b-gray-300"
+                    >
                       <span className="block text-sm text-gray-900 ">
                         {profileData?.partner_name}
                       </span>
@@ -126,8 +133,12 @@ const Header = () => {
                           state={partnerDetails}
                           className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center"
                         >
-                          <span className="pi pi-user text-gray-700 mr-2"></span>
-                          Edit Profile
+                          <span
+                            className={`pi pi-user text-gray-700  ${
+                              language === "en" ? "mr-2" : "ml-2"
+                            }`}
+                          ></span>
+                          {t[language].EditProfile}
                         </Link>
                       </li>
                       <li>
@@ -135,14 +146,22 @@ const Header = () => {
                           to={"/change-password"}
                           className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center"
                         >
-                          <span className="pi pi-lock text-gray-700 mr-2"></span>
-                          Change Password
+                          <span
+                            className={`pi pi-lock text-gray-700  ${
+                              language === "en" ? "mr-2" : "ml-2"
+                            }`}
+                          ></span>
+                          {t[language].ChangePassword}
                         </Link>
                       </li>
                       <li onClick={logout}>
                         <a className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded flex items-center">
-                          <span className="pi pi-sign-out text-gray-700 mr-2"></span>
-                          Sign Out
+                          <span
+                            className={`pi pi-sign-out text-gray-700  ${
+                              language === "en" ? "mr-2" : "ml-2"
+                            }`}
+                          ></span>
+                          {t[language].Logout}
                         </a>
                       </li>
                     </ul>

@@ -9,7 +9,7 @@
   transform: translateY(-50%);
 }
 
-.card {
+#services .card {
   width: 100%;
   height: auto;
   border-radius: 20px;
@@ -19,14 +19,14 @@
   transition: 0.5s; /* Smooth transition for transform property */
 }
 
-.card button,
-.card h1,
-.card p,
-.card svg {
+#services .card button,
+#services .card h1,
+#services .card p,
+#services .card svg {
   transition: transform 0.7s ease; /* Smooth transition for transform property */
 }
 
-.card::after {
+#services .card::after {
   content: "";
   position: absolute;
   width: 80%;
@@ -41,21 +41,21 @@
   z-index: -1;
 }
 
-.card:hover::after {
+#services .card:hover::after {
   transform: rotate(10deg) translateY(-100px); /* Move further up */
   z-index: 1; /* Ensure pseudo-element is behind the button */
 }
 
-.card:hover {
+#services .card:hover {
   background: #0081fe;
 }
 
-.card:hover h1,
-.card:hover p {
+#services .card:hover h1,
+#services .card:hover p {
   color: white;
 }
 
-.card:hover button {
+#services .card:hover button {
   color: #0081fe;
   background-color: white;
   transform: translateY(-10px);
@@ -63,15 +63,15 @@
   position: relative;
 }
 
-.card:hover svg rect {
+#services .card:hover svg rect {
   fill: white;
 }
 
-.card:hover svg path {
+#services .card:hover svg path {
   fill: #0081fe;
 }
 
-.card:hover svg {
+#services .card:hover svg {
   transform: scale(1.5) translate(20%, 20%);
 }
 .edit-image {

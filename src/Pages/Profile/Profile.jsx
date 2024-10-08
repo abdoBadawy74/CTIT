@@ -62,11 +62,6 @@ const Profile = () => {
     // console.log("Navigate to new package");
   };
 
-  const goToPayment = () => {
-    // Logic for payment
-    navigate("/payment");
-  };
-
   const goToAdd = () => {
     navigate("/adds");
   };
@@ -103,7 +98,11 @@ const Profile = () => {
                     />
                   )}
                   <div>
-                    <h2 className="text-xl font-semibold pl-4">
+                    <h2
+                      className={`text-xl font-semibold ${
+                        language === "en" ? "pl-4" : "pr-4"
+                      } `}
+                    >
                       {partner.partner_name}
                     </h2>
                     <div className="flex flex-row flex-wrap">
@@ -202,7 +201,7 @@ const Profile = () => {
               <div className="bg-white rounded-lg pt-5 m-3 md:m-5 shadow-lg">
                 <div className="flex justify-between top">
                   <h1>{t[language].Billing} </h1>
-                  <button className="ml-auto btn-export flex flex-row mb-2">
+                  <button className={`${language === "en" ? "ml-auto" : "mr-auto"} btn-export flex flex-row mb-2`}>
                     {t[language].Export}{" "}
                     <img src={exportImg} alt="Export" className="mx-1" />
                   </button>
@@ -238,7 +237,7 @@ const Profile = () => {
                               to={`/payment/${bill.bill_id}`}
                               className="p-1 rounded border border-[#27AE60] text-[#27AE60] cursor-pointer"
                             >
-                              Upload a Receipt
+                              {t[language].Upload}
                             </Link>
                           </td>
                         </tr>

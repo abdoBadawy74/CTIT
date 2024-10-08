@@ -44,7 +44,11 @@ const Login = () => {
         .then((response) => {
           console.log(response);
           if (response.data.result.login) {
-            toast.success("Login successful, redirecting...");
+            toast.success(
+              language === "en"
+                ? "Login successfully, redirecting to profile"
+                : "تم تسجيل الدخول بنجاح ، يتم إعادة توجيهك إلى الملف الشخصي"
+            );
             localStorage.setItem("LoginEmail", JSON.stringify(formData.email));
             setTimeout(() => {
               navigate("/profile");
@@ -55,11 +59,15 @@ const Login = () => {
         })
         .catch((error) => {
           console.error("Error during login:", error);
-          toast.error("Login failed");
+          toast.error(language === "en" ? "Login failed" : "فشل تسجيل الدخول");
         });
     });
     if (formData.email === " " || formData.password === " ") {
-      toast.error("Please fill in all fields");
+      toast.error(
+        language === "en"
+          ? "Please enter your email and password"
+          : "الرجاء إدخال بريدك الإلكتروني وكلمة المرور"
+      );
     }
   };
 
@@ -71,7 +79,7 @@ const Login = () => {
 
   const handleSendForgotPassword = () => {
     if (!forgotEmail) {
-      toast.info("Please enter your email");
+      toast.info(language === "en" ? "Please enter your email" : "الرجاء إدخال بريدك الإلكتروني");
       return;
     }
 
@@ -84,16 +92,16 @@ const Login = () => {
       .then((response) => {
         console.log(response);
         if (response.data.result.sent) {
-          toast.success(response.data.result.msg);
+          toast.success(language === "en" ? "Please Check Your Email To Get Your New Password Code" : "يرجى التحقق من بريدك الإلكتروني للحصول على رمز كلمة المرور الجديد");
           setIsPopupOpen(false); // Close popup after successful response
           setForgotEmail(""); // Clear the email field
         } else {
-          toast.error("Email not found");
+          toast.error(language === "en" ? "Password reset failed" : "فشل إعادة تعيين كلمة المرور");
         }
       })
       .catch((error) => {
         console.error("Error during password reset:", error);
-        toast.error("Password reset failed");
+        toast.error(language === "en" ? "Password reset failed" : "فشل إعادة تعيين كلمة المرور");
       });
   };
 

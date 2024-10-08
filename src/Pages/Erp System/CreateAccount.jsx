@@ -102,7 +102,7 @@ export default function CreateAccount({
     // show toast if any field required not write
 
     if (!getValues) {
-      toast.error("Please Enter Require Info !");
+      toast.error(language === "en" ? "Please fill all required fields" : "يرجى ملء جميع الحقول المطلوبة");
     }
   }, [getValues]);
 
@@ -123,7 +123,7 @@ export default function CreateAccount({
     };
 
     if (!data.acceptPolicy) {
-      toast.error("Please accept policies");
+      toast.error(language === "en" ? "Please accept the terms and conditions" : "يرجى قبول الشروط والأحكام");
     } else {
       console.log("Submitting Data:", data);
 
@@ -141,11 +141,11 @@ export default function CreateAccount({
         .then((res) => {
           console.log("Response:", res);
           if (res.data.result.sent) {
-            toast.success("Account created, Click next to verify your email");
+            toast.success(language === "en" ? "Account created, Click next to verify your email": "تم إنشاء الحساب ، انقر فوق التالي للتحقق من بريدك الإلكتروني");
             localStorage.setItem("email", JSON.stringify(data.email));
             setFlag(true);
           } else {
-            toast.error("Error creating account");
+            toast.error(language === "en" ? "Error creating account" : "خطأ في إنشاء الحساب");
           }
         })
         .catch((err) => {
@@ -251,7 +251,9 @@ export default function CreateAccount({
                 {t[language].PhoneNumber}
                 <span className="text-red-600">*</span>
               </label>
-              <div className="flex rounded border-[2px]">
+              <div className="flex rounded border-[2px]" style={{
+                direction: "ltr",
+              }}>
                 {/* dropdown menu for countries */}
                 <div
                   className="custom-dropdown"
@@ -314,6 +316,9 @@ export default function CreateAccount({
                   type="tel"
                   className="py-3 px-3 rounded-e-md w-full  border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder={t[language].PhoneNumber}
+                  style={{
+                    direction: language ==="en" ? "ltr" : "rtl",
+                  }}
                 />
               </div>
             </div>
@@ -327,7 +332,7 @@ export default function CreateAccount({
                 feedback={false}
                 onChange={(e) => setValue("password", e.target.value)}
                 placeholder={t[language].Password}
-                toggleMask
+                // toggleMask
               />
               {errors.password && (
                 <span className="text-red-600">Password is required</span>
@@ -342,7 +347,7 @@ export default function CreateAccount({
                 feedback={false}
                 onChange={(e) => setValue("confirm_password", e.target.value)}
                 placeholder={t[language].ConfirmPassword}
-                toggleMask
+                // toggleMask
               />
               {errors.confirmPassword && (
                 <span className="text-red-600">

@@ -16,7 +16,7 @@ export default function ErpSystem() {
   const { language } = useLanguage();
 
   // states
-  const [activeIndex, setActiveIndex] = useState(0); // Step control
+  const [activeIndex, setActiveIndex] = useState(3); // Step control
   const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
   const [adds, setAdds] = useState([]); // Adds
   const [countriesNames, setCountriesNames] = useState([]); // Countries
@@ -63,7 +63,7 @@ export default function ErpSystem() {
   return (
     <>
       {/* Step indicator */}
-      <div className="card py-8 bg-[#f2f9ff] mb-8 transition service-card">
+      <div className=" py-8 bg-[#f2f9ff] mb-8 transition service-card">
         <div className="steps-container">
           {steps.map((step, index) => (
             <div
@@ -147,7 +147,7 @@ export default function ErpSystem() {
         )}
 
         {/* Payment */}
-        {activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />}
+        {/* {activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />} */}
       </div>
     </>
   );
