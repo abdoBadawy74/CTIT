@@ -8,6 +8,7 @@ import EditProfile from "./Pages/Edit-profile/EditProfile";
 import Support from "./Pages/Support/Support";
 import ChangePass from "./Pages/Change Pass/ChangePass";
 import useLanguage from "./Context/useLanguage";
+import UploadReciept from "./Pages/Upload Reciept/UploadReciept";
 
 const App = () => {
   const { language } = useLanguage();
@@ -26,7 +27,8 @@ const App = () => {
         <Route path="edit-profile" element={<EditProfile />} />
 
         <Route path="/erp" element={<ErpSystem />}></Route>
-        <Route path="adds" element={<Adds />}></Route>
+        <Route path="/adds" element={<Adds />}></Route>
+        <Route path="payment/:bill_id" element={<UploadReciept />}></Route>
 
         {/* Catch-all route (404 redirect) */}
         {/* <Route path="*" element={<Navigate to="/landing" replace />} /> */}

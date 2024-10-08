@@ -10,6 +10,7 @@ import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import axios from "axios";
 import { PROFILE } from "../../Api/Api";
+import { BeatLoader } from "react-spinners";
 
 const Profile = () => {
   // translate
@@ -20,6 +21,7 @@ const Profile = () => {
   const [subscriptionDetails, setSubscriptionDetails] = useState([]);
   const [billingHistory, setBillingHistory] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
+  console.log(billingHistory);
 
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ const Profile = () => {
             },
           }
         );
-        console.log(response);
+        // console.log(response);
         setPartnerDetails(response.data.result.partner_details);
         setSubscriptionDetails(response.data.result.subscription_details);
         setBillingHistory(response.data.result.billing_history);
@@ -57,12 +59,12 @@ const Profile = () => {
   const goToPackage = () => {
     // Logic to navigate to new package
     navigate("/erp");
-    console.log("Navigate to new package");
+    // console.log("Navigate to new package");
   };
 
   const goToPayment = () => {
     // Logic for payment
-    console.log("Payment initiated");
+    navigate("/payment");
   };
 
   const goToAdd = () => {
@@ -74,7 +76,7 @@ const Profile = () => {
       <Header />
       {loading ? (
         <div className="text-center">
-          <div>Loading...</div> {/* Replace with spinner component */}
+          <BeatLoader className="text-center mt-20" color="#0081FE" size={50} />
         </div>
       ) : (
         <div className="bg-[#F8F9F9] overflow-hidden">
@@ -232,12 +234,12 @@ const Profile = () => {
                             {bill.amount_total.toFixed(3)}
                           </td>
                           <td>
-                            <button
-                              onClick={goToPayment}
-                              className="p-2 rounded"
+                            <Link
+                              to={`/payment/${bill.bill_id}`}
+                              className="p-1 rounded border border-[#27AE60] text-[#27AE60] cursor-pointer"
                             >
                               Upload a Receipt
-                            </button>
+                            </Link>
                           </td>
                         </tr>
                       ))}
