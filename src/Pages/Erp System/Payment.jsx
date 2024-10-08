@@ -60,7 +60,7 @@ export default function Payment() {
         });
         // console.log("Profile data:", response.data);
         setBill_id(response.data?.result.billing_history[0]?.bill_id);
-        console.log(bill_id);
+        // console.log(bill_id);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -88,7 +88,7 @@ export default function Payment() {
         });
 
         // Handle response (success)
-        console.log("Form submitted successfully:", response.data);
+        // console.log("Form submitted successfully:", response.data);
         if (response.data.result.success === true) {
           toast.success("Process completed successfully! ,redirecting...");
           setTimeout(() => {
