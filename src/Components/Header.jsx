@@ -64,9 +64,9 @@ const Header = () => {
   const logout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("LoginEmail");
-    // reload the page
     navigate("/landing");
-    window.location.reload();
+    // get the top of landing page
+    window.scrollTo(0, 0);
   };
 
   return (

@@ -87,7 +87,7 @@ export default function ErpSystem() {
 
       {/* Navigation buttons */}
       <div
-        className="flex px-20 flex-wrap"
+        className="hidden px-20 flex-wrap sm:flex"
         style={{
           justifyContent: activeIndex > 0 ? "space-between" : "flex-end",
         }}
@@ -145,6 +145,34 @@ export default function ErpSystem() {
         {!localStorage.getItem("LoginEmail") && activeIndex === 3 && (
           <VerifyEmail setFlag={setFlag} />
         )}
+
+        <div
+          className="flex px-20 flex-wrap sm:hidden"
+          style={{
+            justifyContent: activeIndex > 0 ? "space-between" : "flex-end",
+          }}
+        >
+          {activeIndex !== 0 && (
+            <button
+              className="px-20 py-4 my-10 lg:my-0 bg-white text-[#0081FE] border border-[#0081FE] text-lg rounded-lg focus:outline-none"
+              onClick={goToThePrevious}
+            >
+              {t[language].Previous}
+            </button>
+          )}
+
+          {activeIndex < steps.length - 1 && (
+            <button
+              className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
+                flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
+              }`}
+              onClick={goToTheNext}
+              disabled={flag === false}
+            >
+              {t[language].Next}
+            </button>
+          )}
+        </div>
 
         {/* Payment */}
         {/* {activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />} */}
