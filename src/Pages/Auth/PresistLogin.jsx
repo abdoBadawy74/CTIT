@@ -14,7 +14,7 @@ export default function PresistLogin() {
   // Otherwise, if the user is not logged in, navigate to the login page
   return (
     <div>
-      {isLoggedIn ? <Outlet /> : <Navigate to="/login" />}
+      {isLoggedIn ? <Outlet /> : <Navigate to="/" />}
     </div>
   );
 }
