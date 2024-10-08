@@ -17,12 +17,12 @@ const App = () => {
   return (
     <div dir={language === "ar" ? "rtl" : "ltr"}>
       <Routes>
-        {/* Redirect to 'landing' if no specific path is provided */}
-        <Route element={<PresistLogin />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Landing />} />
-          <Route path="/landing" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/landing" element={<Landing />} />
 
+        
+        <Route element={<PresistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/change-password" element={<ChangePass />} />
             <Route path="/support" element={<Support />} />
