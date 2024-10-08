@@ -7,8 +7,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EDIT_PROFILE } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
+// translate
+import useLanguage from "../../Context/useLanguage";
+import t from "../../translation/translation";
 
 function EditProfile() {
+  // translate
+  const { language } = useLanguage();
   const location = useLocation();
   const partnerDetails = location.state;
   const navigate = useNavigate();
@@ -92,12 +97,12 @@ function EditProfile() {
       )
       .then((res) => {
         if (res.data.result.success) {
-          toast.success("Profile updated successfully");
+          toast.success(language === "en" ? "Profile updated successfully" : "تم تحديث الملف الشخصي بنجاح");
           setTimeout(() => {
             navigate("/profile");
           }, 2000);
         } else {
-          toast.error("Error updating profile, please try again");
+          toast.error(language === "en" ? "Error updating profile" : "خطأ في تحديث الملف الشخصي");
         }
       })
       .catch((err) => {
@@ -156,26 +161,32 @@ function EditProfile() {
             </label>
             <div className="flex items-center gap-3 mx-6 space-y-3">
               <div
-                className="flex items-center gap-3 text-[#27AE60] border p-2 rounded-bl-lg border-[#27AE60] cursor-pointer"
+                className={`flex items-center gap-3 text-[#27AE60] border p-2 ${
+                  language === "en" ? "rounded-bl-lg" : "rounded-br-lg"
+                } border-[#27AE60] cursor-pointer`}
                 onClick={changeImage}
               >
-                Change <img src={editImg} alt="edit" className="pr-3" />
+                {t[language].Change}{" "}
+                <img src={editImg} alt="edit" className="pr-3" />
               </div>
               <div
-                className="flex items-center gap-3 text-[#C32B43] border p-2 rounded-br-lg border-[#C32B43] cursor-pointer"
+                className={`flex items-center gap-3 text-[#C32B43] border p-2 ${
+                  language === "en" ? "rounded-br-lg" : "rounded-bl-lg"
+                } border-[#C32B43] cursor-pointer`}
                 style={{
                   margin: 0,
                 }}
                 onClick={resetImage}
               >
-                Delete <img src={trash} alt="trash" className="pr-3" />
+                {t[language].Delete}{" "}
+                <img src={trash} alt="trash" className="pr-3" />
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-col mt-14 mb-10 items-center justify-center">
           <div className="flex flex-col gap-2 mb-4">
-            <label className="text-[#8D8D8D]">Name</label>
+            <label className="text-[#8D8D8D]">{t[language].Name}</label>
             <input
               value={editProfileForm?.partner_name}
               onChange={(e) =>
@@ -193,7 +204,7 @@ function EditProfile() {
             />
           </div>
           <div className="flex flex-col gap-2 mb-4">
-            <label className="text-[#8D8D8D]">Company Name</label>
+            <label className="text-[#8D8D8D]">{t[language].CompanyName}</label>
             <input
               value={editProfileForm.company}
               disabled
@@ -212,7 +223,9 @@ function EditProfile() {
             />
           </div>
           <div className="flex flex-col mb-4">
-            <label className="block text-[#8D8D8D]">Phone Number</label>
+            <label className="block text-[#8D8D8D]">
+              {t[language].PhoneNumber}
+            </label>
             <input
               type="text"
               value={editProfileForm.phone}
@@ -233,7 +246,7 @@ function EditProfile() {
               style={{ width: "400px" }}
               className="px-5 py-5 bg-green-500 text-white rounded-md focus:outline-none"
             >
-              Save Changes
+              {t[language].Save}
             </button>
           </div>
         </div>

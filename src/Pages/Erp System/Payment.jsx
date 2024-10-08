@@ -12,7 +12,7 @@ import {
   SET_PROMO_CODE,
 } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify";
-import { set } from "react-hook-form";
+
 
 export default function Payment() {
   const { language } = useLanguage();
@@ -96,19 +96,19 @@ export default function Payment() {
         // Handle response (success)
         // console.log("Form submitted successfully:", response.data);
         if (response.data.result.success === true) {
-          toast.success("Process completed successfully! ,redirecting...");
+          toast.success(language === "en" ? "Process completed successfully! ,redirecting..." : "تمت العملية بنجاح! ,جار التوجيه...");
           setTimeout(() => {
             window.location.href = "/profile";
           }, 1500);
         } else {
-          toast.error("Error submitting form!");
+          toast.error(language === "en" ? "Error submitting form!" : "خطأ في تقديم النموذج");
         }
       } catch (error) {
         // Handle error
         console.error("Error submitting form:", error);
       }
     } else {
-      toast.error("Please select a file to upload!");
+      toast.error(language === "en" ? "Please select a file to upload!" : "الرجاء تحديد ملف للتحميل");
     }
   };
 
@@ -130,10 +130,10 @@ export default function Payment() {
             setPromoCode("");
             if (response.data.result.valid === true) {
               setChecked(true);
-              toast.success("Promo code applied successfully!");
+              toast.success(language === "en" ? "Promo code applied successfully!" : "تم تطبيق كود الخصم بنجاح!");
             } else {
               setChecked(false);
-              toast.error("Invalid promo code!");
+              toast.error(language === "en" ? "Invalid promo code!" : "كود الخصم غير صالح!");
             }
           });
       } catch (error) {
@@ -154,10 +154,10 @@ export default function Payment() {
             setPromoCode("");
             if (response.data.result.valid === true) {
               setChecked(true);
-              toast.success("Promo code applied successfully!");
+              toast.success(language === "en" ? "Promo code applied successfully!" : "تم تطبيق كود الخصم بنجاح!");
             } else {
               setChecked(false);
-              toast.error("Invalid promo code!");
+              toast.error(language === "en" ? "Invalid promo code!" : "كود الخصم غير صالح!");
             }
           });
       } catch (error) {

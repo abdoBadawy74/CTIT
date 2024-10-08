@@ -12,6 +12,10 @@ const t = {
     SignUP: "Sign Up",
     Logout: "Logout",
     Language: "Language",
+    ChangePassword: "Change Password",
+    OldPass: "Old Password",
+    NewPass: "New Password",
+  
     Welcome: "Welcome To",
     Head1: "Make",
     Business: "Your Business",
@@ -154,6 +158,10 @@ const t = {
     SignUP: "سجل",
     Logout: "تسجيل الخروج",
     Language: "اللغة",
+    ChangePassword: "تغيير كلمة المرور",
+    OldPass: "كلمة المرور القديمة",
+    NewPass: "كلمة المرور الجديدة",
+
     Welcome: "مرحبا بك في",
     Head1: "اجعل",
     Business: "عملك",

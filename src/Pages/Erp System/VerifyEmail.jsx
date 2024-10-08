@@ -10,7 +10,7 @@ import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-export default function VerifyEmail({ setFlag }) {
+export default function VerifyEmail() {
   const navigate = useNavigate();
   // translate
   const { language } = useLanguage();
@@ -52,12 +52,12 @@ export default function VerifyEmail({ setFlag }) {
       .then((response) => {
         console.log(response);
         if (response.data.result.verified) {
-          toast.success("Email verified successfully,redirecting..");
+          toast.success(language === "en" ? "Email verified successfully, redirecting to profile" : "تم التحقق من البريد الإلكتروني بنجاح ، يتم إعادة توجيهك إلى الملف الشخصي");
           setTimeout(()=>{
             navigate("/profile")
           },1000)
         } else {
-          toast.error("Wrong or expired code entered, back to register again");
+          toast.error(language === "en" ? "Wrong or expired code entered, back to register again" : "تم إدخال رمز خاطئ أو منتهي الصلاحية ، عد إلى التسجيل مرة أخرى");
         }
       })
       .catch((error) => {
@@ -77,7 +77,7 @@ export default function VerifyEmail({ setFlag }) {
           </p>
         </div>
         <form className="max-w-[426px]" onSubmit={handleSubmit}>
-          <div className="flex space-x-8 items-center my-12">
+          <div className="flex  items-center my-12 gap-6" >
             {[...Array(4)].map((_, index) => (
               <div key={index}>
                 <label htmlFor={`code-${index + 1}`} className="sr-only">
