@@ -20,18 +20,18 @@ const App = () => {
         <Route path="/" element={<Landing />} />
         <Route path="/landing" element={<Landing />} />
 
-        <Route element={<PresistLogin />}>
+      
           <Route path="/login" element={<Login />} />
-          <Route element={<RequireAuth />}>
+        
             <Route path="/change-password" element={<ChangePass />} />
             <Route path="/support" element={<Support />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="edit-profile" element={<EditProfile />} />
             <Route path="payment/:bill_id" element={<UploadReciept />}></Route>
             <Route path="/adds" element={<Adds />}></Route>
-          </Route>
+        
           <Route path="/erp" element={<ErpSystem />}></Route>
-        </Route>
+    
       </Routes>
     </div>
   );
