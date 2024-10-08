@@ -3,7 +3,7 @@ pass =123456789
 
 // ErpSystem
 
-=>> if user not isLoggedIn =>  select package =>> select|skip adds =>> create account =>> verify Email (traditional cycle)
+=>> if user not isLoggedIn =>  select package =>> select|skip adds =>> create account =>> verify Email =>> Navigate /profile (traditional cycle)
 =>> if user isLoggedIn => select package =>> select | skip adds =>> profile page
 
 =>> if user isLoggedIn & is 
