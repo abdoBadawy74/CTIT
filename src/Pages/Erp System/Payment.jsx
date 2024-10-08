@@ -61,12 +61,12 @@ export default function Payment() {
       try {
         const response = await axios.post(`${PROFILE}`, {
           params: {
-            email: localStorage.getItem("LoginEmail"),
+            email: localStorage.getItem("LoginEmail").replace(/"/g, ""),
           },
         });
-        // console.log("Profile data:", response.data);
+        console.log("Profile data:", response.data);
         setBill_id(response.data?.result.billing_history[0]?.bill_id);
-        // console.log(bill_id);
+        console.log(bill_id);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
