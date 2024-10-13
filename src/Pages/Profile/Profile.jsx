@@ -68,12 +68,13 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
       {loading ? (
         <div className="text-center">
-          <BeatLoader className="text-center mt-20" color="#0081FE" size={50} />
+          <BeatLoader className="text-center mt-60" color="#0081FE" size={50} />
         </div>
       ) : (
+        <>
+        <Header />
         <div className="bg-[#F8F9F9] overflow-hidden">
           <div className="max-w-6xl mx-auto rounded-lg pt-4">
             {partnerDetails.map((partner, index) => (
@@ -310,8 +311,9 @@ const Profile = () => {
             </div>
           </div>
         </div>
+        <Footer />
+        </>
       )}
-      <Footer />
     </>
   );
 };

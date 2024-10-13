@@ -160,7 +160,7 @@ export default function SelectPackage({
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <img
-                  src={imageLoading}
+                  src={`data:image/png;base64,${selectedCountry?.image}`}
                   alt={selectedCountry?.name}
                   style={{ width: "20px", height: "15px", marginRight: "10px" }}
                 />
