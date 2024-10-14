@@ -32,7 +32,7 @@ const Profile = () => {
           `${PROFILE}`,
           {
             params: {
-              email: localStorage.getItem("LoginEmail").replace(/['"]+/g, ""),
+              email: localStorage.getItem("email").replace(/['"]+/g, ""),
             },
           },
           {
@@ -41,7 +41,7 @@ const Profile = () => {
             },
           }
         );
-        // console.log(response);
+        console.log(response);
         setPartnerDetails(response.data.result.partner_details);
         setSubscriptionDetails(response.data.result.subscription_details);
         setBillingHistory(response.data.result.billing_history);
