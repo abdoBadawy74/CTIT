@@ -15,7 +15,7 @@ export default function CreateAccount({
   setFlag,
   SelectedPackageId,
 }) {
-  // console.log(SelectedPackageId);
+  console.log(SelectedPackageId);
   // translate
   const { language } = useLanguage();
 
@@ -49,7 +49,7 @@ export default function CreateAccount({
       subscription_type: "new",
       plan_id: 3,
       pre_subscription_line_ids: {
-        product_id: "",
+        product_id: SelectedPackageId,
         discount: "",
         quantity: "",
       },
@@ -115,7 +115,7 @@ export default function CreateAccount({
       plan_id: formData.plan_id || 3, // default plan ID
       pre_subscription_line_ids: [
         {
-          product_id: SelectedPackageId.id, // hardcoded or dynamic product ID
+          product_id: SelectedPackageId, // hardcoded or dynamic product ID
           discount: 0,
           quantity: 1,
         },

@@ -42,7 +42,7 @@ export default function SelectPackage({
         },
       })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setCountries(res.data.result);
         setCountriesNames(res.data.result);
       })
@@ -58,7 +58,7 @@ export default function SelectPackage({
         setSelectedCountry(country);
         setTimeout(() => {
           setImageLoading(`data:image/png;base64,${country?.image}`);
-        }, 1000);
+        }, 500);
       }
     });
   }, [countries]);
@@ -138,7 +138,7 @@ export default function SelectPackage({
   }
 
   //   return loading if data is not fetched
-  if (loading || !imageLoading) {
+  if (loading) {
     return (
       <BeatLoader className="text-center mt-20" color="#0081FE" size={50} />
     );
@@ -164,8 +164,8 @@ export default function SelectPackage({
                   alt={selectedCountry?.name}
                   style={{ width: "20px", height: "15px", marginRight: "10px" }}
                 />
-                <p>{selectedCountry?.name.slice(0, 2)}</p>
-                <p>+{selectedCountry?.phone_code}</p>
+                <p>{selectedCountry?.code}</p>
+
                 {isOpen ? (
                   <i className="pi pi-chevron-up"></i>
                 ) : (
@@ -191,8 +191,8 @@ export default function SelectPackage({
                           marginRight: "10px",
                         }}
                       />
-                      <p>{country?.name.slice(0, 2)}</p>
-                      <p>+{country?.phone_code}</p>
+                      <p>{country?.code}</p>
+                      
                     </div>
                   ))}
                 </div>
