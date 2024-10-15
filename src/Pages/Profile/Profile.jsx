@@ -219,6 +219,10 @@ const Profile = () => {
                           </div>
 
                           <div className="text-xs md:text-base">
+                            {t[language].Price_Unit}
+                          </div>
+
+                          <div className="text-xs md:text-base">
                             {t[language].Amount_Untax}
                           </div>
                           <div className="text-xs md:text-base">
@@ -226,9 +230,6 @@ const Profile = () => {
                           </div>
                           <div className="text-xs md:text-base">
                             {t[language].Amount_Total}
-                          </div>
-                          <div className="text-xs md:text-base">
-                            {t[language].Price_Unit}
                           </div>
                         </div>
 
@@ -248,6 +249,10 @@ const Profile = () => {
                           </div>
 
                           <div className="flex items-center">
+                            <span>{subs.main_packages_info.price_unit}</span>
+                          </div>
+
+                          <div className="flex items-center">
                             <span>
                               {subs.main_packages_info.amount_untaxed}
                             </span>
@@ -260,18 +265,21 @@ const Profile = () => {
                           <div className="flex items-center">
                             <span>{subs.main_packages_info.amount_total}</span>
                           </div>
-                          <div className="flex items-center">
-                            <span>{subs.main_packages_info.price_unit}</span>
-                          </div>
                         </div>
+
                         <hr className="my-4" />
-                        <div className="min-w-[900px] mt-5 ml-3 flex justify-between px-5 gap -4 mb-4 font-bold bg-gray-200">
+
+                        <div className="min-w-[900px] text-center mt-5 ml-3 flex justify-between px-5 gap-4 mb-4 font-bold bg-gray-200">
                           <div className="text-xs md:text-base">
                             {t[language].AddName}
                           </div>
 
                           <div className="text-xs md:text-base">
                             {t[language].Description}
+                          </div>
+
+                          <div className="text-xs md:text-base">
+                            {t[language].Price_Unit}
                           </div>
 
                           <div className="text-xs md:text-base">
@@ -286,13 +294,10 @@ const Profile = () => {
                           <div className="text-xs md:text-base">
                             {t[language].Quantity}
                           </div>
-                          <div className="text-xs md:text-base">
-                            {t[language].Price_Unit}
-                          </div>
                         </div>
 
-                        <div className="mx-4 min-w-[900px] flex justify-between px-5 gap-4 text-center">
-                          <div className="flex items-center">
+                        <div className="min-w-[900px] ml-3 flex justify-between px-5 gap-4 text-center">
+                          <div className="flex items-center  ">
                             <span>
                               {subs.additional_packages_info[index]?.name +
                                 "" ||
@@ -300,12 +305,19 @@ const Profile = () => {
                             </span>
                           </div>
 
-                          <div>
+                          <div className="flex items-center">
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  subs.additional_packages_info[index]
+                                    ?.description,
+                              }}
+                            />
+                          </div>
+
+                          <div className="flex items-center">
                             <span>
-                              {subs.additional_packages_info[index]
-                                ?.description + "" ||
-                                subs.additional_packages_info[index]
-                                  ?.description}
+                              {subs.additional_packages_info[index]?.price_unit}
                             </span>
                           </div>
 
@@ -336,13 +348,14 @@ const Profile = () => {
                               {subs.additional_packages_info[index]?.quantity}
                             </span>
                           </div>
-                          <div className="flex items-center">
-                            <span>
-                              {subs.additional_packages_info[index]?.price_unit}
-                            </span>
-                          </div>
                         </div>
+
                         <hr className="my-4" />
+
+                        <h3 className="ml-5 mb-0 capitalize font-bold text-blue-400">
+                          users count :
+                        </h3>
+
                         <div className="min-w-[900px] mt-5 ml-3 flex justify-between px-5 gap -4 mb-4 font-bold bg-gray-200">
                           <div className="text-xs md:text-base">
                             {t[language].Additional_Count}
