@@ -83,7 +83,7 @@ const Header = () => {
               alt="Company Logo"
             />
           </Link>
-          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center">
             <select
               className={`text-[#002B5466] outline-none ${
                 language === "en" ? "mr-2" : "ml-2"
