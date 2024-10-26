@@ -21,7 +21,7 @@ const Profile = () => {
   const [subscriptionDetails, setSubscriptionDetails] = useState([]);
   const [billingHistory, setBillingHistory] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
-  console.log(billingHistory);
+  // console.log(billingHistory);
 
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const Profile = () => {
           `${PROFILE}`,
           {
             params: {
-              email: localStorage.getItem("email").replace(/['"]+/g, ""),
+              email: localStorage.getItem("email")?.replace(/['"]+/g, ""),
             },
           },
           {

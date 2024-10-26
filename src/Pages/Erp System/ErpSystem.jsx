@@ -175,7 +175,7 @@ export default function ErpSystem() {
         </div>
 
         {/* Payment */}
-        {/* {activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />} */}
+        {activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />}
       </div>
     </>
   );
