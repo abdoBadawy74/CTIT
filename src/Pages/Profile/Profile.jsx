@@ -32,7 +32,7 @@ const Profile = () => {
           `${PROFILE}`,
           {
             params: {
-              email: localStorage.getItem("email")?.replace(/['"]+/g, ""),
+              email: localStorage?.getItem("email")?.replace(/['"]+/g, ""),
             },
           },
           {
