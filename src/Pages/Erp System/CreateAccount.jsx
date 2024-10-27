@@ -1,5 +1,5 @@
 import { Password } from "primereact/password";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import accountImg from "../../assets/account-image.svg";
 // translate
@@ -7,8 +7,11 @@ import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { REGISTER } from "../../Api/Api";
+import { REGISTER , CHEK_SUBDOMIAN } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
+import PhoneInput from 'react-phone-number-input'
+import 'react-phone-number-input/style.css';
+
 
 export default function CreateAccount({
   countriesNames,
@@ -24,7 +27,11 @@ export default function CreateAccount({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCountryId, setSelectedCountryId] = useState(null);
-  const [btnDisabled, setBtnDisabled] = useState();
+  const [btnDisabled, setBtnDisabled] = useState(true);
+  const [error, setError] = useState("");
+  const [matchesErr, setMatchesErr] = useState("")
+  const [note, setNote] = useState(false);
+  const [subDomianNote, setSubDomianNote] = useState(false);
 
   const {
     register,
@@ -56,30 +63,24 @@ export default function CreateAccount({
     },
   });
 
-  // get default country
-  useEffect(() => {
-    countriesNames.map((country) => {
-      if (country.is_default === true) {
-        setSelectedCountry(country);
-        setValue("country_id", country.id);
-      }
-    });
-  }, [countriesNames]);
+  // Password validation function
+  const validatePassword = (password) => {
+    const minLength = /.{8,}/;
+    const hasUpperCase = /[A-Z]/;
+    const hasLowerCase = /[a-z]/;
+    const hasNumber = /[0-9]/;
+    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/;
 
-  const onSelectedCountry = (country) => {
-    setSelectedCountry(country);
-    setValue("country_id", country.id);
-    localStorage.setItem("selected_country_id", country.id);
-  };
-  //   select country from dropdown
-  const handleCountrySelect = (country) => {
-    setSelectedCountry(country);
-    setValue("country_id", country.id);
-
-    onSelectedCountry(country);
-    setIsOpen(false); // close dropdown after selection
+    return (
+      minLength.test(password) &&
+      hasUpperCase.test(password) &&
+      hasLowerCase.test(password) &&
+      hasNumber.test(password) &&
+      hasSymbol.test(password)
+    );
   };
 
+  // function to handle image upload
   const onFileInputChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -93,20 +94,74 @@ export default function CreateAccount({
     }
   };
 
+  // function to reset image
   const resetImage = () => {
     setUploadedImageSrc(null);
     setValue("profile_img", null);
   };
 
+  // function to check if all required fields are filled
   useEffect(() => {
     // show toast if any field required not write
+
+    if (getValues("partner_name") && getValues("company_name") && getValues("email") && getValues("phone") && getValues("password") && getValues("confirm_password") && getValues("sub_domain") && getValues("acceptPolicy")) {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
+    }
 
     if (!getValues) {
       toast.error(language === "en" ? "Please fill all required fields" : "يرجى ملء جميع الحقول المطلوبة");
     }
-  }, [getValues]);
+  }, [getValues, language]);
 
+
+
+  // function to check valid sub domain
+  const checkSubDomain = (subDomain) => {
+    axios.post(`${CHEK_SUBDOMIAN}/`, {
+      params: {
+        subdomain: subDomain
+      }
+    }).then((res) => {
+      console.log(res);
+      if (res.data.result.valid) {
+        toast.success(language === "en" ? "Valid Sub Domain" : "نطاق فرعي صالح")
+        setBtnDisabled(false)
+      } else {
+        toast.error(language === "en" ? "Invalid Sub Domain" : "نطاق فرعي غير صالح")
+        toast.error(res.data.result.msg)
+
+        setBtnDisabled(true)
+      }
+
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+
+
+
+  // function to submit the form
   const onSubmit = (formData) => {
+    // Check if password is valid
+    if (!validatePassword(formData.password)) {
+      setError(
+        language === "en"
+          ? "Password must be at least 8 characters, with uppercase, lowercase, number, and symbol."
+          : "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل وتحتوي على أحرف كبيرة وصغيرة ورقم ورمز."
+      );
+      return; // Stop the submission if password is invalid
+    }
+
+    // Check if passwords match
+    if (formData.password !== formData.confirm_password) {
+      setMatchesErr("Passwords do not match")
+      return; // Stop the submission if passwords don't match
+    }
+
+
     // Ensure required fields are included and formatted
     const data = {
       ...formData,
@@ -128,31 +183,35 @@ export default function CreateAccount({
       console.log("Submitting Data:", data);
 
       // Send data to the server
-      axios
-        .post(
-          REGISTER, // Correct API endpoint
-          { params: data }, // Send `data` directly as body, not inside `params`
-          {
-            headers: {
-              "Content-Type": "application/json", // Correct header field
-            },
-          }
-        )
-        .then((res) => {
-          console.log("Response:", res);
-          if (res.data.result.sent) {
-            toast.success(language === "en" ? "Account created, Click next to verify your email": "تم إنشاء الحساب ، انقر فوق التالي للتحقق من بريدك الإلكتروني");
-            localStorage.setItem("email", JSON.stringify(data.email));
-            setFlag(true);
-          } else {
-            toast.error(language === "en" ? "Error creating account" : "خطأ في إنشاء الحساب");
-          }
-        })
-        .catch((err) => {
-          console.error("Error:", err);
-        });
-    }
+    //   axios
+    //     .post(
+    //       REGISTER, // Correct API endpoint
+    //       { params: data }, // Send `data` directly as body, not inside `params`
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json", // Correct header field
+    //         },
+    //       }
+    //     )
+    //     .then((res) => {
+    //       console.log("Response:", res);
+    //       if (res.data.result.sent) {
+    //         toast.success(language === "en" ? "Account created, Click next to verify your email" : "تم إنشاء الحساب ، انقر فوق التالي للتحقق من بريدك الإلكتروني");
+    //         localStorage.setItem("email", JSON.stringify(data.email));
+    //         setFlag(true);
+    //       } else {
+    //         toast.error(language === "en" ? "Error creating account" : "خطأ في إنشاء الحساب");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error("Error:", err);
+    //     });
+    // }
   };
+
+
+
+
 
   return (
     <div className="grid grid-cols-3 mx-20 items-center xl:gap-12 account">
@@ -251,79 +310,38 @@ export default function CreateAccount({
                 {t[language].PhoneNumber}
                 <span className="text-red-600">*</span>
               </label>
-              <div className="flex rounded border-[2px]" style={{
-                direction: "ltr",
-              }}>
-                {/* dropdown menu for countries */}
-                <div
-                  className="custom-dropdown"
-                  style={{
-                    width: "180px",
-                  }}
-                >
-                  <div
-                    className="dropdown-header"
-                    style={{
-                      border: 0,
-                    }}
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    <img
-                      src={`data:image/png;base64,${selectedCountry?.image}`}
-                      alt={selectedCountry?.name}
-                      style={{
-                        width: "20px",
-                        height: "15px",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <p>{selectedCountry?.name.slice(0, 2)}</p>
-                    <p>+{selectedCountry?.phone_code}</p>
-                    {isOpen ? (
-                      <i className="pi pi-chevron-up"></i>
-                    ) : (
-                      <i className="pi pi-chevron-down"></i>
-                    )}
-                  </div>
-
-                  {/* Dropdown menu */}
-                  {isOpen && (
-                    <div className="dropdown-menu">
-                      {countriesNames.map((country) => (
-                        <div
-                          key={country.id}
-                          className="dropdown-item"
-                          onClick={() => handleCountrySelect(country)}
-                        >
-                          <img
-                            src={`data:image/png;base64,${country?.image}`}
-                            alt={country?.name}
-                            style={{
-                              width: "20px",
-                              height: "15px",
-                              marginRight: "10px",
-                            }}
-                          />
-                          <p>{country?.name.slice(0, 2)}</p>
-                          <p>+{country?.phone_code}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <input
+              <div className="relative">
+                <PhoneInput
+                  placeholder={t[language].Phone}
                   {...register("phone", { required: true })}
-                  type="tel"
-                  className="py-3 px-3 rounded-e-md w-full  border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder={t[language].PhoneNumber}
-                  style={{
-                    direction: language ==="en" ? "ltr" : "rtl",
+                  className="flex items-center py-3 px-3 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  defaultCountry="SA"
+                  international
+                  value={selectedCountry}
+                  onChange={(value) => {
+                    setValue("phone", value);
+                    setSelectedCountryId(value);
                   }}
+                  limitMaxLength={true}
                 />
               </div>
+
             </div>
 
-            <div className="flex flex-col gap-2 input-container">
+            <div className="flex flex-col gap-2 input-container relative">
+              <i className="pi pi-exclamation-circle text-gray-500 text-sm cursor-pointer absolute top-2 right-2"
+                onClick={() => {
+                  setNote(true)
+                  setTimeout(() => {
+                    setNote(false)
+                  }, 1000);
+                }}
+              ></i>
+              {
+                note &&
+                <span className="text-sm text-blue-500 absolute right-7 top-1">
+                  {t[language].PasswordNote}
+                </span>}
               <label className="text-[#8D8D8D]">
                 {t[language].Password}
                 <span className="text-red-600">*</span>
@@ -332,12 +350,18 @@ export default function CreateAccount({
                 feedback={false}
                 onChange={(e) => setValue("password", e.target.value)}
                 placeholder={t[language].Password}
-                // toggleMask
+                className={`${language === "ar" ? "ar-pass" : ""}`}
+                toggleMask
+                required
               />
-              {errors.password && (
-                <span className="text-red-600">Password is required</span>
-              )}
+              {
+                error && <span className="text-red-600 text-xs">
+                  {error}
+                </span>
+              }
+
             </div>
+
             <div className="flex flex-col gap-2 input-container">
               <label className="text-[#8D8D8D]">
                 {t[language].ConfirmPassword}
@@ -347,15 +371,14 @@ export default function CreateAccount({
                 feedback={false}
                 onChange={(e) => setValue("confirm_password", e.target.value)}
                 placeholder={t[language].ConfirmPassword}
-                // toggleMask
+                className={`${language === "ar" ? "ar-pass" : ""}`}
+                toggleMask
               />
-              {errors.confirmPassword && (
-                <span className="text-red-600">
-                  {errors.confirmPassword.type === "required"
-                    ? "Confirm password is required"
-                    : "Passwords must match"}
+              {
+                matchesErr && <span className="text-red-600 text-xs">
+                  {matchesErr}
                 </span>
-              )}
+              }
             </div>
 
             <div className="flex flex-col gap-2">
@@ -370,7 +393,24 @@ export default function CreateAccount({
                 placeholder="Tax Id"
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 relative">
+
+
+              <i className="pi pi-exclamation-circle text-gray-500 text-sm cursor-pointer absolute top-2 right-2"
+                onClick={() => {
+                  setSubDomianNote(true)
+                  setTimeout(() => {
+                    setSubDomianNote(false)
+                  }, 1000);
+                }}
+              ></i>
+              {
+                subDomianNote &&
+                <span className="text-sm text-blue-500 absolute right-7 -top-2 w-[65%]">
+                  {t[language].SubDomainNote}
+                </span>}
+
+
               <label className="text-[#8D8D8D]">
                 {t[language].SubDomain}
                 <span className="text-red-600">*</span>
@@ -382,13 +422,20 @@ export default function CreateAccount({
                   className="py-3 px-3 pr-32 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="ex.user65"
                 />
-                <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                <span className="absolute inset-y-0 right-0 flex items-center pr-16 text-gray-500">
                   @ctit.com.sa
                 </span>
+                <button
+                  type="button"
+                  className="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-md absolute right-1 top-1/2 transform -translate-y-1/2 transition"
+                  onClick={() => checkSubDomain(getValues("sub_domain"))}
+                >
+                  check
+                </button>
               </div>
             </div>
             <div className="p-6">
-              <label className="flex item         space-x-2">
+              <label className="flex item space-x-2">
                 <input
                   type="checkbox"
                   {...register("acceptPolicy")}
@@ -400,10 +447,9 @@ export default function CreateAccount({
             <button
               type="submit"
               className={`py-3 px-6 rounded-md w-full text-white font-bold
-                ${
-                  btnDisabled
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-700"
+                ${btnDisabled
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-700"
                 }
               `}
               disabled={btnDisabled}
