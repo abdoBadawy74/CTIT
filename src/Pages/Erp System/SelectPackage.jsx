@@ -97,7 +97,7 @@ export default function SelectPackage({
 
   //  get selected plan by default
   useEffect(() => {
-    subscriptionPlans.map((plan) => {
+    subscriptionPlans?.map((plan) => {
       if (plan.is_default) {
         setSelectedPlan(plan);
         setSelectedPlanIndex(plan.id);
@@ -109,6 +109,7 @@ export default function SelectPackage({
   const onSelectedPlan = (plan, index) => {
     setSelectedPlan(plan);
     setSelectedPlanIndex(index);
+    console.log(selectedPlanIndex);
     localStorage.setItem("selected_plan_id", plan.id);
   };
 
@@ -244,12 +245,12 @@ export default function SelectPackage({
                 <div key={plan.id} className="grow">
                   <button
                     onClick={() => onSelectedPlan(plan, i)}
-                    className={`text-[#8D8D8D] px-5 py-4 flex gap-4 justify-center items-center rounded-xl w-full ${selectedPlanIndex === i ? "bg-[#002B54] text-white" : ""
+                    className={`text-[#8D8D8D] px-5 py-4 flex gap-4 justify-center items-center rounded-xl w-full ${selectedPlanIndex === i + 1 ? "bg-[#002B54] text-white" : ""
                       }`}
                   >
                     {plan.name}
                     <span
-                      className={`p-2 rounded-lg ${selectedPlanIndex === i
+                      className={`p-2 rounded-lg ${selectedPlanIndex === i + 1
                         ? "bg-[#27AE60] text-white"
                         : "bg-[#DCDCDC] text-[#8D8D8D]"
                         }`}

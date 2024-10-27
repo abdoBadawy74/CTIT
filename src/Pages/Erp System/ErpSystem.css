@@ -179,6 +179,16 @@
   transform: translateY(-50%);
   right: 10px;
 }
+.ar-pass .p-input-icon {
+  left: 10px !important;
+  right: auto;
+}
+.PhoneInputInput {
+  margin-left: 10px;
+  border-radius: 8px;
+  width: 250px !important;
+  outline: none !important;
+}
 
 /* Verify Email */
 @media screen and (max-width: 768px) {

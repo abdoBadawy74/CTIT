@@ -206,7 +206,7 @@ export default function CreateAccount({
     //     .catch((err) => {
     //       console.error("Error:", err);
     //     });
-    // }
+    }
   };
 
 
@@ -470,4 +470,4 @@ CreateAccount.propTypes = {
   countriesNames: PropTypes.array.isRequired,
   setFlag: PropTypes.func.isRequired,
   SelectedPackageId: PropTypes.object.isRequired,
-};
+}
