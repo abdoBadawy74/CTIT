@@ -7,6 +7,8 @@ export const ERP_PACKGAES = `${BASE}/country_package_pricing`;
 
 // Auth
 export const REGISTER = `${BASE}/action_register`;
+export const CHEK_SUBDOMIAN = `${BASE}/check_valid_subdomain`;
+
 export const VERIFY_EMAIL = `${BASE}/verify_email`;
 // Login
 export const LOGIN = `${BASE}/partner_login`;
