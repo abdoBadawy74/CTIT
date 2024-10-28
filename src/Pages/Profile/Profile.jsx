@@ -423,7 +423,10 @@ const Profile = () => {
                           <th>{t[language].Status}</th>
                           <th>{t[language].Invioce}</th>
                           <th>{t[language].Date}</th>
-                          <th>{t[language].Amount}</th>
+                          <th> {t[language].Amount_Untax}</th>
+                          <th> {t[language].Amount_Tax}</th>
+                          <th>{t[language].Amount_Total}</th>
+
                           <th>{t[language].Pay}</th>
                         </tr>
                       </thead>
@@ -438,7 +441,13 @@ const Profile = () => {
                             <td className="py-3">{bill.bill_name}</td>
                             <td className="py-3">{bill.bill_creation_date}</td>
                             <td className="py-3">
-                              {bill.amount_total.toFixed(3)}
+                              {bill.amount_untaxed}
+                            </td>
+                            <td className="py-3">
+                              {bill.amount_tax}
+                            </td>
+                            <td className="py-3">
+                              {bill.amount_total}
                             </td>
                             <td>
                               <button

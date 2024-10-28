@@ -1,4 +1,4 @@
-email = yocim41223@rowplant.com
+email = toyenes606@skrank.com
 pass =123456789
 
 // ErpSystem
@@ -7,3 +7,5 @@ pass =123456789
 =>> if user isLoggedIn => select package =>> select | skip adds =>> profile page
 
 =>> if user isLoggedIn & is 
+
+// edit billing history in profile | navigate to verify email | decode img before sending in create account | handle description as html string in adds | add restriction to file in payment 

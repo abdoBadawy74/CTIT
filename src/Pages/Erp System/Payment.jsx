@@ -28,10 +28,22 @@ export default function Payment() {
 
   const onFileInputChange = async (e) => {
     const file = e.target.files[0];
+    const maxSizeMB = 2;
+
     if (file) {
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        toast.error(
+          language === "en" ?
+            `File size exceeds ${maxSizeMB} MB. Please select a smaller file.`
+            : `حجم الملف يتجاوز ${maxSizeMB} ميغابايت. الرجاء تحديد ملف أصغر.`
+        );
+        setFilePreview(null);
+        return;
+      }
+
       const fileExtension = file.name.split(".").pop().toLowerCase();
       const reader = new FileReader();
-      setSelectedFile(file); // Store the actual file for submission
+      setSelectedFile(file);
 
       if (fileExtension === "pdf") {
         setFileType("pdf");
@@ -43,7 +55,7 @@ export default function Payment() {
         };
         reader.readAsDataURL(file);
       } else {
-        alert("Unsupported file type! Please select an image or a PDF.");
+        toast.error("Unsupported file type! Please select an image or a PDF.");
         setFilePreview(null);
       }
     }
@@ -79,11 +91,6 @@ export default function Payment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create form data
-    const formData = new FormData();
-    formData.append("pre_subscription_id", 5); // static value
-    formData.append("attachment", selectedFile || ""); // include file if present
-
     if (selectedFile) {
       try {
         const response = await axios.post(`${PAYMENT}`, {
@@ -96,12 +103,20 @@ export default function Payment() {
         // Handle response (success)
         // console.log("Form submitted successfully:", response.data);
         if (response.data.result.success === true) {
-          toast.success(language === "en" ? "Process completed successfully! ,redirecting..." : "تمت العملية بنجاح! ,جار التوجيه...");
+          toast.success(
+            language === "en"
+              ? "Process completed successfully! ,redirecting..."
+              : "تمت العملية بنجاح! ,جار التوجيه..."
+          );
           setTimeout(() => {
             window.location.href = "/profile";
           }, 1500);
         } else {
-          toast.error(language === "en" ? "Error submitting form!" : "خطأ في تقديم النموذج");
+          toast.error(
+            language === "en"
+              ? "Error submitting form!"
+              : "خطأ في تقديم النموذج"
+          );
         }
       } catch (error) {
         // Handle error
@@ -297,9 +312,6 @@ export default function Payment() {
                   Will Avialable Soon...
                 </p>
                 {/* Add your online payment form or buttons here */}
-                {/* <button className="mt-4 bg-blue-500 w-full text-white py-2 px-4 rounded">
-                  {t[language].Online}
-                </button> */}
               </div>
             </>
           )}
