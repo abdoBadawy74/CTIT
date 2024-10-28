@@ -51,6 +51,23 @@ function EditProfile() {
   const onFileInputChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+
+      // Check if the file is an image
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!validImageTypes.includes(file.type)) {
+        toast.error("Please upload a valid image file (JPEG, PNG, or JPG)");
+        return;
+      }
+
+      // Check if the file size is less than or equal to 2MB
+      const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+      if (file.size > maxSizeInBytes) {
+        toast.error("Image size must be less than or equal to 2MB");
+        return;
+      }
+
+
+
       const reader = new FileReader();
       reader.onload = () => {
         const base64String = reader.result.split(",")[1]; // Only Base64 part
@@ -172,18 +189,16 @@ function EditProfile() {
                 </label>
                 <div className="flex items-center gap-3 mx-6 space-y-3">
                   <div
-                    className={`flex items-center gap-3 text-[#27AE60] border p-2 ${
-                      language === "en" ? "rounded-bl-lg" : "rounded-br-lg"
-                    } border-[#27AE60] cursor-pointer`}
+                    className={`flex items-center gap-3 text-[#27AE60] border p-2 ${language === "en" ? "rounded-bl-lg" : "rounded-br-lg"
+                      } border-[#27AE60] cursor-pointer`}
                     onClick={changeImage}
                   >
                     {t[language].Change}{" "}
                     <img src={editImg} alt="edit" className="pr-3" />
                   </div>
                   <div
-                    className={`flex items-center gap-3 text-[#C32B43] border p-2 ${
-                      language === "en" ? "rounded-br-lg" : "rounded-bl-lg"
-                    } border-[#C32B43] cursor-pointer`}
+                    className={`flex items-center gap-3 text-[#C32B43] border p-2 ${language === "en" ? "rounded-br-lg" : "rounded-bl-lg"
+                      } border-[#C32B43] cursor-pointer`}
                     style={{
                       margin: 0,
                     }}

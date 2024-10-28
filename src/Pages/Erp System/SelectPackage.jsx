@@ -3,17 +3,16 @@ import { useState, useEffect, useContext } from "react";
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import axios from "axios";
-import { COUNTRIES, SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
+import { SUBSCRIPTIONS, ERP_PACKGAES } from "../../Api/Api";
 import "./ErpSystem.css";
 import PropTypes from "prop-types";
-import { BeatLoader, BounceLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 import { Countries } from "../../Context/CountryContext";
 import packageIcon from "../../assets/packageSvg.svg";
 
 export default function SelectPackage({
   setFlag,
   setAdds,
-  setCountriesNames,
   setSelectedPackageId,
 }) {
   // translate
@@ -29,7 +28,6 @@ export default function SelectPackage({
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageLoading, setImageLoading] = useState();
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -56,9 +54,7 @@ export default function SelectPackage({
     countries.map((country) => {
       if (country.is_default === true) {
         setSelectedCountry(country);
-        setTimeout(() => {
-          setImageLoading(`data:image/png;base64,${country?.image}`);
-        }, 500);
+
       }
     });
   }, [countries]);
@@ -151,7 +147,7 @@ export default function SelectPackage({
   }
 
 
-
+//  render description with icons
   const renderDescriptionWithIcons = (description) => {
     // Convert the HTML string to HTML elements
     const parser = new DOMParser();
@@ -312,6 +308,5 @@ export default function SelectPackage({
 SelectPackage.propTypes = {
   setFlag: PropTypes.func,
   setAdds: PropTypes.func,
-  setCountriesNames: PropTypes.func,
   setSelectedPackageId: PropTypes.func,
 };

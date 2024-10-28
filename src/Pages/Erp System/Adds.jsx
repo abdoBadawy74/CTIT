@@ -19,6 +19,25 @@ export default function Adds({ adds, setFlag }) {
     setFlag(true);
   }, [selectedAddId]);
 
+  const renderDescriptionWithIcons = (description) => {
+    // Convert the HTML string to HTML elements
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(description, "text/html");
+    const paragraphs = Array.from(doc.body.childNodes);
+
+    // Wrap each line with a check icon
+    return (
+      <div>
+        {paragraphs.map((paragraph, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <i className="pi pi-check-circle" style={{ color: "#0081FE" }}></i>
+            <span dangerouslySetInnerHTML={{ __html: paragraph.outerHTML }} />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div>
       <div className="flex items-center flex-col mb-8 text-center">
@@ -45,13 +64,8 @@ export default function Adds({ adds, setFlag }) {
               </p>
             </div>
             <div className="flex items-start gap-2">
-              <i
-                className="pi pi-check-circle"
-                style={{ color: "#0081fe" }}
-              ></i>
-              <p className="text-[#002B54] font-semibold text-sm">
-                {add.description}
-              </p>
+
+              {renderDescriptionWithIcons(add.description)}
             </div>
             <button
               className={`rounded-xl mt-7 py-3 px-2 min-w-36 text-white ${

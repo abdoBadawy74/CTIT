@@ -16,7 +16,7 @@ export default function ErpSystem() {
   const { language } = useLanguage();
 
   // states
-  const [activeIndex, setActiveIndex] = useState(2); // Step control
+  const [activeIndex, setActiveIndex] = useState(0); // Step control
   const [flag, setFlag] = useState(false); // Flag to enable/disable the next button
   const [adds, setAdds] = useState([]); // Adds
   const [countriesNames, setCountriesNames] = useState([]); // Countries
@@ -123,7 +123,6 @@ export default function ErpSystem() {
           <SelectPackage
             setFlag={setFlag}
             setAdds={setAdds}
-            setCountriesNames={setCountriesNames}
             setSelectedPackageId={setSelectedPackageId}
           />
         )}
@@ -139,6 +138,7 @@ export default function ErpSystem() {
             countriesNames={countriesNames}
             setFlag={setFlag}
             SelectedPackageId={SelectedPackageId}
+            setIndex={setActiveIndex}
           />
         )}
 
@@ -175,7 +175,7 @@ export default function ErpSystem() {
         </div>
 
         {/* Payment */}
-        {activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />}
+        {localStorage.getItem("LoginEmail") && activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />}
       </div>
     </>
   );

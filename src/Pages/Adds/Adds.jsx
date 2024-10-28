@@ -49,6 +49,25 @@ export default function Adds() {
     setQuantity((prev) => Math.max(0, prev + delta));
   };
 
+  const renderDescriptionWithIcons = (description) => {
+    // Convert the HTML string to HTML elements
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(description, "text/html");
+    const paragraphs = Array.from(doc.body.childNodes);
+
+    // Wrap each line with a check icon
+    return (
+      <div>
+        {paragraphs.map((paragraph, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <i className="pi pi-check-circle" style={{ color: "#0081FE" }}></i>
+            <span dangerouslySetInnerHTML={{ __html: paragraph.outerHTML }} />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       {adds ? (
@@ -68,9 +87,8 @@ export default function Adds() {
               </p>
             </div>
             <button
-              className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all bg-[#0081FE] text-white ${
-                selectedAddId && activeIndex === 0 ? "opacity-100" : "opacity-0"
-              }`}
+              className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all bg-[#0081FE] text-white ${selectedAddId && activeIndex === 0 ? "opacity-100" : "opacity-0"
+                }`}
               onClick={goToTheNext}
               disabled={!selectedAddId}
             >
@@ -89,9 +107,8 @@ export default function Adds() {
                   {adds.map((card) => (
                     <div
                       key={card.id}
-                      className={`card-add bg-white flex flex-col gap-5 border border-[#DCDCDC] rounded-lg py-5 px-7 w-[300px] justify-between ${
-                        selectedAddId === card.id ? "selected-card" : ""
-                      }`}
+                      className={`card-add bg-white flex flex-col gap-5 border border-[#DCDCDC] rounded-lg py-5 px-7 w-[300px] justify-between ${selectedAddId === card.id ? "selected-card" : ""
+                        }`}
                     >
                       <div className="title flex flex-col justify-center items-center">
                         <h2 className="py-2">{card.name}</h2>
@@ -104,13 +121,9 @@ export default function Adds() {
                         </p>
                       </div>
                       <div className="flex items-start gap-2">
-                        <i
-                          className="pi pi-check-circle"
-                          style={{ color: "#0081fe" }}
-                        ></i>
-                        <p className="text-[#002B54] font-semibold text-sm">
-                          {card.description}
-                        </p>
+
+                        {renderDescriptionWithIcons(card.description)}
+
                       </div>
                       {card.description2 && (
                         <div className="flex items-start gap-2">
@@ -177,11 +190,10 @@ export default function Adds() {
                       </div>
 
                       <button
-                        className={`rounded-xl mt-7 py-3 px-2 min-w-36 text-white ${
-                          selectedAddId === card.id
+                        className={`rounded-xl mt-7 py-3 px-2 min-w-36 text-white ${selectedAddId === card.id
                             ? "bg-[#002b54]"
                             : "bg-blue-500"
-                        }`}
+                          }`}
                         onClick={() => toggleSelectionAdd(card.id)}
                       >
                         {selectedAddId === card.id

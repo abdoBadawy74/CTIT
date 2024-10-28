@@ -7,14 +7,14 @@ import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { REGISTER , CHEK_SUBDOMIAN } from "../../Api/Api";
+import { REGISTER, CHEK_SUBDOMIAN } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css';
 
 
 export default function CreateAccount({
-  countriesNames,
+  setIndex,
   setFlag,
   SelectedPackageId,
 }) {
@@ -24,7 +24,6 @@ export default function CreateAccount({
 
   //   create account
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCountryId, setSelectedCountryId] = useState(null);
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -80,19 +79,35 @@ export default function CreateAccount({
     );
   };
 
-  // function to handle image upload
-  const onFileInputChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUploadedImageSrc(e.target.result);
-      };
-      reader.readAsDataURL(file);
-
-      setValue("profile_img", file);
+// Function to handle file input change and store Base64 string in form data
+const onFileInputChange = async (e) => {
+  const file = e.target.files[0];
+  
+  if (file) {
+    // Check if the file is an image
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!validImageTypes.includes(file.type)) {
+      toast.error("Please upload a valid image file (JPEG, PNG, or JPG)");
+      return;
     }
-  };
+
+    // Check if the file size is less than or equal to 2MB
+    const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSizeInBytes) {
+      toast.error("Image size must be less than or equal to 2MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result.split(",")[1]; // Only Base64 part
+      setUploadedImageSrc(reader.result); // Display the uploaded image
+      setValue("profile_img", base64String); // Store Base64 string in form data
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 
   // function to reset image
   const resetImage = () => {
@@ -183,35 +198,32 @@ export default function CreateAccount({
       console.log("Submitting Data:", data);
 
       // Send data to the server
-    //   axios
-    //     .post(
-    //       REGISTER, // Correct API endpoint
-    //       { params: data }, // Send `data` directly as body, not inside `params`
-    //       {
-    //         headers: {
-    //           "Content-Type": "application/json", // Correct header field
-    //         },
-    //       }
-    //     )
-    //     .then((res) => {
-    //       console.log("Response:", res);
-    //       if (res.data.result.sent) {
-    //         toast.success(language === "en" ? "Account created, Click next to verify your email" : "تم إنشاء الحساب ، انقر فوق التالي للتحقق من بريدك الإلكتروني");
-    //         localStorage.setItem("email", JSON.stringify(data.email));
-    //         setFlag(true);
-    //       } else {
-    //         toast.error(language === "en" ? "Error creating account" : "خطأ في إنشاء الحساب");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.error("Error:", err);
-    //     });
+      axios
+        .post(
+          REGISTER, // Correct API endpoint
+          { params: data }, // Send `data` directly as body, not inside `params`
+          {
+            headers: {
+              "Content-Type": "application/json", // Correct header field
+            },
+          }
+        )
+        .then((res) => {
+          console.log("Response:", res);
+          if (res.data.result.sent) {
+            toast.success(language === "en" ? "Account created, Click next to verify your email" : "تم إنشاء الحساب ، انقر فوق التالي للتحقق من بريدك الإلكتروني");
+            localStorage.setItem("email", JSON.stringify(data.email));
+            setIndex(prev => prev + 1);
+            setFlag(true);
+          } else {
+            toast.error(language === "en" ? "Error creating account" : "خطأ في إنشاء الحساب");
+          }
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+        });
     }
   };
-
-
-
-
 
   return (
     <div className="grid grid-cols-3 mx-20 items-center xl:gap-12 account">
@@ -465,9 +477,8 @@ export default function CreateAccount({
     </div>
   );
 }
-
 CreateAccount.propTypes = {
-  countriesNames: PropTypes.array.isRequired,
+  setIndex: PropTypes.func.isRequired,
   setFlag: PropTypes.func.isRequired,
   SelectedPackageId: PropTypes.object.isRequired,
 }
