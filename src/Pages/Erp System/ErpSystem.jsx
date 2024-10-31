@@ -133,7 +133,7 @@ export default function ErpSystem() {
         {/* End Erp Packages */}
 
         {/* Start Adds  */}
-        {activeIndex === 1 && <Adds adds={adds} setFlag={setFlag}  setAddsSelected={setAddsSelected} />}
+        {activeIndex === 1 && <Adds adds={adds} setFlag={setFlag} setAddsSelected={setAddsSelected} />}
         {/* End Adds */}
 
         {/* Conditional rendering for Create Account and Verify Email */}
@@ -157,29 +157,32 @@ export default function ErpSystem() {
             justifyContent: activeIndex > 0 ? "space-between" : "flex-end",
           }}
         >
-          {activeIndex !== 0 && (
-            <button
-              className="px-20 py-4 my-10 lg:my-0 bg-white text-[#0081FE] border border-[#0081FE] text-lg rounded-lg focus:outline-none"
+
+          {activeIndex !== 0 &&
+
+            <div className="flex items-center justify-center px-3 py-2 bg-white border border-[#0081FE] transition hover:text-[#0081FE] rounded-full fixed left-0 top-80 z-50"
               onClick={goToThePrevious}
             >
-              {t[language].Previous}
-            </button>
-          )}
 
-          {activeIndex < steps.length - 1 && (
-            <button
-              className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
-                }`}
+              <i className="pi pi-angle-left"></i>
+            </div>
+          }
+
+          {activeIndex < steps.length - 1 &&
+            <div className="flex items-center justify-center px-3 py-2 bg-white border border-[#0081FE] transition hover:text-[#0081FE] rounded-full fixed right-0 top-80 z-50"
               onClick={goToTheNext}
-              disabled={flag === false}
+              style={{
+                display: flag ? "flex" : "none"
+              }}
             >
-              {t[language].Next}
-            </button>
-          )}
+
+              <i className="pi pi-angle-right"></i>
+            </div>
+          }
         </div>
 
         {/* Payment */}
-        {localStorage.getItem("LoginEmail") && activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId}  SelectedCountryId={SelectedCountryId} addsSelected={addsSelected} />}
+        {localStorage.getItem("LoginEmail") && activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} SelectedCountryId={SelectedCountryId} addsSelected={addsSelected} />}
       </div>
     </>
   );

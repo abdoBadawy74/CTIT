@@ -15,9 +15,9 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 
 
-export default function Payment({ SelectedPackageId, SelectedCountryId, selectedAdds, addsSelected }) {
+export default function Payment({ SelectedPackageId, SelectedCountryId, addsSelected }) {
   console.log(SelectedPackageId);
-  console.log(selectedAdds);
+
   console.log("addsSelected", addsSelected);
   const { language } = useLanguage();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("upload");
@@ -239,7 +239,7 @@ export default function Payment({ SelectedPackageId, SelectedCountryId, selected
 
 
   const location = useLocation();
-  console.log(location.state.type);
+  // console.log(location.state?.type);
 
 
 

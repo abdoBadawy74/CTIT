@@ -33,7 +33,7 @@ export default function SelectPackage({
   const [searchTerm, setSearchTerm] = useState("");
 
 
-  console.log(selectedCountry);
+  // console.log(selectedCountry);
 
   //  get language from local storage
   useEffect(() => {
@@ -88,6 +88,7 @@ export default function SelectPackage({
         },
       })
       .then((res) => {
+        console.log(res);
         setSubscriptionPlans(res.data.result);
       })
       .catch((err) => {
@@ -103,15 +104,17 @@ export default function SelectPackage({
         setSelectedPlanIndex(plan.id);
       }
     });
-  }, [subscriptionPlans]);
+  }, []);
 
   //   select plan function
-  const onSelectedPlan = (plan, index) => {
+  const onSelectedPlan = (plan) => {
     setSelectedPlan(plan);
-    setSelectedPlanIndex(index);
+    setSelectedPlanIndex(plan.id);
     console.log(selectedPlanIndex);
     localStorage.setItem("selected_plan_id", plan.id);
   };
+
+  console.log("selectedPlan",selectedPlan);
 
   //  get package cards
   useEffect(() => {
@@ -245,12 +248,12 @@ export default function SelectPackage({
                 <div key={plan.id} className="grow">
                   <button
                     onClick={() => onSelectedPlan(plan, i)}
-                    className={`text-[#8D8D8D] px-5 py-4 flex gap-4 justify-center items-center rounded-xl w-full ${selectedPlanIndex === i + 1 ? "bg-[#002B54] text-white" : ""
+                    className={`text-[#8D8D8D] px-5 py-4 flex gap-4 justify-center items-center rounded-xl w-full ${selectedPlanIndex === i+1  ? "bg-[#002B54] text-white" : ""
                       }`}
                   >
                     {plan.name}
                     <span
-                      className={`p-2 rounded-lg ${selectedPlanIndex === i + 1
+                      className={`p-2 rounded-lg ${selectedPlanIndex === i+1 
                         ? "bg-[#27AE60] text-white"
                         : "bg-[#DCDCDC] text-[#8D8D8D]"
                         }`}

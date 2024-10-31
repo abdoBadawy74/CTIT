@@ -34,7 +34,7 @@
 }
 @media screen and (max-width: 768px) {
   .steps-container {
-    flex-direction: column;
+    /* flex-direction: column; */
     padding: 0 20px;
   }
 }
@@ -92,7 +92,7 @@
 }
 @media screen and (max-width: 768px) {
   .steps-container::before {
-    display: none;
+    /* display: none; */
   }
 }
 
