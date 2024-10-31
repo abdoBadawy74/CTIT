@@ -104,7 +104,7 @@ export default function SelectPackage({
         setSelectedPlanIndex(plan.id);
       }
     });
-  }, []);
+  }, [subscriptionPlans]);
 
   //   select plan function
   const onSelectedPlan = (plan) => {

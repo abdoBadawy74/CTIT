@@ -12,12 +12,14 @@
 th {
   color: #8d8d8d;
   font-weight: 400;
+  padding: 10px !important;
 }
 tr {
   padding: 0 10px !important;
 }
 td {
   color: #8d8d8d;
+  padding: 10px !important;
 }
 .box {
   border-radius: 8px;

@@ -95,7 +95,7 @@ export default function Payment({ SelectedPackageId, SelectedCountryId, addsSele
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (location.state.type !== "pay") {
+    if (location.state?.type !== "pay") {
 
       if (selectedFile) {
         try {

@@ -52,6 +52,7 @@ const About = () => {
                       language === "en" ? "left-10" : "left-16"
                     } `}
                     to="/erp"
+                    state={{type:"pay"}}
                   >
                     {t[language].Subscribe}
                   </Link>
