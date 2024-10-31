@@ -21,6 +21,7 @@ export const EDIT_PROFILE = `${BASE}/edit_personal_information`;
 
 // Payment
 export const PAYMENT = `${BASE}/set_payment_attachment`;
+export const PRE_SUBSCRIPTION = `${BASE}/action_create_pre_subscription`;
 
 // Promo code
 export const CHEK_PROMO_CODE = `${BASE}/check_promo_code`;

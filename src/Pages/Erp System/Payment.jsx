@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import useLanguage from "../../Context/useLanguage";
 import t from "../../translation/translation";
 import QRCode from "../../assets/qr-code-img.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PDF from "../../assets/pdf_icon.svg";
 import axios from "axios";
 import {
   CHEK_PROMO_CODE,
   PAYMENT,
+  PRE_SUBSCRIPTION,
   PROFILE,
   SET_PROMO_CODE,
 } from "../../Api/Api";
 import { toast, ToastContainer } from "react-toastify";
 
 
-export default function Payment() {
+export default function Payment({ SelectedPackageId, SelectedCountryId, selectedAdds, addsSelected }) {
+  console.log(SelectedPackageId);
+  console.log(selectedAdds);
+  console.log("addsSelected", addsSelected);
   const { language } = useLanguage();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("upload");
   const [filePreview, setFilePreview] = useState(null);
@@ -91,39 +95,90 @@ export default function Payment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (selectedFile) {
-      try {
-        const response = await axios.post(`${PAYMENT}`, {
-          params: {
-            pre_subscription_id: bill_id, // static value
-            attachment: selectedFile, // send attachment if file selected
-          },
-        });
+    if (location.state.type !== "pay") {
 
-        // Handle response (success)
-        // console.log("Form submitted successfully:", response.data);
-        if (response.data.result.success === true) {
-          toast.success(
-            language === "en"
-              ? "Process completed successfully! ,redirecting..."
-              : "تمت العملية بنجاح! ,جار التوجيه..."
-          );
-          setTimeout(() => {
-            window.location.href = "/profile";
-          }, 1500);
-        } else {
-          toast.error(
-            language === "en"
-              ? "Error submitting form!"
-              : "خطأ في تقديم النموذج"
-          );
+      if (selectedFile) {
+        try {
+          const response = await axios.post(`${PRE_SUBSCRIPTION}`, {
+            params: {
+              email: localStorage.getItem("LoginEmail"), //required
+              country_id: SelectedCountryId, //required if subscription_type in ['new']
+              subscription_type: location.state.type, //required
+              plan_id: SelectedPackageId,  //required if subscription_type in ['new']
+              subscription_id: bill_id,  //required if subscription_type in ['extend','renew']
+              renew_as_same: false,  // in case of ['renew']
+              main_package: {
+                id: SelectedPackageId,
+              },//required if subscription_type in ['new']
+              additional_packages: addsSelected
+
+            },
+          });
+
+          // Handle response (success)
+          console.log("Form submitted successfully:", response.data);
+          if (response.data.result.success === true) {
+            toast.success(
+              language === "en"
+                ? "Process completed successfully! ,redirecting..."
+                : "تمت العملية بنجاح! ,جار التوجيه..."
+            );
+            // setTimeout(() => {
+            //   window.location.href = "/profile";
+            // }, 1500);
+          } else {
+            toast.error(
+              language === "en"
+                ? "Error submitting form!"
+                : "خطأ في تقديم النموذج"
+            );
+          }
+        } catch (error) {
+          // Handle error
+          console.error("Error submitting form:", error);
         }
-      } catch (error) {
-        // Handle error
-        console.error("Error submitting form:", error);
+      } else {
+        toast.error(language === "en" ? "Please select a file to upload!" : "الرجاء تحديد ملف للتحميل");
       }
+
+
+
+      
     } else {
-      toast.error(language === "en" ? "Please select a file to upload!" : "الرجاء تحديد ملف للتحميل");
+      if (selectedFile) {
+        try {
+          const response = await axios.post(`${PAYMENT}`, {
+            params: {
+              pre_subscription_id: bill_id, // static value
+              attachment: selectedFile, // send attachment if file selected
+            },
+          });
+
+          // Handle response (success)
+          // console.log("Form submitted successfully:", response.data);
+          if (response.data.result.success === true) {
+            toast.success(
+              language === "en"
+                ? "Process completed successfully! ,redirecting..."
+                : "تمت العملية بنجاح! ,جار التوجيه..."
+            );
+            setTimeout(() => {
+              window.location.href = "/profile";
+            }, 1500);
+          } else {
+            toast.error(
+              language === "en"
+                ? "Error submitting form!"
+                : "خطأ في تقديم النموذج"
+            );
+          }
+        } catch (error) {
+          // Handle error
+          console.error("Error submitting form:", error);
+        }
+      } else {
+        toast.error(language === "en" ? "Please select a file to upload!" : "الرجاء تحديد ملف للتحميل");
+      }
     }
   };
 
@@ -181,6 +236,17 @@ export default function Payment() {
       }
     }
   };
+
+
+  const location = useLocation();
+  console.log(location.state.type);
+
+
+
+  // if user is logged in used this 
+
+
+
 
   // return statement of the component
   return (

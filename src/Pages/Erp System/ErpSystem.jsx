@@ -10,6 +10,7 @@ import Adds from "./Adds";
 import CreateAccount from "./CreateAccount";
 import VerifyEmail from "./VerifyEmail";
 import Payment from "./Payment";
+import { useLocation } from "react-router-dom";
 
 export default function ErpSystem() {
   // translate
@@ -22,6 +23,8 @@ export default function ErpSystem() {
   const [countriesNames, setCountriesNames] = useState([]); // Countries
   const [SelectedPackageId, setSelectedPackageId] = useState(null); // Selected Package
   const [steps, setSteps] = useState([]); // Dynamic steps
+  const [SelectedCountryId, setSelectedCountryId] = useState(null); // Selected Country
+  const [addsSelected, setAddsSelected] = useState([]); // Selected Adds
 
   // Check if LoginEmail exists in local storage
   useEffect(() => {
@@ -59,6 +62,8 @@ export default function ErpSystem() {
       setActiveIndex(activeIndex - 1);
     }
   };
+  console.log(SelectedCountryId);
+
 
   return (
     <>
@@ -68,9 +73,8 @@ export default function ErpSystem() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className={`step-item ${activeIndex === index ? "active" : ""} ${
-                activeIndex > index ? "completed" : ""
-              }`}
+              className={`step-item ${activeIndex === index ? "active" : ""} ${activeIndex > index ? "completed" : ""
+                }`}
             >
               <span className="step-label">{step.label}</span>
               <span className="step-icon">
@@ -103,9 +107,8 @@ export default function ErpSystem() {
 
         {activeIndex < steps.length - 1 && (
           <button
-            className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
-              flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
-            }`}
+            className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
+              }`}
             onClick={goToTheNext}
             disabled={flag === false}
           >
@@ -124,12 +127,13 @@ export default function ErpSystem() {
             setFlag={setFlag}
             setAdds={setAdds}
             setSelectedPackageId={setSelectedPackageId}
+            setSelectedCountryId={setSelectedCountryId}
           />
         )}
         {/* End Erp Packages */}
 
         {/* Start Adds  */}
-        {activeIndex === 1 && <Adds adds={adds} setFlag={setFlag} />}
+        {activeIndex === 1 && <Adds adds={adds} setFlag={setFlag}  setAddsSelected={setAddsSelected} />}
         {/* End Adds */}
 
         {/* Conditional rendering for Create Account and Verify Email */}
@@ -139,6 +143,7 @@ export default function ErpSystem() {
             setFlag={setFlag}
             SelectedPackageId={SelectedPackageId}
             setIndex={setActiveIndex}
+            addsSelected={addsSelected}
           />
         )}
 
@@ -163,9 +168,8 @@ export default function ErpSystem() {
 
           {activeIndex < steps.length - 1 && (
             <button
-              className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${
-                flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
-              }`}
+              className={`px-24 py-5 my-10 lg:my-0 text-lg rounded-lg focus:outline-none transition-all ${flag ? "bg-[#0081FE] text-white" : "bg-gray-300 opacity-50"
+                }`}
               onClick={goToTheNext}
               disabled={flag === false}
             >
@@ -175,7 +179,7 @@ export default function ErpSystem() {
         </div>
 
         {/* Payment */}
-        {localStorage.getItem("LoginEmail") && activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId} />}
+        {localStorage.getItem("LoginEmail") && activeIndex === steps.length - 1 && <Payment SelectedPackageId={SelectedPackageId}  SelectedCountryId={SelectedCountryId} addsSelected={addsSelected} />}
       </div>
     </>
   );
