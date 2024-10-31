@@ -14,6 +14,7 @@ export default function SelectPackage({
   setFlag,
   setAdds,
   setSelectedPackageId,
+  setSelectedCountryId
 }) {
   // translate
   const { language, setLanguage } = useLanguage();
@@ -31,6 +32,8 @@ export default function SelectPackage({
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [searchTerm, setSearchTerm] = useState("");
 
+
+  console.log(selectedCountry);
 
   //  get language from local storage
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function SelectPackage({
     countries.map((country) => {
       if (country.is_default === true) {
         setSelectedCountry(country);
-
+        setSelectedCountryId(country.id);
       }
     });
   }, [countries]);
@@ -63,6 +66,7 @@ export default function SelectPackage({
   const handleCountrySelect = (country) => {
     setSelectedCountry(country);
     onSelectedCountry(country);
+    setSelectedCountryId(country.id);
     setIsOpen(false); // close dropdown after selection
   };
   const onSelectedCountry = (country) => {
@@ -118,7 +122,7 @@ export default function SelectPackage({
         },
       })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setPackeges(res.data.result.main);
         setAdds(res.data.result.additional);
         setLoading(false);

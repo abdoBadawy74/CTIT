@@ -58,13 +58,36 @@ const Profile = () => {
 
   const goToPackage = () => {
     // Logic to navigate to new package
-    navigate("/erp");
-    // console.log("Navigate to new package");
+    navigate("/erp", { state: { type: "new" } });
   };
 
   const goToAdd = () => {
-    navigate("/adds");
+    navigate("/adds", { state: { type: "extend" } });
   };
+
+
+  const [subId, setSubId] = useState();
+  console.log(subId);
+  const goToPayment = () => {
+    navigate(`/payment/${subId}`, { state: { type: "renew" } });
+  };
+
+  const renewWithEdits = () => {
+    // Logic to navigate to new package
+    navigate("/erp", { state: { type: "renew" } }, { replace: true });
+  };
+
+  const [flag, setFlag] = useState(false);
+  const [popUpShow, setPopUpShow] = useState(false);
+
+
+  // get current date
+  const date = new Date();
+  const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const newdate = "2025-04-13"
+  const [dateFlag, setDateFlag] = useState(false);
+
+  console.log(currentDate < newdate);
 
   return (
     <>
@@ -75,7 +98,35 @@ const Profile = () => {
       ) : (
         <>
           <Header />
-          <div className="bg-[#F8F9F9] overflow-hidden">
+          <div className="bg-[#F8F9F9] overflow-hidden relative">
+
+
+            {/* popup */}
+
+            <div className="popup w-[350px] bg-gray-200 rounded text-center p-5 absolute shadow-lg transition-all"
+              style={{ top: "20%", left: "50%", transform: popUpShow ? "translate(-50%, -50%)" : "translate(-990%, -50%)", }}
+            >
+              <i className="pi pi-times text-red-500 absolute top-2 right-2 cursor-pointer" onClick={() => setPopUpShow(false)}></i>
+              <h2 className="text-xl">Renew Package As Same </h2>
+              <p className="text-lg">Or you need add edits !</p>
+              <div className="flex justify-around mt-4">
+                <button
+                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  onClick={goToPayment}
+                >
+                  Renew
+                </button>
+                <button
+                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  onClick={renewWithEdits}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+
+
+
             <div className="max-w-6xl mx-auto rounded-lg pt-4">
               {partnerDetails.map((partner, index) => (
                 <div
@@ -100,9 +151,8 @@ const Profile = () => {
                     )}
                     <div>
                       <h2
-                        className={`text-xl font-semibold ${
-                          language === "en" ? "pl-4" : "pr-4"
-                        } `}
+                        className={`text-xl font-semibold ${language === "en" ? "pl-4" : "pr-4"
+                          } `}
                       >
                         {partner.partner_name}
                       </h2>
@@ -137,6 +187,7 @@ const Profile = () => {
                 <h3 className="text-lg font-medium">
                   {t[language].SubscriptionDetials}
                 </h3>
+                {/* //////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                 <button
                   className="mb-3 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
                   onClick={goToPackage}
@@ -146,10 +197,17 @@ const Profile = () => {
               </div>
 
               <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
-                <div className="min-w-[900px] text-center  grid grid-cols-8 justify-center gap-4 mb-4 font-bold bg-gray-200">
+                <div className={`min-w-[900px] text-center  grid ${dateFlag ? "grid-cols-9 " : "grid-cols-8"} justify-center gap-4 mb-4 font-bold bg-gray-200`}>
                   <div className="text-xs md:text-base ">
                     {t[language].SubscriptionName}
                   </div>
+
+                  {
+                    dateFlag && <div className="text-xs md:text-base">
+                      Pay
+                    </div>
+                  }
+
 
                   <div className="text-xs md:text-base">
                     {t[language].Status}
@@ -179,13 +237,29 @@ const Profile = () => {
 
                 {subscriptionDetails.map((subs, index) => (
                   <div key={index}>
-                    <div className="min-w-[900px] text-center mb-4 grid grid-cols-8 gap-4 items-center border-b pb-2">
+                    <div className={`min-w-[900px] text-center mb-4 grid ${dateFlag ? "grid-cols-9 " : "grid-cols-8"} gap-4 items-center border-b pb-2`}>
                       <div className="flex items-center">
                         <button className="mr-2" onClick={toggleDetails}>
                           {showDetails ? "▼" : "▶"}
                         </button>
                         <span>{subs.subs_name}</span>
                       </div>
+
+                      {
+                        subs.subs_renew_date <= currentDate
+                        &&
+                        <div>
+                          {setDateFlag(true)}
+                          <button onClick={() => {
+                            setSubId(subs.subs_id);
+                            setPopUpShow(!popUpShow)
+                          }} className="p-1 rounded" style={{ borderColor: "#27AE60", color: "#27AE60" }} >
+                            Renew
+                          </button>
+                        </div>
+
+
+                      }
 
                       <div>{subs.subs_state}</div>
                       <div>{subs.subs_date_order.split(" ")[0]}</div>
@@ -394,7 +468,7 @@ const Profile = () => {
                     )}
                   </div>
                 ))}
-
+                {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                 <button className="text-sm text-[#8D8D8D]" onClick={goToAdd}>
                   {t[language].NewADD} +
                 </button>
@@ -406,9 +480,8 @@ const Profile = () => {
                   <div className="flex justify-between top">
                     <h1>{t[language].Billing} </h1>
                     <button
-                      className={`${
-                        language === "en" ? "ml-auto" : "mr-auto"
-                      } btn-export flex flex-row mb-2`}
+                      className={`${language === "en" ? "ml-auto" : "mr-auto"
+                        } btn-export flex flex-row mb-2`}
                     >
                       {t[language].Export}{" "}
                       <img src={exportImg} alt="Export" className="mx-1" />
@@ -427,7 +500,7 @@ const Profile = () => {
                           <th> {t[language].Amount_Tax}</th>
                           <th>{t[language].Amount_Total}</th>
 
-                          <th>{t[language].Pay}</th>
+                          {flag && <th>{t[language].Pay}</th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -439,30 +512,40 @@ const Profile = () => {
                               </p>
                             </td>
                             <td className="py-3">{bill.bill_name}</td>
-                            <td className="py-3">{bill.bill_creation_date}</td>
+                            <td className="py-3">{bill.bill_creation_date.split(" ")[0]}</td>
                             <td className="py-3">
-                              {bill.amount_untaxed}
-                            </td>
-                            <td className="py-3">
-                              {bill.amount_tax}
+                              {bill.amount_untaxed.toFixed(2)}
                             </td>
                             <td className="py-3">
-                              {bill.amount_total}
+                              {bill.amount_tax.toFixed(2)}
                             </td>
-                            <td>
-                              <button
-                                onClick={() => {
-                                  navigate(`/payment/${bill.bill_id}`);
-                                }}
-                                className="p-1 rounded"
-                                style={{
-                                  borderColor: "#27AE60",
-                                  color: "#27AE60",
-                                }}
-                              >
-                                {t[language].Upload}
-                              </button>
+                            <td className="py-3">
+                              {bill.amount_total.toFixed(2)}
                             </td>
+
+                            {
+                              bill.bill_state !== "confirmed" && <>
+                                {() => setFlag(true)}
+
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      navigate(`/payment/${bill.bill_id}`, { state: { type: "pay" } });
+                                    }}
+                                    className="p-1 rounded"
+                                    style={{
+                                      borderColor: "#27AE60",
+                                      color: "#27AE60",
+                                    }}
+                                  >
+                                    {t[language].Upload}
+                                  </button>
+                                </td>
+                              </>
+
+                            }
+
+
                           </tr>
                         ))}
                       </tbody>
@@ -523,6 +606,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
+
           <Footer />
         </>
       )}
