@@ -98,7 +98,14 @@ export default function Payment({ SelectedPackageId, SelectedCountryId, addsSele
     if (location.state?.type !== "pay") {
 
       if (selectedFile) {
+
+        const formData = new FormData();
+        
+
+
         try {
+  
+                
           const response = await axios.post(`${PRE_SUBSCRIPTION}`, {
             params: {
               email: localStorage.getItem("LoginEmail"), //required
@@ -107,13 +114,25 @@ export default function Payment({ SelectedPackageId, SelectedCountryId, addsSele
               plan_id: SelectedPackageId,  //required if subscription_type in ['new']
               subscription_id: bill_id,  //required if subscription_type in ['extend','renew']
               renew_as_same: false,  // in case of ['renew']
+              // attachment: selectedFile, // send attachment if file selected
               main_package: {
                 id: SelectedPackageId,
               },//required if subscription_type in ['new']
               additional_packages: addsSelected
 
             },
-          });
+          },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                
+               
+
+              },
+
+
+            }
+          );
 
           // Handle response (success)
           console.log("Form submitted successfully:", response.data);
@@ -135,6 +154,11 @@ export default function Payment({ SelectedPackageId, SelectedCountryId, addsSele
           }
         } catch (error) {
           // Handle error
+          toast.error(
+            language === "en"
+              ? "Error submitting form!"
+              : "خطأ في تقديم النموذج"
+          );
           console.error("Error submitting form:", error);
         }
       } else {
@@ -143,7 +167,7 @@ export default function Payment({ SelectedPackageId, SelectedCountryId, addsSele
 
 
 
-      
+
     } else {
       if (selectedFile) {
         try {

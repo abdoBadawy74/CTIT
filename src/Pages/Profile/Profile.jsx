@@ -45,6 +45,11 @@ const Profile = () => {
         setPartnerDetails(response.data.result.partner_details);
         setSubscriptionDetails(response.data.result.subscription_details);
         setBillingHistory(response.data.result.billing_history);
+        billingHistory.map((bill) => {
+          if (bill.bill_state !== "confirmed") {
+            setFlag(true);
+          }
+        });
         setLoading(false);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -78,16 +83,16 @@ const Profile = () => {
   };
 
   const [flag, setFlag] = useState(false);
+  console.log(flag);
   const [popUpShow, setPopUpShow] = useState(false);
 
 
   // get current date
   const date = new Date();
   const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  const newdate = "2025-04-13"
   const [dateFlag, setDateFlag] = useState(false);
 
-  console.log(currentDate < newdate);
+  // console.log(currentDate < newdate);
 
   return (
     <>
@@ -524,9 +529,7 @@ const Profile = () => {
                             </td>
 
                             {
-                              bill.bill_state !== "confirmed" && <>
-                                {() => setFlag(true)}
-
+                              bill.bill_state !== "confirmed" ? (<>
                                 <td>
                                   <button
                                     onClick={() => {
@@ -541,7 +544,18 @@ const Profile = () => {
                                     {t[language].Upload}
                                   </button>
                                 </td>
-                              </>
+                              </>)
+                                : <td>
+                                  <button
+                                    className="p-1 rounded"
+                                    style={{
+                                      borderColor: "#27AE60",
+                                      color: "#27AE60",
+                                    }}
+                                  >
+                                    Paid
+                                  </button>
+                                </td>
 
                             }
 
